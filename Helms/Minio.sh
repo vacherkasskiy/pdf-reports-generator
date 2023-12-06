@@ -1,0 +1,14 @@
+helm upgrade \
+--install minio bitnami/minio \
+--set image.tag=2020.2.20 \
+--set resources.limits.memory=512Mi \
+--set resources.requests.memory=512Mi \
+--set resources.limits.cpu=128m \
+--set resources.requests.cpu=128m \
+--set livenessProbe.timeoutSeconds=120 \
+--set readinessProbe.initialDelaySeconds=120 \
+--set readinessProbe.periodSeconds=120 \
+--set readinessProbe.timeoutSeconds=120 \
+--set service.type=NodePort \
+--set service.nodePorts.api=30003 \
+--set service.nodePorts.console=30004
