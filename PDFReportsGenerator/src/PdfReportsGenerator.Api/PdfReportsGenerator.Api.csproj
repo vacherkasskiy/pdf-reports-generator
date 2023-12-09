@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DAL\DAL.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Dal\PdfReportsGenerator.Dal.csproj" />
     </ItemGroup>
 
 </Project>

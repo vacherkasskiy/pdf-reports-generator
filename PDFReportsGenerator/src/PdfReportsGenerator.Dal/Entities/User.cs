@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DAL.Entities;
+namespace PdfReportsGenerator.Dal.Entities;
 
 public class User
 {

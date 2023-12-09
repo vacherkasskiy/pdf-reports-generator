@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{578C9B0F-DA02-47FA-B104-BF6C251F5BB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Api", "src\PdfReportsGenerator.Api\PdfReportsGenerator.Api.csproj", "{578C9B0F-DA02-47FA-B104-BF6C251F5BB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "src\BLL\BLL.csproj", "{16162894-D499-4D42-B7B3-B8AB67FE6363}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Bll", "src\PdfReportsGenerator.Bll\PdfReportsGenerator.Bll.csproj", "{16162894-D499-4D42-B7B3-B8AB67FE6363}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "src\DAL\DAL.csproj", "{1072F334-71FB-4CD1-99E0-46E6DB41F98E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Dal", "src\PdfReportsGenerator.Dal\PdfReportsGenerator.Dal.csproj", "{1072F334-71FB-4CD1-99E0-46E6DB41F98E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40D20EC2-D4B9-49A4-B3E2-243BF316B38E}"
 EndProject

@@ -1,4 +1,4 @@
-namespace API;
+namespace PdfReportsGenerator.Api;
 
 public class WeatherForecast
 {

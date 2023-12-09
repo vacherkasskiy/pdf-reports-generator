@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace DAL.Migrations
+namespace PdfReportsGenerator.Dal.Migrations
 {
     public partial class CreateUserTable : Migration
     {

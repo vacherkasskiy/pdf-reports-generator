@@ -1,4 +1,4 @@
-using DAL;
+using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

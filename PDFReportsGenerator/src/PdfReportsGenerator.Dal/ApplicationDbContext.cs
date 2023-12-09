@@ -1,7 +1,7 @@
-﻿using DAL.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using PdfReportsGenerator.Dal.Entities;
 
-namespace DAL;
+namespace PdfReportsGenerator.Dal;
 
 public class ApplicationDbContext : DbContext
 {
