@@ -1,0 +1,17 @@
+helm upgrade \
+  --install kafka bitnami/kafka \
+  --set image.tag=3.6.0 \
+  --set controller.replicaCount=1 \
+  --set sasl.client.passwords=passwordA1 \
+  --set controller.resources.limits.memory=512Mi \
+  --set controller.resources.requests.memory=512Mi \
+  --set controller.resources.limits.cpu=256m \
+  --set controller.resources.requests.cpu=256m \
+  --set controller.livenessProbe.initialDelaySeconds=60 \
+  --set controller.livenessProbe.periodSeconds=60 \
+  --set controller.livenessProbe.timeoutSeconds=60 \
+  --set controller.readinessProbe.initialDelaySeconds=60 \
+  --set controller.readinessProbe.periodSeconds=60 \
+  --set controller.readinessProbe.timeoutSeconds=60 \
+  --set service.type=NodePort \
+  --set service.nodePorts.client=30006
