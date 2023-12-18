@@ -14,12 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Host.UseSerilog();
 
-builder.WebHost.UseSentry(o =>
-{
-    o.Dsn = "https://5a737d8c912e898e433e1b55ecebe9a6@o4506411489361920.ingest.sentry.io/4506413229604864";
-    o.Debug = true;
-    o.TracesSampleRate = 1.0;
-});
+builder.WebHost.UseSentry();
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
