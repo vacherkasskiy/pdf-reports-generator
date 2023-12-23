@@ -1,4 +1,4 @@
-namespace PdfReportsGenerator.Api;
+namespace PdfReportsGenerator.Api.Restful;
 
 public class WeatherForecast
 {

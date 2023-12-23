@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace PdfReportsGenerator.Api.Controllers;
+namespace PdfReportsGenerator.Api.Restful.Controllers;
 
 [ApiController]
 [Route("[controller]")]
