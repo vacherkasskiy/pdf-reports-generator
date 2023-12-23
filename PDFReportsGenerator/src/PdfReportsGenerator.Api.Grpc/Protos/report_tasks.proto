@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package report_tasks.v1;
+
+service ReportTasksService {
+  // Метод для создания задачи на формирование отчёта.
+  rpc CreateReportTask (CreateReportTaskRequest) returns (CreateReportTaskResponse);
+
+  // Метод для получения статуса задачи на формирование отчёта.
+  rpc GetReportTaskStatus (GetReportTaskStatusRequest) returns (GetReportTaskStatusResponse);
+}
+
+// Тип для описания отдельного блока отчета.
+message Block {
+  // Обязательно содержит тип.
+  string type = 1;
+
+  // Обязятельно содержит информацию о расположении блока.
+  Location location = 2;
+
+  // Остальное содержимое зависит как раз от типа.
+  oneof content {
+    TextBlock text_block = 3;
+    ImageBlock image_block = 4;
+    TableBlock table_block = 5;
+  }
+}
+
+// Описание содержимого для текстового блока.
+message TextBlock {
+  // Сам текст.
+  string content = 1;
+
+  // Стили.
+  Style style = 2;
+}
+
+// Описание содержимого для блока с изображением.
+message ImageBlock {
+  // Ссылка на изображение.
+  string content = 1;
+}
+
+// Описание содержимого для блока с таблицей.
+message TableBlock {
+  // Описание отдельной строки таблицы.
+  repeated TableBlockRow rows = 1;
+}
+
+// Описание отдельной строки таблицы.
+message TableBlockRow {
+  repeated string data = 1;
+}
+
+// Описание стилей текста.
+message Style {
+  // Позиционирование текста.
+  enum Position {
+    CENTER = 0;
+    LEFT = 1;
+    RIGHT = 2;
+  }
+
+  Position position = 1;
+
+  // Размер текста.
+  int32 size = 2;
+}
+
+// Описание расположения блока.
+message Location {
+  // Начало блока.
+  int32 left = 1;
+
+  // Конец блока.
+  int32 right = 2;
+}
+
+message CreateReportTaskRequest {
+  string name = 1;
+  repeated Block blocks = 2;
+}
+
+message CreateReportTaskResponse {
+  uint64 task_id = 1;
+}
+
+message GetReportTaskStatusRequest {
+  uint64 id = 1;
+}
+
+message GetReportTaskStatusResponse {
+  enum Status {
+    COMPLETED = 0;
+    PROCESSING = 1;
+    ERROR = 2;
+  }
+
+  Status status = 1;
+
+  // Здесь может быть как ссылка на S3, так и сообщение о незавершенности задачи.
+  string message = 2;
+}

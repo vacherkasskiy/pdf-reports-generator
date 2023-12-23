@@ -25,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\PdfReportsGenerator.Bll\PdfReportsGenerator.Bll.csproj" />
       <ProjectReference Include="..\PdfReportsGenerator.Dal\PdfReportsGenerator.Dal.csproj" />
     </ItemGroup>
 
