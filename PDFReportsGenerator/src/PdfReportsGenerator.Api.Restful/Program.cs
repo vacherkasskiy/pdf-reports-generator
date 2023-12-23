@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -10,7 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
+
+builder.Services
+    .AddFluentValidationAutoValidation()
+    .AddValidatorsFromAssemblies(new [] {typeof(Program).Assembly})
+    .AddFluentValidationClientsideAdapters();
 
 builder.Host.UseSerilog();
 
