@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using PdfReportsGenerator.Api.Restful.Converters;
+using PdfReportsGenerator.Api.Restful.JsonConverters;
 
 namespace PdfReportsGenerator.Api.Restful.Requests;
 
@@ -7,8 +7,8 @@ public class CreateReportTaskRequest
 {
     public string? Name { get; set; }
     
-    [JsonConverter(typeof(BlockConverter))]
-    public Block[]? Blocks { get; set; }
+    [JsonConverter(typeof(JsonBlockConverter))]
+    public Block?[]? Blocks { get; set; }
 }
 
 public class Block
@@ -31,19 +31,13 @@ public class TextBlock : Block
 
 public class Style
 {
-    public Alignment? Position { get; set; }
+    public string? Position { get; set; }
     public int Size { get; set; }
-        
-    public enum Alignment {
-        Center,
-        Left,
-        Right,
-    }
 }
 
 public class ImageBlock : Block
 {
-    string? Content { get; set; }
+    public string? Content { get; set; }
 }
 
 public class TableBlock : Block
