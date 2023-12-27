@@ -4,6 +4,8 @@ using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Validators;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
+
+builder.Services.AddScoped<PdfReportsGenerator.Bll.Validators.Interfaces.IValidator<Report>, ReportValidator>();
 
 builder.Services
     .AddFluentValidationAutoValidation()

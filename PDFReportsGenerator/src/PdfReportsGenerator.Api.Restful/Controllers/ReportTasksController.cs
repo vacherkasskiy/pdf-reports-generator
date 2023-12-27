@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PdfReportsGenerator.Api.Restful.Responses;
 using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Validators.Interfaces;
 
 namespace PdfReportsGenerator.Api.Restful.Controllers;
 
@@ -8,9 +9,11 @@ namespace PdfReportsGenerator.Api.Restful.Controllers;
 [Route("[controller]")]
 public class ReportTasksController : ControllerBase
 {
-    public ReportTasksController()
+    private readonly IValidator<Report> _validator;
+
+    public ReportTasksController(IValidator<Report> validator)
     {
-        
+        _validator = validator;
     }
 
     [HttpPost]
@@ -18,9 +21,25 @@ public class ReportTasksController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<CreateReportTaskResponse> CreateReportTask(Report request)
+    public async Task<IActionResult> CreateReportTask(Report request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (!_validator.IsValid(request))
+                return StatusCode(
+                    StatusCodes.Status400BadRequest, 
+                    "Invalid report provided");
+
+            var response = new CreateReportTaskResponse(TaskId: 1);
+
+            return Ok(response);
+        }
+        catch
+        {
+            return StatusCode(
+                StatusCodes.Status500InternalServerError, 
+                "Something went wrong");
+        }
     }
     
     [HttpGet]
@@ -28,7 +47,7 @@ public class ReportTasksController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(202)]
     [ProducesResponseType(500)]
-    public async Task<GetReportTaskStatusResponse> GetReportTaskStatus(int taskId)
+    public async Task<IActionResult> GetReportTaskStatus(int taskId)
     {
         throw new NotImplementedException();
     }
