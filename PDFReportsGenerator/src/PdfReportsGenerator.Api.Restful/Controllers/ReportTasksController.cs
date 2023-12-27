@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using PdfReportsGenerator.Api.Restful.Requests;
 using PdfReportsGenerator.Api.Restful.Responses;
+using PdfReportsGenerator.Bll.Models;
 
 namespace PdfReportsGenerator.Api.Restful.Controllers;
 
@@ -18,7 +18,7 @@ public class ReportTasksController : ControllerBase
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<CreateReportTaskResponse> CreateReportTask(CreateReportTaskRequest request)
+    public async Task<CreateReportTaskResponse> CreateReportTask(Report request)
     {
         throw new NotImplementedException();
     }

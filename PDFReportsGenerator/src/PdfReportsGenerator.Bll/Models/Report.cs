@@ -1,8 +1,13 @@
+using Newtonsoft.Json;
+using PdfReportsGenerator.Bll.JsonConverters;
+
 namespace PdfReportsGenerator.Bll.Models;
 
 public class Report
 {
     public string? Name { get; set; }
+    
+    [JsonConverter(typeof(JsonBlockConverter))]
     public Block?[]? Blocks { get; set; }
 }
 

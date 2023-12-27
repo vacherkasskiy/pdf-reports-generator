@@ -1,8 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PdfReportsGenerator.Api.Restful.Requests;
+using PdfReportsGenerator.Bll.Models;
 
-namespace PdfReportsGenerator.Api.Restful.JsonConverters;
+namespace PdfReportsGenerator.Bll.JsonConverters;
 
 public class JsonBlockConverter : JsonConverter<Block[]>
 {
