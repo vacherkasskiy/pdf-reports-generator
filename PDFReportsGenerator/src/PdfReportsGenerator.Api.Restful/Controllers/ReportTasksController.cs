@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using PdfReportsGenerator.Api.Restful.Responses;
 using PdfReportsGenerator.Bll.Models;
-using PdfReportsGenerator.Bll.Validators.Interfaces;
+using PdfReportsGenerator.Bll.Services.Interfaces;
 
 namespace PdfReportsGenerator.Api.Restful.Controllers;
 
@@ -9,11 +8,11 @@ namespace PdfReportsGenerator.Api.Restful.Controllers;
 [Route("[controller]")]
 public class ReportTasksController : ControllerBase
 {
-    private readonly IValidator<Report> _validator;
-
-    public ReportTasksController(IValidator<Report> validator)
+    private readonly IReportTasksService _service;
+    
+    public ReportTasksController(IReportTasksService service)
     {
-        _validator = validator;
+        _service = service;
     }
 
     [HttpPost]
@@ -25,20 +24,16 @@ public class ReportTasksController : ControllerBase
     {
         try
         {
-            if (!_validator.IsValid(request))
-                return StatusCode(
-                    StatusCodes.Status400BadRequest, 
-                    "Invalid report provided");
-
-            var response = new CreateReportTaskResponse(TaskId: 1);
-
-            return Ok(response);
+            var reportTask = await _service.CreateReportTask(request);
+            return Ok($"Task successfully created with Id: {reportTask.Id}");
+        }
+        catch (InvalidDataException e)
+        {
+            return StatusCode(StatusCodes.Status400BadRequest, e.Message);
         }
         catch
         {
-            return StatusCode(
-                StatusCodes.Status500InternalServerError, 
-                "Something went wrong");
+            return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong");
         }
     }
     

@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Services;
+using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators;
 using Serilog;
 
@@ -25,6 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
 builder.Services.AddScoped<PdfReportsGenerator.Bll.Validators.Interfaces.IValidator<Report>, ReportValidator>();
+builder.Services.AddScoped<IReportTasksService, ReportTasksService>();
 
 builder.Services
     .AddFluentValidationAutoValidation()
