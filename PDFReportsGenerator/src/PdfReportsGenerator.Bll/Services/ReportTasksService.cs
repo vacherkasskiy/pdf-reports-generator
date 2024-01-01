@@ -1,34 +1,32 @@
 using Newtonsoft.Json;
+using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators.Interfaces;
-using PdfReportsGenerator.Dal;
 using PdfReportsGenerator.Dal.Entities;
+using PdfReportsGenerator.Dal.Repositories.Interfaces;
 
 namespace PdfReportsGenerator.Bll.Services;
 
 public class ReportTasksService : IReportTasksService
 {
     private readonly IValidator<Report> _validator;
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IRepository<CreateReportTask> _repository;
 
-    public ReportTasksService(IValidator<Report> validator, ApplicationDbContext dbContext)
+    public ReportTasksService(IValidator<Report> validator, IRepository<CreateReportTask> repository)
     {
         _validator = validator;
-        _dbContext = dbContext;
+        _repository = repository;
     }
     
     public async Task<CreateReportTask> CreateReportTask(Report report)
     {
         if (!_validator.IsValid(report)) 
-            throw new InvalidDataException("Wrong report provided");
+            throw new InvalidReportFormatException();
         
-        var task = _dbContext.CreateReportTasks.Add(new CreateReportTask
+        return await _repository.Add(new ()
         {
             Report = JsonConvert.SerializeObject(report)
         });
-        await _dbContext.SaveChangesAsync();
-
-        return task.Entity;
     }
 }

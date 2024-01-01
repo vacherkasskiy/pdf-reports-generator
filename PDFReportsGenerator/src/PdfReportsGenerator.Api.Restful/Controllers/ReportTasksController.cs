@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 
@@ -27,9 +28,9 @@ public class ReportTasksController : ControllerBase
             var reportTask = await _service.CreateReportTask(request);
             return Ok($"Task successfully created with Id: {reportTask.Id}");
         }
-        catch (InvalidDataException e)
+        catch (InvalidReportFormatException _)
         {
-            return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+            return StatusCode(StatusCodes.Status400BadRequest, "Invalid report format");
         }
         catch
         {

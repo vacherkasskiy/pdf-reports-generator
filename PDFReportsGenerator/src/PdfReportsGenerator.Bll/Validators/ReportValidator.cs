@@ -5,8 +5,10 @@ namespace PdfReportsGenerator.Bll.Validators;
 
 public class ReportValidator : IValidator<Report>
 {
-    public bool IsValid(Report model)
+    public bool IsValid(Report? model)
     {
+        if (model == null) return false;
+        
         if (model.Name == null) return false;
         if (model.Name.Length > 256) return false;
 
