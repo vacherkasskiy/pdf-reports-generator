@@ -1,3 +1,3 @@
 namespace PdfReportsGenerator.Api.Restful.Responses;
 
-public record CreateReportTaskResponse(long TaskId);
+public record CreateReportResponse(long TaskId);

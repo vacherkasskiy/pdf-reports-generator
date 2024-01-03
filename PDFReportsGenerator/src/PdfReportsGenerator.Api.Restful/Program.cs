@@ -4,14 +4,13 @@ using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators;
-using PdfReportsGenerator.Dal.Entities;
 using PdfReportsGenerator.Dal.Repositories;
 using PdfReportsGenerator.Dal.Repositories.Interfaces;
 using Serilog;
+using Report = PdfReportsGenerator.Dal.Entities.Report;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,9 +28,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
-builder.Services.AddScoped<PdfReportsGenerator.Bll.Validators.Interfaces.IValidator<Report>, ReportValidator>();
-builder.Services.AddScoped<IReportTasksService, ReportTasksService>();
-builder.Services.AddScoped<IRepository<CreateReportTask>, ReportTasksRepository>();
+builder.Services.AddScoped<PdfReportsGenerator.Bll.Validators.Interfaces.IValidator<PdfReportsGenerator.Bll.Models.Report>, ReportValidator>();
+builder.Services.AddScoped<IReportsService, ReportsService>();
+builder.Services.AddScoped<IRepository<Report>, ReportsRepository>();
 
 builder.Services
     .AddFluentValidationAutoValidation()

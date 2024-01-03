@@ -4,5 +4,5 @@ public interface IRepository<T>
 {
     Task<T?> Get(long entityId);
     Task<T> Add(T entity);
-    Task Delete(long entityId);
+    Task Delete(T entity);
 }

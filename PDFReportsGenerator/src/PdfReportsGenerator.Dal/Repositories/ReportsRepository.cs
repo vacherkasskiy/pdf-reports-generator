@@ -4,21 +4,22 @@ using PdfReportsGenerator.Dal.Repositories.Interfaces;
 
 namespace PdfReportsGenerator.Dal.Repositories;
 
-public class ReportTasksRepository : IRepository<CreateReportTask>
+public class ReportsRepository : IRepository<Report>
 {
     private readonly ApplicationDbContext _dbContext;
     
-    public ReportTasksRepository(ApplicationDbContext dbContext)
+    public ReportsRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
     
-    public async Task<CreateReportTask?> Get(long entityId)
+    public async Task<Report?> Get(long entityId)
     {
         try
         {
             return await _dbContext
-                .CreateReportTasks
+                .Reports
+                .AsNoTracking()
                 .SingleAsync(x => x.Id == entityId);
         }
         catch
@@ -27,22 +28,18 @@ public class ReportTasksRepository : IRepository<CreateReportTask>
         }
     }
 
-    public async Task<CreateReportTask> Add(CreateReportTask entity)
+    public async Task<Report> Add(Report entity)
     {
         var response = await _dbContext
-            .CreateReportTasks
+            .Reports
             .AddAsync(entity);
         await _dbContext.SaveChangesAsync();
         return response.Entity;
     }
 
-    public async Task Delete(long entityId)
+    public async Task Delete(Report entity)
     {
-        var entity = await Get(entityId);
-        if (entity != null)
-        {
-            _dbContext.CreateReportTasks.Remove(entity);
-            await _dbContext.SaveChangesAsync();
-        }
+        _dbContext.Reports.Remove(entity);
+        await _dbContext.SaveChangesAsync();
     }
 }

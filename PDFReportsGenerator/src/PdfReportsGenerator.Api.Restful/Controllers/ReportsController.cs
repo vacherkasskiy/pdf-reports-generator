@@ -7,21 +7,21 @@ namespace PdfReportsGenerator.Api.Restful.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReportTasksController : ControllerBase
+public class ReportsController : ControllerBase
 {
-    private readonly IReportTasksService _service;
+    private readonly IReportsService _service;
     
-    public ReportTasksController(IReportTasksService service)
+    public ReportsController(IReportsService service)
     {
         _service = service;
     }
 
     [HttpPost]
-    [Route("/api/v1/reports-tasks")]
+    [Route("/api/v1/reports")]
     [ProducesResponseType(200)]
     [ProducesResponseType(400)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> CreateReportTask(Report request)
+    public async Task<IActionResult> CreateReport(Report request)
     {
         try
         {
@@ -39,11 +39,11 @@ public class ReportTasksController : ControllerBase
     }
     
     [HttpGet]
-    [Route("/api/v1/reports-tasks/{id}")]
+    [Route("/api/v1/reports/{id}")]
     [ProducesResponseType(200)]
     [ProducesResponseType(202)]
     [ProducesResponseType(500)]
-    public async Task<IActionResult> GetReportTaskStatus(int taskId)
+    public async Task<IActionResult> GetReport(int taskId)
     {
         throw new NotImplementedException();
     }
