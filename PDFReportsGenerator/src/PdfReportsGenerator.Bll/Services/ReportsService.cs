@@ -1,7 +1,7 @@
+using FluentValidation;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Services.Interfaces;
-using PdfReportsGenerator.Bll.Validators.Interfaces;
 using PdfReportsGenerator.Dal.Repositories.Interfaces;
 using Report = PdfReportsGenerator.Dal.Entities.Report;
 
@@ -20,7 +20,8 @@ public class ReportsService : IReportsService
     
     public async Task<Report> CreateReportTask(Models.Report report)
     {
-        if (!_validator.IsValid(report)) 
+        var result = await _validator.ValidateAsync(report);
+        if (!result.IsValid) 
             throw new InvalidReportFormatException();
         
         return await _repository.Add(new ()

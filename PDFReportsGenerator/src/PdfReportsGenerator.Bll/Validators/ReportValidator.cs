@@ -1,73 +1,84 @@
+using FluentValidation;
 using PdfReportsGenerator.Bll.Models;
-using PdfReportsGenerator.Bll.Validators.Interfaces;
 
 namespace PdfReportsGenerator.Bll.Validators;
 
-public class ReportValidator : IValidator<Report>
+public class ReportValidator : AbstractValidator<Report>
 {
-    public bool IsValid(Report? model)
+    private class BlockValidator : AbstractValidator<Block>
     {
-        if (model == null) return false;
-        
-        if (model.Name == null) return false;
-        if (model.Name.Length > 256) return false;
-
-        if (model.Blocks == null) return false;
-        foreach (var block in model.Blocks)
+        public BlockValidator()
         {
-            if (block == null) return false;
+            RuleFor(x => x.Location).NotNull();
+            RuleFor(x => x.Location!.Left)
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(12)
+                .LessThanOrEqualTo(x => x.Location!.Right);
+            RuleFor(x => x.Location!.Right)
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(12)
+                .GreaterThanOrEqualTo(x => x.Location!.Left);
+            RuleFor(x => x.Type)
+                .NotNull()
+                .Must(new[] { "text", "image", "table"}.Contains);
 
-            var types = new[] { "text", "image", "table"};
-            if (block.Type == null) return false;
-            if (!types.Contains(block.Type)) return false;
-            if (block.Location == null) return false;
-            if (block.Location.Left < 1 ||
-                block.Location.Left > 12) return false;
-            if (block.Location.Right < 1 ||
-                block.Location.Right > 12) return false;
-            if (block.Location.Left > block.Location.Right) return false;
+            When(x => x.Type == "text", () =>
+                RuleFor(x => x as TextBlock).SetValidator(new TextBlockValidator()!));
 
-            switch (block)
-            {
-                case TextBlock textBlock
-                    when !IsTextBlockValid(textBlock):
-                case ImageBlock imageBlock
-                    when !IsImageBlockValid(imageBlock):
-                case TableBlock tableBlock
-                    when !IsTableBlockValid(tableBlock):
-                    return false;
-            }
+            When(x => x.Type == "image", () =>
+                RuleFor(x => x as ImageBlock).SetValidator(new ImageBlockValidator()!));
+
+            When(x => x.Type == "table", () =>
+                RuleFor(x => x as TableBlock).SetValidator(new TableBlockValidator()!));
         }
-
-        return true;
     }
 
-    private bool IsTextBlockValid(TextBlock block)
+    private class TextBlockValidator : AbstractValidator<TextBlock>
     {
-        if (block.Content == null) return false;
-        
-        if (block.Style == null) return false;
-        if (block.Style.Size <= 0) return false;
-        if (block.Style.Size > 6) return false;
-
-        var positions = new[] {"left", "center", "right"};
-        if (block.Style.Position == null) return false;
-        if (!positions.Contains(block.Style.Position)) return false;
-
-        return true;
+        public TextBlockValidator()
+        {
+            RuleFor(x => x.Content)
+                .NotNull()
+                .NotEmpty();
+            RuleFor(x => x.Style).NotNull();
+            RuleFor(x => x.Style!.Size)
+                .GreaterThanOrEqualTo(1)
+                .LessThanOrEqualTo(6);
+            RuleFor(x => x.Style!.Position)
+                .NotNull()
+                .Must(new[] {"left", "center", "right"}.Contains);
+        }
     }
 
-    private bool IsImageBlockValid(ImageBlock block)
+    private class ImageBlockValidator : AbstractValidator<ImageBlock>
     {
-        if (block.Content == null) return false;
-
-        return true;
+        public ImageBlockValidator()
+        {
+            RuleFor(x => x.Content)
+                .NotNull()
+                .NotEmpty();
+        }
+    }
+    
+    private class TableBlockValidator : AbstractValidator<TableBlock>
+    {
+        public TableBlockValidator()
+        {
+            RuleFor(x => x.Content).NotNull();
+            RuleForEach(x => x.Content).NotNull();
+        }
     }
 
-    private bool IsTableBlockValid(TableBlock block)
+    public ReportValidator()
     {
-        if (block.Content == null) return false;
-
-        return true;
+        RuleFor(x => x).NotNull();
+        RuleFor(x => x.Name)
+            .NotNull()
+            .NotEmpty()
+            .MaximumLength(256);
+        RuleFor(x => x.Blocks).NotNull();
+        RuleForEach(x => x.Blocks)
+            .NotNull()
+            .SetValidator(new BlockValidator()!);
     }
 }

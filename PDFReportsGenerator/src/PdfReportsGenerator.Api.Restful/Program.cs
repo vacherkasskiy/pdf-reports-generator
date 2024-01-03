@@ -10,7 +10,8 @@ using PdfReportsGenerator.Bll.Validators;
 using PdfReportsGenerator.Dal.Repositories;
 using PdfReportsGenerator.Dal.Repositories.Interfaces;
 using Serilog;
-using Report = PdfReportsGenerator.Dal.Entities.Report;
+using ReportDal = PdfReportsGenerator.Dal.Entities.Report;
+using ReportBll = PdfReportsGenerator.Bll.Models.Report;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,9 +29,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
-builder.Services.AddScoped<PdfReportsGenerator.Bll.Validators.Interfaces.IValidator<PdfReportsGenerator.Bll.Models.Report>, ReportValidator>();
 builder.Services.AddScoped<IReportsService, ReportsService>();
-builder.Services.AddScoped<IRepository<Report>, ReportsRepository>();
+builder.Services.AddScoped<IRepository<ReportDal>, ReportsRepository>();
+builder.Services.AddScoped<IValidator<ReportBll>, ReportValidator>();
 
 builder.Services
     .AddFluentValidationAutoValidation()
