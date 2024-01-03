@@ -22,7 +22,7 @@ public class ReportsService : IReportsService
     {
         var result = await _validator.ValidateAsync(report);
         if (!result.IsValid) 
-            throw new InvalidReportFormatException();
+            throw new InvalidReportFormatException("Report with invalid format was provided");
         
         return await _repository.Add(new ()
         {

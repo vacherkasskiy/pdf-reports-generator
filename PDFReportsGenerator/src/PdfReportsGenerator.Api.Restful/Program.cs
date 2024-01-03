@@ -1,9 +1,9 @@
 using FluentValidation;
-using FluentValidation.AspNetCore;
 using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
 using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators;
@@ -33,10 +33,8 @@ builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IRepository<ReportDal>, ReportsRepository>();
 builder.Services.AddScoped<IValidator<ReportBll>, ReportValidator>();
 
-builder.Services
-    .AddFluentValidationAutoValidation()
-    .AddValidatorsFromAssemblies(new [] {typeof(Program).Assembly})
-    .AddFluentValidationClientsideAdapters();
+builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Host.UseSerilog();
 
@@ -56,13 +54,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseSerilogRequestLogging();
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.UseSentryTracing();
-
+app.UseExceptionHandler();
 app.Run();
