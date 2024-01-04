@@ -12,17 +12,14 @@ service ReportsService {
 
 // Тип для описания отдельного блока отчета.
 message Block {
-  // Обязательно содержит тип.
-  string type = 1;
-
   // Обязятельно содержит информацию о расположении блока.
-  Location location = 2;
+  Location location = 1;
 
   // Остальное содержимое зависит как раз от типа.
   oneof content {
-    TextBlock text_block = 3;
-    ImageBlock image_block = 4;
-    TableBlock table_block = 5;
+    TextBlock text_block = 2;
+    ImageBlock image_block = 3;
+    TableBlock table_block = 4;
   }
 }
 

@@ -17,8 +17,11 @@ builder.Services.AddGrpc();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Host.UseSerilog();
+builder.Services.AddScoped<IReportsService, ReportsServiceBll>();
+builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
+builder.Services.AddScoped<IReportsParser, ReportsParser>();
 
+builder.Host.UseSerilog();
 builder.WebHost.UseSentry();
 
 Log.Logger = new LoggerConfiguration()
@@ -32,9 +35,6 @@ app.MapGrpcService<ReportsService>();
 app.MapGet("/",
     () =>
         "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-builder.Services.AddScoped<IReportsService, ReportsServiceBll>();
-builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
-builder.Services.AddScoped<IReportsParser, ReportsParser>();
 
 app.UseSerilogRequestLogging();
 
