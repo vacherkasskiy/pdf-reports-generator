@@ -1,6 +1,13 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using PdfReportsGenerator.Api.Grpc.Services;
+using PdfReportsGenerator.Api.Grpc.Parsers;
+using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
+using PdfReportsGenerator.Api.Grpc.Services.V1;
+using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Services.Interfaces;
+using PdfReportsGenerator.Bll.Validators;
 using PdfReportsGenerator.Dal;
+using ReportsServiceBll = PdfReportsGenerator.Bll.Services.ReportsService;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,10 +28,13 @@ Log.Logger = new LoggerConfiguration()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-app.MapGrpcService<ReportTasksService>();
+app.MapGrpcService<ReportsService>();
 app.MapGet("/",
     () =>
         "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+builder.Services.AddScoped<IReportsService, ReportsServiceBll>();
+builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
+builder.Services.AddScoped<IReportsParser, ReportsParser>();
 
 app.UseSerilogRequestLogging();
 

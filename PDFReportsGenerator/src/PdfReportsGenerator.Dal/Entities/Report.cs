@@ -5,6 +5,6 @@ namespace PdfReportsGenerator.Dal.Entities;
 public class Report
 {
     [Key]
-    public long Id { get; set; }
+    public ulong Id { get; set; }
     public string? Body { get; set; }
 }

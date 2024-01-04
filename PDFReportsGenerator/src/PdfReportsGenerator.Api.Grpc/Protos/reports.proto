@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package report_tasks.v1;
+package reports.v1;
 
-service ReportTasksService {
+service ReportsService {
   // Метод для создания задачи на формирование отчёта.
-  rpc CreateReportTask (CreateReportTaskRequest) returns (CreateReportTaskResponse);
+  rpc CreateReport (CreateReportRequest) returns (CreateReportResponse);
 
   // Метод для получения статуса задачи на формирование отчёта.
-  rpc GetReportTaskStatus (GetReportTaskStatusRequest) returns (GetReportTaskStatusResponse);
+  rpc GetReport (GetReportRequest) returns (GetReportResponse);
 }
 
 // Тип для описания отдельного блока отчета.
@@ -76,20 +76,20 @@ message Location {
   int32 right = 2;
 }
 
-message CreateReportTaskRequest {
+message CreateReportRequest {
   string name = 1;
   repeated Block blocks = 2;
 }
 
-message CreateReportTaskResponse {
-  uint64 task_id = 1;
-}
-
-message GetReportTaskStatusRequest {
+message CreateReportResponse {
   uint64 id = 1;
 }
 
-message GetReportTaskStatusResponse {
+message GetReportRequest {
+  uint64 id = 1;
+}
+
+message GetReportResponse {
   enum Status {
     COMPLETED = 0;
     PROCESSING = 1;
