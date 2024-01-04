@@ -2,7 +2,7 @@ using FluentValidation;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Services.Interfaces;
-using PdfReportsGenerator.Dal.Repositories.Interfaces;
+using PdfReportsGenerator.Dal;
 using Report = PdfReportsGenerator.Dal.Entities.Report;
 
 namespace PdfReportsGenerator.Bll.Services;
@@ -10,12 +10,14 @@ namespace PdfReportsGenerator.Bll.Services;
 public class ReportsService : IReportsService
 {
     private readonly IValidator<Models.Report> _validator;
-    private readonly IRepository<Report> _repository;
-
-    public ReportsService(IValidator<Models.Report> validator, IRepository<Report> repository)
+    private readonly ApplicationDbContext _dbContext;
+    
+    public ReportsService(
+        IValidator<Models.Report> validator, 
+        ApplicationDbContext dbContext)
     {
         _validator = validator;
-        _repository = repository;
+        _dbContext = dbContext;
     }
     
     public async Task<Report> CreateReportTask(Models.Report report)
@@ -24,9 +26,12 @@ public class ReportsService : IReportsService
         if (!result.IsValid) 
             throw new InvalidReportFormatException("Report with invalid format was provided");
         
-        return await _repository.Add(new ()
+        var entityEntry = await _dbContext.Reports.AddAsync(new ()
         {
             Body = JsonConvert.SerializeObject(report)
         });
+        await _dbContext.SaveChangesAsync();
+
+        return entityEntry.Entity;
     }
 }

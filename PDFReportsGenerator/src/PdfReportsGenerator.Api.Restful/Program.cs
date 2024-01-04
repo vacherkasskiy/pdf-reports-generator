@@ -7,8 +7,6 @@ using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
 using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators;
-using PdfReportsGenerator.Dal.Repositories;
-using PdfReportsGenerator.Dal.Repositories.Interfaces;
 using Serilog;
 using ReportDal = PdfReportsGenerator.Dal.Entities.Report;
 using ReportBll = PdfReportsGenerator.Bll.Models.Report;
@@ -30,7 +28,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
 builder.Services.AddScoped<IReportsService, ReportsService>();
-builder.Services.AddScoped<IRepository<ReportDal>, ReportsRepository>();
 builder.Services.AddScoped<IValidator<ReportBll>, ReportValidator>();
 
 builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
