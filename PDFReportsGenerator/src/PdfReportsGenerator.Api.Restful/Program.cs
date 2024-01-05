@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
+using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
@@ -35,7 +36,17 @@ builder.Services.AddProblemDetails();
 
 builder.Host.UseSerilog();
 
-builder.WebHost.UseSentry();
+builder.WebHost.UseSentry(options => options.SetBeforeSend((sentryEvent, hint) =>
+{
+    if (sentryEvent.Exception != null &&
+        (sentryEvent.Exception is InvalidReportFormatException ||
+         sentryEvent.Exception is ReportNotFoundException))
+    {
+        return null;
+    }
+
+    return sentryEvent;
+}));
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
