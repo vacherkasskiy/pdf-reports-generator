@@ -5,4 +5,5 @@ namespace PdfReportsGenerator.Bll.Services.Interfaces;
 public interface IReportsService
 {
     Task<Report> CreateReport(Models.Report report);
+    Task<string> GetReport(ulong reportId);
 }

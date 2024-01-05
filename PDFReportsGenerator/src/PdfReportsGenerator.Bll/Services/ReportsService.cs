@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Services.Interfaces;
@@ -33,5 +34,21 @@ public class ReportsService : IReportsService
         await _dbContext.SaveChangesAsync();
 
         return entityEntry.Entity;
+    }
+
+    public async Task<string> GetReport(ulong reportId)
+    {
+        try
+        {
+            var report = await _dbContext.Reports
+                .AsNoTracking()
+                .SingleAsync(x => x.Id == reportId);
+
+            return report.Body;
+        }
+        catch
+        {
+            throw new ReportNotFoundException("No report was found by provided id");
+        }
     }
 }

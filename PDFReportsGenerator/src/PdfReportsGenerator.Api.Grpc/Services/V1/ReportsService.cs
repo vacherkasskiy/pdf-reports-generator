@@ -31,10 +31,15 @@ public class ReportsService :
         };
     }
 
-    public override Task<GetReportResponse> GetReport(
+    public override async Task<GetReportResponse> GetReport(
         GetReportRequest request,
         ServerCallContext context)
     {
-        throw new NotImplementedException();
+        var response = await _service.GetReport(request.Id);
+        return new GetReportResponse
+        {
+            Message = response,
+            Status = GetReportResponse.Types.Status.Completed
+        };
     }
 }

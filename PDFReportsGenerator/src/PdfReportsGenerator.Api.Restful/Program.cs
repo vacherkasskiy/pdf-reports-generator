@@ -30,6 +30,7 @@ builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
 
 builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
+builder.Services.AddExceptionHandler<ReportNotFoundExceptionHandler>();
 builder.Services.AddProblemDetails();
 
 builder.Host.UseSerilog();

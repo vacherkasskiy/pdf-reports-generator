@@ -25,8 +25,9 @@ public class ReportsController : ControllerBase
     
     [HttpGet]
     [Route("/api/v1/reports/{id}")]
-    public async Task<IActionResult> GetReport(int taskId)
+    public async Task<IActionResult> GetReport(ulong reportId)
     {
-        throw new NotImplementedException();
+        var response = await _service.GetReport(reportId);
+        return Ok(response);
     }
 }
