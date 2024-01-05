@@ -75,8 +75,12 @@ public class ReportValidator : AbstractValidator<Report>
     {
         public TableBlockValidator()
         {
-            RuleFor(x => x.Content).NotNull();
-            RuleForEach(x => x.Content).NotNull();
+            RuleFor(x => x.Content)
+                .NotNull()
+                .NotEmpty();
+            RuleForEach(x => x.Content)
+                .NotNull()
+                .NotEmpty();
         }
     }
 
