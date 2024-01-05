@@ -23,8 +23,11 @@ public class ReportsParser : IReportsParser
         return report;
     }
 
-    private static Block? ParseBlock(BlockProto blockProto)
+    private static Block? ParseBlock(BlockProto? blockProto)
     {
+        if (blockProto == null)
+            return null;
+        
         Block block;
 
         switch (blockProto.ContentCase)
@@ -50,8 +53,11 @@ public class ReportsParser : IReportsParser
         return block;
     }
 
-    private static Location ParseLocation(LocationProto locationProto)
+    private static Location? ParseLocation(LocationProto? locationProto)
     {
+        if (locationProto == null) 
+            return null;
+        
         return new Location
         {
             Left = locationProto.Left,
@@ -68,8 +74,11 @@ public class ReportsParser : IReportsParser
         };
     }
 
-    private static Style ParseStyle(StyleProto styleProto)
+    private static Style? ParseStyle(StyleProto? styleProto)
     {
+        if (styleProto == null)
+            return null;
+        
         return new Style
         {
             Position = styleProto.Position

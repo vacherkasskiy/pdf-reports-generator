@@ -9,18 +9,24 @@ public class ReportValidator : AbstractValidator<Report>
     {
         public BlockValidator()
         {
-            RuleFor(x => x.Location).NotNull();
-            RuleFor(x => x.Location!.Left)
-                .GreaterThanOrEqualTo(1)
-                .LessThanOrEqualTo(12)
-                .LessThanOrEqualTo(x => x.Location!.Right);
-            RuleFor(x => x.Location!.Right)
-                .GreaterThanOrEqualTo(1)
-                .LessThanOrEqualTo(12)
-                .GreaterThanOrEqualTo(x => x.Location!.Left);
+            RuleFor(x => x.Location)
+                .NotNull()
+                .NotEmpty()
+                .DependentRules(() =>
+                    {
+                        RuleFor(x => x.Location!.Left)
+                            .GreaterThanOrEqualTo(1)
+                            .LessThanOrEqualTo(12)
+                            .LessThanOrEqualTo(x => x.Location!.Right);
+                        RuleFor(x => x.Location!.Right)
+                            .GreaterThanOrEqualTo(1)
+                            .LessThanOrEqualTo(12)
+                            .GreaterThanOrEqualTo(x => x.Location!.Left);
+                    }
+                );
             RuleFor(x => x.Type)
                 .NotNull()
-                .Must(new[] { "text", "image", "table"}.Contains);
+                .Must(new[] {"text", "image", "table"}.Contains);
 
             When(x => x.Type == "text", () =>
                 RuleFor(x => x as TextBlock).SetValidator(new TextBlockValidator()!));
@@ -40,13 +46,18 @@ public class ReportValidator : AbstractValidator<Report>
             RuleFor(x => x.Content)
                 .NotNull()
                 .NotEmpty();
-            RuleFor(x => x.Style).NotNull();
-            RuleFor(x => x.Style!.Size)
-                .GreaterThanOrEqualTo(1)
-                .LessThanOrEqualTo(6);
-            RuleFor(x => x.Style!.Position)
+            RuleFor(x => x.Style)
                 .NotNull()
-                .Must(new[] {"left", "center", "right"}.Contains);
+                .NotEmpty()
+                .DependentRules(() =>
+                {
+                    RuleFor(x => x.Style!.Size)
+                        .GreaterThanOrEqualTo(1)
+                        .LessThanOrEqualTo(6);
+                    RuleFor(x => x.Style!.Position)
+                        .NotNull()
+                        .Must(new[] {"left", "center", "right"}.Contains);
+                });
         }
     }
 
@@ -59,7 +70,7 @@ public class ReportValidator : AbstractValidator<Report>
                 .NotEmpty();
         }
     }
-    
+
     private class TableBlockValidator : AbstractValidator<TableBlock>
     {
         public TableBlockValidator()
