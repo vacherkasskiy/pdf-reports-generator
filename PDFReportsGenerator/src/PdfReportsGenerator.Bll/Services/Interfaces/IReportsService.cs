@@ -4,5 +4,5 @@ namespace PdfReportsGenerator.Bll.Services.Interfaces;
 
 public interface IReportsService
 {
-    Task<Report> CreateReportTask(Models.Report report);
+    Task<Report> CreateReport(Models.Report report);
 }

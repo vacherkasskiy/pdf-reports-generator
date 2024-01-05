@@ -20,7 +20,7 @@ public class ReportsService : IReportsService
         _dbContext = dbContext;
     }
     
-    public async Task<Report> CreateReportTask(Models.Report report)
+    public async Task<Report> CreateReport(Models.Report report)
     {
         var result = await _validator.ValidateAsync(report);
         if (!result.IsValid) 

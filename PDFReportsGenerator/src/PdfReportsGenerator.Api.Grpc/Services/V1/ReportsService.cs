@@ -24,7 +24,7 @@ public class ReportsService :
         ServerCallContext context)
     {
         var report = _parser.ParseReport(request);
-        var reportTask = await _service.CreateReportTask(report);
+        var reportTask = await _service.CreateReport(report);
         return new CreateReportResponse
         {
             Id = reportTask.Id

@@ -19,7 +19,7 @@ public class ReportsController : ControllerBase
     [Route("/api/v1/reports")]
     public async Task<IActionResult> CreateReport(Report request)
     {
-        var reportTask = await _service.CreateReportTask(request);
+        var reportTask = await _service.CreateReport(request);
         return Ok($"Task successfully created with Id: {reportTask.Id}");
     }
     
