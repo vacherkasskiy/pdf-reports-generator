@@ -25,9 +25,9 @@ public class ReportsController : ControllerBase
     
     [HttpGet]
     [Route("/api/v1/reports/{id}")]
-    public async Task<IActionResult> GetById(ulong reportId)
+    public async Task<IActionResult> GetById(string id)
     {
-        var response = await _service.GetReport(reportId);
+        var response = await _service.GetReport(id);
         return Ok(response);
     }
 }

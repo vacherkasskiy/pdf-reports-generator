@@ -27,7 +27,7 @@ public class ReportsService :
         var reportTask = await _service.CreateReport(report);
         return new CreateReportResponse
         {
-            Id = reportTask.Id
+            Id = reportTask.Id.ToString()
         };
     }
 

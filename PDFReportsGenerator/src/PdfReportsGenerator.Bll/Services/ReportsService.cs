@@ -36,13 +36,13 @@ public class ReportsService : IReportsService
         return entityEntry.Entity;
     }
 
-    public async Task<string> GetReport(ulong reportId)
+    public async Task<string> GetReport(string reportGuid)
     {
         try
         {
             var report = await _dbContext.Reports
                 .AsNoTracking()
-                .SingleAsync(x => x.Id == reportId);
+                .SingleAsync(x => x.Id == Guid.Parse(reportGuid));
 
             return report.Body;
         }
