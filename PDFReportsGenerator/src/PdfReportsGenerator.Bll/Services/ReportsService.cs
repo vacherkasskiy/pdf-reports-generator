@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal;
+using PdfReportsGenerator.Dal.Entities;
 using Report = PdfReportsGenerator.Dal.Entities.Report;
 
 namespace PdfReportsGenerator.Bll.Services;
@@ -26,17 +27,19 @@ public class ReportsService : IReportsService
         var result = await _validator.ValidateAsync(report);
         if (!result.IsValid) 
             throw new InvalidReportFormatException("Report with invalid format was provided");
+
+        string body = JsonConvert.SerializeObject(report);
         
         var entityEntry = await _dbContext.Reports.AddAsync(new ()
         {
-            Body = JsonConvert.SerializeObject(report)
+            Status = ReportStatus.Pending
         });
         await _dbContext.SaveChangesAsync();
 
         return entityEntry.Entity;
     }
 
-    public async Task<string> GetReport(string reportGuid)
+    public async Task<Report> GetReport(string reportGuid)
     {
         try
         {
@@ -44,7 +47,7 @@ public class ReportsService : IReportsService
                 .AsNoTracking()
                 .SingleAsync(x => x.Id == Guid.Parse(reportGuid));
 
-            return report.Body;
+            return report;
         }
         catch
         {
