@@ -13,11 +13,14 @@ public class ReportsService : IReportsService
 {
     private readonly IValidator<Models.Report> _validator;
     private readonly ApplicationDbContext _dbContext;
+    private readonly IKafkaProducer _kafkaProducer;
     
     public ReportsService(
         IValidator<Models.Report> validator, 
-        ApplicationDbContext dbContext)
+        ApplicationDbContext dbContext,
+        IKafkaProducer kafkaProducer)
     {
+        _kafkaProducer = kafkaProducer;
         _validator = validator;
         _dbContext = dbContext;
     }
@@ -29,8 +32,9 @@ public class ReportsService : IReportsService
             throw new InvalidReportFormatException("Report with invalid format was provided");
 
         string body = JsonConvert.SerializeObject(report);
+        await _kafkaProducer.Produce(body);
         
-        var entityEntry = await _dbContext.Reports.AddAsync(new ()
+        var entityEntry = await _dbContext.Reports.AddAsync(new Report
         {
             Status = ReportStatus.Pending
         });

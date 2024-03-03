@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
+using PdfReportsGenerator.Bll.BackgroundServices;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services;
@@ -29,6 +30,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
+builder.Services.AddScoped<IKafkaProducer, ReportKafkaProducer>();
+
+builder.Services.AddHostedService<ConsumeKafkaRecordsBackgroundService>();
 
 builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
 builder.Services.AddExceptionHandler<ReportNotFoundExceptionHandler>();

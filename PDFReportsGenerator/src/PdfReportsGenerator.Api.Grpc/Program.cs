@@ -2,13 +2,15 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using PdfReportsGenerator.Api.Grpc.Parsers;
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
-using PdfReportsGenerator.Api.Grpc.Services.V1;
+using PdfReportsGenerator.Bll.BackgroundServices;
 using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Bll.Validators;
 using PdfReportsGenerator.Dal;
 using ReportsServiceBll = PdfReportsGenerator.Bll.Services.ReportsService;
 using Serilog;
+using ReportsService = PdfReportsGenerator.Api.Grpc.Services.V1.ReportsService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IReportsService, ReportsServiceBll>();
 builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
 builder.Services.AddScoped<IReportsParser, ReportsParser>();
+builder.Services.AddScoped<IKafkaProducer, ReportKafkaProducer>();
+
+builder.Services.AddHostedService<ConsumeKafkaRecordsBackgroundService>();
 
 builder.Host.UseSerilog();
 builder.WebHost.UseSentry();
