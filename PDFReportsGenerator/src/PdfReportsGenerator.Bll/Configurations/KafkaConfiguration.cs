@@ -2,15 +2,16 @@ using Confluent.Kafka;
 
 namespace PdfReportsGenerator.Bll.Configurations;
 
-public static class KafkaConfiguration
+public class KafkaConfiguration
 {
-    private const string KafkaExternalAddress = "192.168.49.2:31662";
-    private const string SaslUsername = "user1";
-    private const string SaslPassword = "EqIaqPl7VW";
+    public static string SectionName => "KafkaConfiguration";
+    public string KafkaExternalAddress { get; set; }
+    public string SaslUsername { get; set; }
+    public string SaslPassword { get; set; }
     
-    public static string TopicName => "cool-topic";
+    public string TopicName => "cool-topic";
 
-    public static readonly ProducerConfig ProducerConfig = new ()
+    public ProducerConfig ProducerConfig => new ()
     {
         BootstrapServers = KafkaExternalAddress,
         SaslPassword = SaslPassword,
@@ -19,7 +20,7 @@ public static class KafkaConfiguration
         SecurityProtocol = SecurityProtocol.SaslPlaintext
     };
     
-    public static readonly ConsumerConfig ConsumerConfig = new ()
+    public ConsumerConfig ConsumerConfig => new ()
     {
         BootstrapServers = KafkaExternalAddress,
         GroupId = "group-id",
