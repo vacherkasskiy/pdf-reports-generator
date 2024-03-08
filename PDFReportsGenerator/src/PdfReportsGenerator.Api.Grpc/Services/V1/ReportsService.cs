@@ -38,8 +38,8 @@ public class ReportsService :
         var response = await _service.GetReport(request.Id);
         return new GetReportResponse
         {
-            Message = response,
-            Status = GetReportResponse.Types.Status.Completed
+            Message = response.Status.ToString(),
+            Status = GetReportResponse.Types.Status.Fulfilled
         };
     }
 }

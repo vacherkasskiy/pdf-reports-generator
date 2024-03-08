@@ -9,5 +9,12 @@ public class Report
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
     public Guid Id { get; set; }
 
-    public string Body { get; set; }
+    public ReportStatus Status { get; set; }
+}
+
+public enum ReportStatus
+{
+    Pending,
+    Fulfilled,
+    Cancelled,
 }
