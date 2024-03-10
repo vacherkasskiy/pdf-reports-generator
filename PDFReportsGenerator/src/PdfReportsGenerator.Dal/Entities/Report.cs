@@ -10,11 +10,15 @@ public class Report
     public Guid Id { get; set; }
 
     public ReportStatus Status { get; set; }
+    
+    [MaxLength(256)]
+    public string? Link { get; set; }
 }
 
 public enum ReportStatus
 {
-    Pending,
-    Fulfilled,
-    Cancelled,
+    NotStarted,
+    Processing,
+    Ready,
+    Error,
 }

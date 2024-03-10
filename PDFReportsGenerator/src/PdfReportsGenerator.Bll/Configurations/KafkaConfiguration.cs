@@ -5,9 +5,9 @@ namespace PdfReportsGenerator.Bll.Configurations;
 public class KafkaConfiguration
 {
     public static string SectionName => "KafkaConfiguration";
-    public string KafkaExternalAddress { get; set; }
-    public string SaslUsername { get; set; }
-    public string SaslPassword { get; set; }
+    public string KafkaExternalAddress { get; init; }
+    public string SaslUsername { get; init; }
+    public string SaslPassword { get; init; }
     
     public string TopicName => "cool-topic";
 

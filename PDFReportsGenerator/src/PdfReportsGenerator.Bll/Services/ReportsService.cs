@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Bll.Exceptions;
+using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal;
 using PdfReportsGenerator.Dal.Entities;
@@ -30,17 +31,17 @@ public class ReportsService : IReportsService
         var result = await _validator.ValidateAsync(report);
         if (!result.IsValid) 
             throw new InvalidReportFormatException("Report with invalid format was provided");
-
-        string body = JsonConvert.SerializeObject(report);
-        await _kafkaProducer.Produce(body);
         
-        var entityEntry = await _dbContext.Reports.AddAsync(new Report
+        var entity = (await _dbContext.Reports.AddAsync(new Report
         {
-            Status = ReportStatus.Pending
-        });
+            Status = ReportStatus.NotStarted
+        })).Entity;
         await _dbContext.SaveChangesAsync();
+        
+        var body = JsonConvert.SerializeObject(new KafkaRecord(entity.Id, report));
+        await _kafkaProducer.Produce(body);
 
-        return entityEntry.Entity;
+        return entity;
     }
 
     public async Task<Report> GetReport(string reportGuid)
