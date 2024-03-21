@@ -42,5 +42,5 @@ public class ImageBlock : Block
 
 public class TableBlock : Block
 {
-    public string[][]? Content { get; set; }
+    public string?[]?[] Content { get; set; }
 }
