@@ -1,16 +1,11 @@
-using FluentValidation;
 using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
-using PdfReportsGenerator.Bll.BackgroundServices;
 using PdfReportsGenerator.Bll.Configurations;
 using PdfReportsGenerator.Bll.Exceptions;
-using PdfReportsGenerator.Bll.Models;
-using PdfReportsGenerator.Bll.Services;
-using PdfReportsGenerator.Bll.Services.Interfaces;
-using PdfReportsGenerator.Bll.Validators;
+using PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,11 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.Configure<KafkaConfiguration>(
     builder.Configuration.GetSection(KafkaConfiguration.SectionName));
 
-builder.Services.AddScoped<IReportsService, ReportsService>();
-builder.Services.AddScoped<IValidator<Report>, ReportValidator>();
-builder.Services.AddSingleton<IKafkaProducer, ReportKafkaProducer>();
-
-builder.Services.AddHostedService<ConsumeKafkaRecordsBackgroundService>();
+builder.Services.AddBllServices(builder.Configuration);
 
 builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
 builder.Services.AddExceptionHandler<ReportNotFoundExceptionHandler>();
