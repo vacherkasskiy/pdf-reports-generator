@@ -59,4 +59,12 @@ public class ReportsService : IReportsService
             throw new ReportNotFoundException("No report was found by provided id");
         }
     }
+
+    public async Task<Report> UpdateReport(Report report)
+    {
+        var result = _dbContext.Reports.Update(report);
+        await _dbContext.SaveChangesAsync();
+
+        return result.Entity;
+    }
 }
