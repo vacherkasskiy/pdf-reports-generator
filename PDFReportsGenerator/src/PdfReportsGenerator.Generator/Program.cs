@@ -8,14 +8,14 @@ using QuestPDF.Previewer;
 namespace PdfReportsGenerator.Generator;
 
 /// <summary>
-/// TODO: Add images composing.
 /// TODO: Move some logic to a different class?.
 /// </summary>
 static class Program
 {
     private static void ComposeBody(
         this ColumnDescriptor column,
-        Block?[]? blocks)
+        Block?[]? blocks,
+        KafkaRecord kafkaRecord)
     {
         if (blocks is null) 
             return;
@@ -28,12 +28,29 @@ static class Program
                     column.Item().ComposeTextBlock(textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    throw new NotImplementedException();
+                    column.Item().ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
+                    break;
                 case TableBlock tableBlock:
                     column.Item().ComposeTableBlock(tableBlock);
                     break;
             }
         }
+    }
+    
+    private static void ComposeImageBlock(
+        this IContainer container,
+        ImageBlock imageBlock,
+        string? imageName)
+    {
+        if (imageBlock.Content is null || imageName is null)
+            return;
+        
+        using var imageProvider = new ImageProvider(imageBlock.Content, imageName);
+        var imagePath = imageProvider.GetImagePath();
+        
+        // How to assign image size properly?
+        // TODO: Fix it.
+        container.Width(10, Unit.Centimetre).Image(imagePath).WithRasterDpi(72);
     }
     
     private static void ComposeTextBlock(
@@ -49,8 +66,8 @@ static class Program
         this IContainer container,
         TableBlock tableBlock)
     {
-        var n = tableBlock.Content.Length;
-        var m = tableBlock.Content.Max(x => x?.Length);
+        var n = tableBlock.Content?.Length ?? 0;
+        var m = tableBlock.Content?.Max(x => x?.Length) ?? 0;
         
         container.Border(1)
             .Table(table =>
@@ -63,7 +80,7 @@ static class Program
 
                 for (var i = 0; i < n; ++i)
                 {
-                    var row = tableBlock.Content[i] ?? new string[m ?? 0];
+                    var row = tableBlock.Content![i] ?? new string[m];
 
                     // TODO: Add table headers?
                     foreach (var cell in row)
@@ -96,12 +113,13 @@ static class Program
                 return container;
         }
     }
-
+    
     public static void Main()
     {
         // TODO: Delete this.
         // WILL NOT PRESENT IN PRODUCTION VERSION.
-        var report = ReportFaker.GetReport();
+        var kafkaRecord = KafkaRecordFaker.GetKafkaRecord();
+        var report = kafkaRecord.Report;
         
         var document = Document.Create(container =>
         {
@@ -117,16 +135,8 @@ static class Program
                     .Column(x =>
                     {
                         x.Spacing(20);
-                        x.ComposeBody(report.Blocks);
+                        x.ComposeBody(report.Blocks, kafkaRecord);
                     });
-
-                // page.Footer()
-                //     .AlignCenter()
-                //     .Text(x =>
-                //     {
-                //         x.Span("Page ");
-                //         x.CurrentPageNumber();
-                //     });
             });
         });
 
