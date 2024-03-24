@@ -1,13 +1,8 @@
 ﻿using Confluent.Kafka;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using PdfReportsGenerator.BackgroundWorker.Configurations;
 using PdfReportsGenerator.Bll.Models;
-using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal.Entities;
-using QuestPDF.Fluent;
-using QuestPDF.Previewer;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
@@ -18,6 +13,7 @@ class Program
     static async Task Main(string[] args)
     {
         using var consumer = new ConsumerBuilder<Ignore, string>(KafkaConfiguration.ConsumerConfig).Build();
+        var reportsService = new ReportsServiceProvider().GetReportsService();
         var generator = new PdfGenerator();
         var minioClient = new MyMinioClient();
         consumer.Subscribe(KafkaConfiguration.TopicName);
@@ -35,11 +31,17 @@ class Program
 
             var result = consumeResult.Message.Value;
             var record = JsonConvert.DeserializeObject<KafkaRecord>(result)!;
+            var task = await reportsService.GetReport(record.TaskId.ToString());
+            Console.WriteLine($"[{DateTime.Now}] Report with ID: {task.Id} started generating.");
+            task.Status = ReportStatus.Processing;
+            await reportsService.UpdateReport(task);
+            
             var document = generator.Generate(record);
-            await minioClient.SaveDocument(document, record.TaskId.ToString());
-            //var task = await reportsService!.GetReport(record.TaskId.ToString());
-            //task.Status = ReportStatus.Processing;
-            //await reportsService.UpdateReport(task);
+            var link = await minioClient.SaveDocument(document, record.TaskId.ToString());
+            Console.WriteLine($"[{DateTime.Now}] Report with ID: {task.Id} generated.");
+            task.Status = ReportStatus.Ready;
+            task.Link = link;
+            await reportsService.UpdateReport(task);
         }
         
         consumer.Close();
