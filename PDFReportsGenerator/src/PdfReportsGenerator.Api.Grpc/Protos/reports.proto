@@ -88,9 +88,10 @@ message GetReportRequest {
 
 message GetReportResponse {
   enum Status {
-    PENDING = 0;
-    FULFILLED = 1;
-    CANCELLED = 2;
+      NotStarted = 0;
+      Processing = 1;
+      Ready = 2;
+      Error = 3;
   }
 
   Status status = 1;

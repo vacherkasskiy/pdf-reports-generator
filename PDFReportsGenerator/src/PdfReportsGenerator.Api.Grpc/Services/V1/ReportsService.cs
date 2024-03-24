@@ -1,6 +1,7 @@
 using Grpc.Core;
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
 using PdfReportsGenerator.Bll.Services.Interfaces;
+using PdfReportsGenerator.Dal.Entities;
 using Reports.V1;
 
 namespace PdfReportsGenerator.Api.Grpc.Services.V1;
@@ -38,8 +39,25 @@ public class ReportsService :
         var response = await _service.GetReport(request.Id);
         return new GetReportResponse
         {
-            Message = response.Status.ToString(),
-            Status = GetReportResponse.Types.Status.Fulfilled
+            Message = response.Link,
+            Status = ParseProtoStatus(response.Status)
         };
+    }
+
+    private GetReportResponse.Types.Status ParseProtoStatus(Dal.Entities.ReportStatus status)
+    {
+        switch (status)
+        {
+            case ReportStatus.NotStarted:
+                return GetReportResponse.Types.Status.NotStarted;
+            case ReportStatus.Processing:
+                return GetReportResponse.Types.Status.Processing;
+            case ReportStatus.Ready:
+                return GetReportResponse.Types.Status.Ready;
+            case ReportStatus.Error:
+                return GetReportResponse.Types.Status.Error;
+            default:
+                throw new Exception("Unknown status provided.");
+        }
     }
 }
