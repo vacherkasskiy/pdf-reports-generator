@@ -13,6 +13,7 @@ public class Report
 
 public class Block
 {
+    [JsonProperty("type")]
     public virtual string? Type { get; set; }
     public Location? Location { get; set; }
 }

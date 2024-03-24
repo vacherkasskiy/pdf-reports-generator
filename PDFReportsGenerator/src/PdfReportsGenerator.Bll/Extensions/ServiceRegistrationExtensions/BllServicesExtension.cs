@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using PdfReportsGenerator.Bll.BackgroundServices;
 using PdfReportsGenerator.Bll.Configurations;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services;
@@ -18,8 +17,6 @@ public static class BllServicesExtension
         service.AddScoped<IReportsService, ReportsServiceBll>();
         service.AddScoped<IValidator<Report>, ReportValidator>();
         service.AddScoped<IKafkaProducer, ReportKafkaProducer>();
-        service.AddHostedService<ConsumeKafkaRecordsBackgroundService>();
-        
         service.Configure<KafkaConfiguration>(
             configuration.GetSection(KafkaConfiguration.SectionName));
     }

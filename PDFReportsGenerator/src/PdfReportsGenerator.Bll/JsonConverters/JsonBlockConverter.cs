@@ -50,6 +50,31 @@ public class JsonBlockConverter : JsonConverter<Block[]>
         Block[]? value,
         JsonSerializer serializer)
     {
-        serializer.Serialize(writer, value);
+        if (value == null)
+        {
+            writer.WriteNull();
+            return;
+        }
+
+        writer.WriteStartArray();
+
+        foreach (var block in value)
+        {
+            var type = block.Type;
+            switch (type)
+            {
+                case "text":
+                    serializer.Serialize(writer, block as TextBlock, typeof(TextBlock));
+                    break;
+                case "image":
+                    serializer.Serialize(writer, block as ImageBlock, typeof(ImageBlock));
+                    break;
+                case "table":
+                    serializer.Serialize(writer, block as TableBlock, typeof(TableBlock));
+                    break;
+            }
+        }
+
+        writer.WriteEndArray();
     }
 }

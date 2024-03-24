@@ -3,8 +3,8 @@ helm upgrade \
 --set image.tag=2020.2.20 \
 --set resources.limits.memory=512Mi \
 --set resources.requests.memory=512Mi \
---set resources.limits.cpu=128m \
---set resources.requests.cpu=128m \
+--set resources.limits.cpu=256m \
+--set resources.requests.cpu=256m \
 --set livenessProbe.timeoutSeconds=120 \
 --set readinessProbe.initialDelaySeconds=120 \
 --set readinessProbe.periodSeconds=120 \

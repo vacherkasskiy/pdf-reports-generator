@@ -1,3 +1,8 @@
 namespace PdfReportsGenerator.Bll.Models;
 
-public record KafkaRecord(Guid TaskId, Report Report);
+public class KafkaRecord
+{
+    public Guid TaskId { get; set; }
+    
+    public Report Report { get; set; }
+}

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace PdfReportsGenerator.Generator;
+namespace PdfReportsGenerator.BackgroundWorker;
 
 public class ImageProvider : IDisposable
 {

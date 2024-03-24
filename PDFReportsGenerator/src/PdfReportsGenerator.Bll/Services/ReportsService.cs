@@ -38,7 +38,11 @@ public class ReportsService : IReportsService
         })).Entity;
         await _dbContext.SaveChangesAsync();
         
-        var body = JsonConvert.SerializeObject(new KafkaRecord(entity.Id, report));
+        var body = JsonConvert.SerializeObject(new KafkaRecord
+        {
+            TaskId = entity.Id, 
+            Report = report
+        });
         await _kafkaProducer.Produce(body);
 
         return entity;

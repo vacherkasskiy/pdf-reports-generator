@@ -1,25 +1,21 @@
-﻿using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Bll.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
-using QuestPDF.Previewer;
 
-// TODO: Change the name?
-namespace PdfReportsGenerator.Generator;
+namespace PdfReportsGenerator.BackgroundWorker;
 
-/// <summary>
-/// TODO: Move some logic to a different class?.
-/// </summary>
-static class Program
+public static class PdfBlocksComposer
 {
-    private static void ComposeBody(
+    public static void ComposeBody(
         this ColumnDescriptor column,
-        Block?[]? blocks,
         KafkaRecord kafkaRecord)
     {
-        if (blocks is null) 
-            return;
+        var blocks = kafkaRecord.Report.Blocks;
         
+        if (blocks is null)
+            return;
+
         foreach (var reportBlock in blocks)
         {
             switch (reportBlock)
@@ -36,7 +32,7 @@ static class Program
             }
         }
     }
-    
+
     private static void ComposeImageBlock(
         this IContainer container,
         ImageBlock imageBlock,
@@ -44,15 +40,15 @@ static class Program
     {
         if (imageBlock.Content is null || imageName is null)
             return;
-        
+
         using var imageProvider = new ImageProvider(imageBlock.Content, imageName);
         var imagePath = imageProvider.GetImagePath();
-        
+
         // How to assign image size properly?
         // TODO: Fix it.
         container.Width(10, Unit.Centimetre).Image(imagePath).WithRasterDpi(72);
     }
-    
+
     private static void ComposeTextBlock(
         this IContainer container,
         TextBlock textBlock)
@@ -68,7 +64,7 @@ static class Program
     {
         var n = tableBlock.Content?.Length ?? 0;
         var m = tableBlock.Content?.Max(x => x?.Length) ?? 0;
-        
+
         container.Border(1)
             .Table(table =>
             {
@@ -96,7 +92,7 @@ static class Program
                 }
             });
     }
-
+    
     private static IContainer GetAlignedContainer(
         IContainer container,
         string? position)
@@ -112,35 +108,5 @@ static class Program
             default:
                 return container;
         }
-    }
-    
-    public static void Main()
-    {
-        // TODO: Delete this.
-        // WILL NOT PRESENT IN PRODUCTION VERSION.
-        var kafkaRecord = KafkaRecordFaker.GetKafkaRecord();
-        var report = kafkaRecord.Report;
-        
-        var document = Document.Create(container =>
-        {
-            container.Page(page =>
-            {
-                page.Size(PageSizes.A4);
-                page.Margin(1, Unit.Centimetre);
-                page.PageColor(Colors.White);
-                page.DefaultTextStyle(x => x.FontSize(20));
-
-                page.Content()
-                    .PaddingVertical(1, Unit.Centimetre)
-                    .Column(x =>
-                    {
-                        x.Spacing(20);
-                        x.ComposeBody(report.Blocks, kafkaRecord);
-                    });
-            });
-        });
-
-        // TODO: Delete this.
-        document.ShowInPreviewer();
     }
 }

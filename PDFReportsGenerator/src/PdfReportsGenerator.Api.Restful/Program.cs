@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
-using PdfReportsGenerator.Bll.Configurations;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;
@@ -23,9 +22,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
-
-builder.Services.Configure<KafkaConfiguration>(
-    builder.Configuration.GetSection(KafkaConfiguration.SectionName));
 
 builder.Services.AddBllServices(builder.Configuration);
 

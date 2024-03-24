@@ -1,13 +1,13 @@
 using Confluent.Kafka;
 
-namespace PdfReportsGenerator.Bll.Configurations;
+namespace PdfReportsGenerator.BackgroundWorker.Configurations;
 
 public class KafkaConfiguration
 {
     public static string SectionName => "KafkaConfiguration";
-    public string KafkaExternalAddress { get; set; }
-    public string SaslUsername { get; set; }
-    public string SaslPassword { get; set; }
+    public string KafkaExternalAddress => "192.168.49.2:31662";
+    public string SaslUsername => "user1";
+    public string SaslPassword => "EqIaqPl7VW";
     
     public string TopicName => "cool-topic";
 
