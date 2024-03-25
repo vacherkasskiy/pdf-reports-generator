@@ -3,7 +3,11 @@ using PdfReportsGenerator.Api.Grpc.Parsers;
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
 using PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
 using PdfReportsGenerator.Dal;
+using PdfReportsGenerator.Dal.Entities;
+using Reports.V1;
 using Serilog;
+using Report = PdfReportsGenerator.Bll.Models.Report;
+using ReportProto = Reports.V1.CreateReportRequest;
 using ReportsService = PdfReportsGenerator.Api.Grpc.Services.V1.ReportsService;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +17,8 @@ builder.Services.AddGrpc();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IReportsParser, ReportsParser>();
+builder.Services.AddScoped<IParser<ReportProto, Report>, ReportsParser>();
+builder.Services.AddScoped<IParser<ReportStatus, GetReportResponse.Types.Status>, ProtoStatusParser>();
 builder.Services.AddBllServices(builder.Configuration);
 
 builder.Host.UseSerilog();

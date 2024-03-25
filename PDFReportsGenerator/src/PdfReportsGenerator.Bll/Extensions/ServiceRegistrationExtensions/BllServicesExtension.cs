@@ -2,6 +2,7 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PdfReportsGenerator.Bll.Configurations;
+using PdfReportsGenerator.Bll.ExceptionHandlers;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services;
 using PdfReportsGenerator.Bll.Services.Interfaces;
@@ -14,6 +15,10 @@ public static class BllServicesExtension
 {
     public static void AddBllServices(this IServiceCollection service, ConfigurationManager configuration)
     {
+        service.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
+        service.AddExceptionHandler<ReportNotFoundExceptionHandler>();
+        service.AddProblemDetails();
+        
         service.AddScoped<IReportsService, ReportsServiceBll>();
         service.AddScoped<IValidator<Report>, ReportValidator>();
         service.AddScoped<IKafkaProducer, ReportKafkaProducer>();

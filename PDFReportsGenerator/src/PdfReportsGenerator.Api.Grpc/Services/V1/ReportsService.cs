@@ -3,6 +3,8 @@ using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal.Entities;
 using Reports.V1;
+using ReportProto = Reports.V1.CreateReportRequest;
+using Report = PdfReportsGenerator.Bll.Models.Report;
 
 namespace PdfReportsGenerator.Api.Grpc.Services.V1;
 
@@ -10,21 +12,24 @@ public class ReportsService :
     Reports.V1.ReportsService.ReportsServiceBase
 {
     private readonly IReportsService _service;
-    private readonly IReportsParser _parser;
-    
+    private readonly IParser<ReportProto, Report> _reportsParser;
+    private readonly IParser<ReportStatus, GetReportResponse.Types.Status> _protoParser;
+
     public ReportsService(
         IReportsService service,
-        IReportsParser parser)
+        IParser<ReportProto, Report> reportsParser,
+        IParser<ReportStatus, GetReportResponse.Types.Status> protoParser)
     {
         _service = service;
-        _parser = parser;
+        _reportsParser = reportsParser;
+        _protoParser = protoParser;
     }
 
     public override async Task<CreateReportResponse> CreateReport(
         CreateReportRequest request,
         ServerCallContext context)
     {
-        var report = _parser.ParseReport(request);
+        var report = _reportsParser.Parse(request);
         var reportTask = await _service.CreateReport(report);
         return new CreateReportResponse
         {
@@ -39,25 +44,8 @@ public class ReportsService :
         var response = await _service.GetReport(request.Id);
         return new GetReportResponse
         {
-            Message = response.Link,
-            Status = ParseProtoStatus(response.Status)
+            Link = response.Link ?? "Not ready yet.",
+            Status = _protoParser.Parse(response.Status)
         };
-    }
-
-    private GetReportResponse.Types.Status ParseProtoStatus(Dal.Entities.ReportStatus status)
-    {
-        switch (status)
-        {
-            case ReportStatus.NotStarted:
-                return GetReportResponse.Types.Status.NotStarted;
-            case ReportStatus.Processing:
-                return GetReportResponse.Types.Status.Processing;
-            case ReportStatus.Ready:
-                return GetReportResponse.Types.Status.Ready;
-            case ReportStatus.Error:
-                return GetReportResponse.Types.Status.Error;
-            default:
-                throw new Exception("Unknown status provided.");
-        }
     }
 }

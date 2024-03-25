@@ -2,7 +2,6 @@ using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PdfReportsGenerator.Api.Restful.ExceptionHandlers;
 using PdfReportsGenerator.Bll.Exceptions;
 using PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;
@@ -24,10 +23,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
 builder.Services.AddBllServices(builder.Configuration);
-
-builder.Services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
-builder.Services.AddExceptionHandler<ReportNotFoundExceptionHandler>();
-builder.Services.AddProblemDetails();
 
 builder.Host.UseSerilog();
 
