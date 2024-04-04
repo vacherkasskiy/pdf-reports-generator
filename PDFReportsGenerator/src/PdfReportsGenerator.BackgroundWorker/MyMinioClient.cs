@@ -16,13 +16,7 @@ public class MyMinioClient
         _minioConfiguration = minioConfiguration;
     }
 
-    public async Task<string> SaveDocument(Document document, string fileName)
-    {
-        document.GeneratePdf(fileName);
-        return await GetLink(fileName);
-    }
-
-    private async Task<string> GetLink(string fileName)
+    public async Task<string> GetLink(string fileName)
     {
         var minio = new MinioClient()
             .WithEndpoint(_minioConfiguration.Endpoint)
@@ -50,7 +44,7 @@ public class MyMinioClient
             PresignedGetObjectArgs args = new PresignedGetObjectArgs()
                 .WithBucket(_minioConfiguration.BucketName)
                 .WithObject(fileName)
-                .WithExpiry(60 * 5 * 24);
+                .WithExpiry((int)TimeSpan.FromDays(1).TotalSeconds);
 
             var fullUriString = await myMinio
                 .PresignedGetObjectAsync(args)

@@ -5,9 +5,22 @@ using QuestPDF.Infrastructure;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
-public class PdfGenerator
-{ 
-    public Document Generate(KafkaRecord kafkaRecord)
+public class PdfGenerator : IDisposable
+{
+    private readonly KafkaRecord _kafkaRecord;
+    private readonly string _fileName;
+    
+    public PdfGenerator(KafkaRecord kafkaRecord)
+    {
+        _kafkaRecord = kafkaRecord;
+        _fileName = _kafkaRecord.TaskId.ToString();
+    }
+    
+    /// <summary>
+    /// Generates PDF report for following KafkaRecord with the name of it's ID.
+    /// </summary>
+    /// <returns> Name of the file with PDF report. </returns>
+    public string Generate()
     {
         QuestPDF.Settings.License = LicenseType.Community;
         
@@ -22,11 +35,21 @@ public class PdfGenerator
                     .PaddingVertical(1, Unit.Centimetre)
                     .Column(x =>
                     {
-                        x.ComposeBody(kafkaRecord);
+                        x.ComposeBody(_kafkaRecord);
                     });
             });
         });
+        
+        document.GeneratePdf(_fileName);
 
-        return document;
+        return _fileName;
+    }
+
+    public void Dispose()
+    {
+        if (File.Exists(_fileName))
+        {
+            File.Delete(_fileName);
+        }
     }
 }

@@ -23,7 +23,6 @@ class Program
 
         using var consumer = new ConsumerBuilder<Ignore, string>(KafkaConfiguration.ConsumerConfig).Build();
         var reportsService = new ReportsServiceProvider().GetReportsService();
-        var generator = new PdfGenerator();
         var minioClient = new MyMinioClient(MinioConfiguration);
         consumer.Subscribe(KafkaConfiguration.TopicName);
 
@@ -40,7 +39,17 @@ class Program
 
             var result = consumeResult.Message.Value;
             var record = JsonConvert.DeserializeObject<KafkaRecord>(result)!;
-            var task = await reportsService.GetReport(record.TaskId.ToString());
+            Dal.Entities.Report task;
+            
+            try
+            {
+                task = await reportsService.GetReport(record.TaskId.ToString());
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, $"Unable to find report with ID: {record.TaskId}");
+                continue;
+            }
 
             try
             {
@@ -48,8 +57,9 @@ class Program
                 task.Status = ReportStatus.Processing;
                 await reportsService.UpdateReport(task);
 
-                var document = generator.Generate(record);
-                var link = await minioClient.SaveDocument(document, record.TaskId.ToString());
+                using var generator = new PdfGenerator(record);
+                var reportFileName = generator.Generate();
+                var link = await minioClient.GetLink(reportFileName);
                 Logger.Information($"Report with ID: {task.Id} generated.");
                 task.Status = ReportStatus.Ready;
                 task.Link = link;
