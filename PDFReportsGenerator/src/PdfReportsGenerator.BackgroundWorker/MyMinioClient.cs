@@ -1,75 +1,70 @@
 using Minio;
 using Minio.DataModel.Args;
 using Minio.Exceptions;
+using PdfReportsGenerator.BackgroundWorker.Configurations;
 using QuestPDF.Fluent;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
 public class MyMinioClient
 {
+    private readonly string _contentType = "application/pdf";
+    private readonly MinioConfiguration _minioConfiguration;
+
+    public MyMinioClient(MinioConfiguration minioConfiguration)
+    {
+        _minioConfiguration = minioConfiguration;
+    }
+
     public async Task<string> SaveDocument(Document document, string fileName)
     {
-        var link = "link";
         document.GeneratePdf(fileName);
-        Method(fileName);
-        
+        return await GetLink(fileName);
+    }
+
+    private async Task<string> GetLink(string fileName)
+    {
+        var minio = new MinioClient()
+            .WithEndpoint(_minioConfiguration.Endpoint)
+            .WithCredentials(_minioConfiguration.AccessKey, _minioConfiguration.SecretKey)
+            .Build();
+
+        var link = await Run(minio, fileName);
         return link;
     }
-    
-    public static void Method(string fileName)
-    {
-        var endpoint = "192.168.49.2:30003";
-        var accessKey = "minio";
-        var secretKey = "miniosecret";
 
+    private async Task<string> Run(IMinioClient myMinio, string fileName)
+    {
         try
         {
-            var minio = new MinioClient()
-                .WithEndpoint(endpoint)
-                .WithCredentials(accessKey, secretKey)
-                .Build();
-            Run(minio, fileName).Wait();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex.Message);
-        }
-
-        Console.ReadLine();
-    }
-
-    // File uploader task.
-    private static async Task Run(IMinioClient myMinio, string filePath)
-    {
-        var bucketName = "reports";
-        var objectName = filePath;
-        var contentType = "application/pdf";
-
-        try
-        {
-            // Make a bucket on the server, if not already present.
-            var beArgs = new BucketExistsArgs()
-                .WithBucket(bucketName);
-            bool found = await myMinio.BucketExistsAsync(beArgs).ConfigureAwait(false);
-            if (!found)
-            {
-                var mbArgs = new MakeBucketArgs()
-                    .WithBucket(bucketName);
-                await myMinio.MakeBucketAsync(mbArgs).ConfigureAwait(false);
-            }
-
-            // Upload a file to bucket.
             var putObjectArgs = new PutObjectArgs()
-                .WithBucket(bucketName)
-                .WithObject(objectName)
-                .WithFileName(filePath)
-                .WithContentType(contentType);
-            await myMinio.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
-            Console.WriteLine("Successfully uploaded " + objectName);
+                .WithBucket(_minioConfiguration.BucketName)
+                .WithObject(fileName)
+                .WithFileName(fileName)
+                .WithContentType(_contentType);
+
+            await myMinio
+                .PutObjectAsync(putObjectArgs)
+                .ConfigureAwait(false);
+
+            PresignedGetObjectArgs args = new PresignedGetObjectArgs()
+                .WithBucket(_minioConfiguration.BucketName)
+                .WithObject(fileName)
+                .WithExpiry(60 * 5 * 24);
+
+            var fullUriString = await myMinio
+                .PresignedGetObjectAsync(args)
+                .ConfigureAwait(false);
+
+            var fullUri = new Uri(fullUriString);
+            var trimmedUri = $"{fullUri.Scheme}://{fullUri.Authority}{fullUri.AbsolutePath}";
+
+            return trimmedUri;
         }
         catch (MinioException e)
         {
-            Console.WriteLine("File Upload Error: {0}", e.Message);
+            Console.WriteLine($"File upload error: {e.Message}");
+            throw;
         }
     }
 }
