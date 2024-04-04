@@ -11,11 +11,12 @@ public class MyMinioClient
     {
         var link = "link";
         document.GeneratePdf(fileName);
+        Method(fileName);
         
         return link;
     }
     
-    public static void Method()
+    public static void Method(string fileName)
     {
         var endpoint = "192.168.49.2:30003";
         var accessKey = "minio";
@@ -26,9 +27,8 @@ public class MyMinioClient
             var minio = new MinioClient()
                 .WithEndpoint(endpoint)
                 .WithCredentials(accessKey, secretKey)
-                .WithSSL()
                 .Build();
-            Run(minio).Wait();
+            Run(minio, fileName).Wait();
         }
         catch (Exception ex)
         {
@@ -39,13 +39,11 @@ public class MyMinioClient
     }
 
     // File uploader task.
-    private static async Task Run(IMinioClient myMinio)
+    private static async Task Run(IMinioClient myMinio, string filePath)
     {
-        var bucketName = "mymusic";
-        var location = "us-east-1";
-        var objectName = "golden-oldies.zip";
-        var filePath = "C:\\Users\\username\\Downloads\\golden_oldies.mp3";
-        var contentType = "application/zip";
+        var bucketName = "reports";
+        var objectName = filePath;
+        var contentType = "application/pdf";
 
         try
         {
