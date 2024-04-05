@@ -33,9 +33,10 @@ public class PdfGenerator : IDisposable
                 page.PageColor(Colors.White);
                 page.Content()
                     .PaddingVertical(1, Unit.Centimetre)
-                    .Column(x =>
+                    .Grid(grid =>
                     {
-                        x.ComposeBody(_kafkaRecord);
+                        grid.VerticalSpacing(10);
+                        grid.ComposeBody(_kafkaRecord);
                     });
             });
         });

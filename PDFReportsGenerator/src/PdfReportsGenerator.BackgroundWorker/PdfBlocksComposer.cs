@@ -8,7 +8,7 @@ namespace PdfReportsGenerator.BackgroundWorker;
 public static class PdfBlocksComposer
 {
     public static void ComposeBody(
-        this ColumnDescriptor column,
+        this GridDescriptor grid,
         KafkaRecord kafkaRecord)
     {
         var blocks = kafkaRecord.Report.Blocks;
@@ -18,18 +18,25 @@ public static class PdfBlocksComposer
 
         foreach (var reportBlock in blocks)
         {
+            var location = reportBlock!.Location!;
+            var leftMargin = location.Left - 1;
+            var rightMargin = 12 - location.Right;
+            var width = location.Right - location.Left + 1;
+            
+            grid.Item(leftMargin);
             switch (reportBlock)
             {
                 case TextBlock textBlock:
-                    column.Item().ComposeTextBlock(textBlock);
+                    grid.Item(width).ComposeTextBlock(textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    column.Item().ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
+                    grid.Item(width).ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
                     break;
                 case TableBlock tableBlock:
-                    column.Item().ComposeTableBlock(tableBlock);
+                    grid.Item(width).ComposeTableBlock(tableBlock);
                     break;
             }
+            grid.Item(rightMargin);
         }
     }
 
@@ -43,10 +50,8 @@ public static class PdfBlocksComposer
 
         using var imageProvider = new ImageProvider(imageBlock.Content, imageName);
         var imagePath = imageProvider.GetImagePath();
-
-        // How to assign image size properly?
-        // TODO: Fix it.
-        container.Width(10, Unit.Centimetre).Image(imagePath).WithRasterDpi(72);
+        
+        container.Image(imagePath);
     }
 
     private static void ComposeTextBlock(

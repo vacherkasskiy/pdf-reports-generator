@@ -2,7 +2,6 @@ using Minio;
 using Minio.DataModel.Args;
 using Minio.Exceptions;
 using PdfReportsGenerator.BackgroundWorker.Configurations;
-using QuestPDF.Fluent;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
