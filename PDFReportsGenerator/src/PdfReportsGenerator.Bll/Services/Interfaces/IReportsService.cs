@@ -6,4 +6,5 @@ public interface IReportsService
 {
     Task<Report> CreateReport(Models.Report report);
     Task<Report> GetReport(string reportGuid);
+    Task<Report> UpdateReport(Report report);
 }

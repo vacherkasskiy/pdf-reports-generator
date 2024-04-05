@@ -53,9 +53,9 @@ message TableBlockRow {
 message Style {
   // Позиционирование текста.
   enum Position {
-    CENTER = 0;
-    LEFT = 1;
-    RIGHT = 2;
+    Center = 0;
+    Left = 1;
+    Right = 2;
   }
 
   Position position = 1;
@@ -88,13 +88,12 @@ message GetReportRequest {
 
 message GetReportResponse {
   enum Status {
-    PENDING = 0;
-    FULFILLED = 1;
-    CANCELLED = 2;
+      NotStarted = 0;
+      Processing = 1;
+      Ready = 2;
+      Error = 3;
   }
 
   Status status = 1;
-
-  // Здесь может быть как ссылка на S3, так и сообщение о незавершенности задачи.
-  string message = 2;
+  string link = 2;
 }

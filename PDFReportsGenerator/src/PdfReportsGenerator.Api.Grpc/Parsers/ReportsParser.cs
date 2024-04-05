@@ -10,9 +10,9 @@ using StyleProto = Reports.V1.Style;
 
 namespace PdfReportsGenerator.Api.Grpc.Parsers;
 
-public class ReportsParser : IReportsParser
+public class ReportsParser : IParser<ReportProto, Report>
 {
-    public Report ParseReport(ReportProto reportProto)
+    public Report Parse(ReportProto reportProto)
     {
         var report = new Report
         {

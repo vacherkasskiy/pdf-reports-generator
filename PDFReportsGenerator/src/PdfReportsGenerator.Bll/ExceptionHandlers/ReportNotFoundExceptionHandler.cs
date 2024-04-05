@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PdfReportsGenerator.Bll.Exceptions;
 
-namespace PdfReportsGenerator.Api.Restful.ExceptionHandlers;
+namespace PdfReportsGenerator.Bll.ExceptionHandlers;
 
 public class ReportNotFoundExceptionHandler : IExceptionHandler
 {
