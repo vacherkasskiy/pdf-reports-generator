@@ -13,7 +13,6 @@ public class ReportsServiceProvider
     private readonly ApplicationDbContext _dbContext;
     private readonly ReportValidator _validator;
     private readonly ReportKafkaProducer _kafkaProducer;
-    private readonly IOptions<KafkaConfiguration> _kafkaConfiguration;
 
     public ReportsServiceProvider()
     {
@@ -25,14 +24,14 @@ public class ReportsServiceProvider
 
         _dbContext = new ApplicationDbContext(optionsBuilder.Options);
         _validator = new ReportValidator();
-        _kafkaConfiguration = Options.Create(new KafkaConfiguration
+        var options = Options.Create(new KafkaConfiguration
         {
             SaslUsername = kafkaConfiguration.SaslUsername,
             SaslPassword = kafkaConfiguration.SaslPassword,
             KafkaExternalAddress = kafkaConfiguration.KafkaExternalAddress
         });
         
-        _kafkaProducer = new ReportKafkaProducer(_kafkaConfiguration);
+        _kafkaProducer = new ReportKafkaProducer(options);
     }
 
     public IReportsService GetReportsService()

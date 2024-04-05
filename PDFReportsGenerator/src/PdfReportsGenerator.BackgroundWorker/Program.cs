@@ -67,8 +67,8 @@ class Program
             }
             catch (Exception e)
             {
-                task.Status = ReportStatus.Error;
                 Logger.Error(e, $"Unable to generate report with ID: {task.Id}");
+                task.Status = ReportStatus.Error;
                 await reportsService.UpdateReport(task);
             }
         }
