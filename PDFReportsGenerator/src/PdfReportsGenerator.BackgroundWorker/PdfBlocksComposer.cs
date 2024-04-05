@@ -12,7 +12,7 @@ public static class PdfBlocksComposer
         KafkaRecord kafkaRecord)
     {
         var blocks = kafkaRecord.Report.Blocks;
-        
+
         if (blocks is null)
             return;
 
@@ -78,9 +78,21 @@ public static class PdfBlocksComposer
                 {
                     var row = tableBlock.Content![i] ?? new string[m];
 
-                    // TODO: Add table headers?
+                    if (i == 0)
+                    {
+                        foreach (var cell in row)
+                            table.Header(header =>
+                            {
+                                header.Cell().Element(HeaderBlock).Text(cell ?? " ").FontSize(13).Bold();
+                            });
+                        
+                        continue;
+                    }
+
                     foreach (var cell in row)
+                    {
                         table.Cell().Element(Block).Text(cell ?? " ").FontSize(13);
+                    }
                 }
 
                 static IContainer Block(IContainer container)
@@ -90,9 +102,17 @@ public static class PdfBlocksComposer
                         .Background(Colors.White)
                         .Padding(5);
                 }
+                
+                static IContainer HeaderBlock(IContainer container)
+                {
+                    return container
+                        .Border(1)
+                        .Background("#D3D3D3")
+                        .Padding(5);
+                }
             });
     }
-    
+
     private static IContainer GetAlignedContainer(
         IContainer container,
         string? position)
