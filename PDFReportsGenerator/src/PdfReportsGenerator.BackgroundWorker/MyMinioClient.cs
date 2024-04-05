@@ -26,17 +26,30 @@ public class MyMinioClient
         return link;
     }
 
-    private async Task<string> Run(IMinioClient myMinio, string fileName)
+    private async Task<string> Run(
+        IMinioClient minioClient,
+        string fileName)
     {
         try
         {
+            var beArgs = new BucketExistsArgs()
+                .WithBucket(_minioConfiguration.BucketName);
+            var found = await minioClient.BucketExistsAsync(beArgs).ConfigureAwait(false);
+            
+            if (!found)
+            {
+                var mbArgs = new MakeBucketArgs()
+                    .WithBucket(_minioConfiguration.BucketName);
+                await minioClient.MakeBucketAsync(mbArgs).ConfigureAwait(false);
+            }
+
             var putObjectArgs = new PutObjectArgs()
                 .WithBucket(_minioConfiguration.BucketName)
                 .WithObject(fileName)
                 .WithFileName(fileName)
                 .WithContentType(_contentType);
 
-            await myMinio
+            await minioClient
                 .PutObjectAsync(putObjectArgs)
                 .ConfigureAwait(false);
 
@@ -45,7 +58,7 @@ public class MyMinioClient
                 .WithObject(fileName)
                 .WithExpiry((int)TimeSpan.FromDays(1).TotalSeconds);
 
-            var fullUriString = await myMinio
+            var fullUriString = await minioClient
                 .PresignedGetObjectAsync(args)
                 .ConfigureAwait(false);
 
