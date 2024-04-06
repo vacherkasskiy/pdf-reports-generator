@@ -5,8 +5,8 @@ using ReportProto = Reports.V1.CreateReportRequest;
 using TextBlockProto = Reports.V1.TextBlock;
 using ImageBlockProto = Reports.V1.ImageBlock;
 using TableBlockProto = Reports.V1.TableBlock;
-using LocationProto = Reports.V1.Location;
 using StyleProto = Reports.V1.Style;
+using MarginProto = Reports.V1.Margin;
 
 namespace PdfReportsGenerator.Api.Grpc.Parsers;
 
@@ -23,6 +23,22 @@ public class ReportsParser : IParser<ReportProto, Report>
         return report;
     }
 
+    private static Margin? ParseMargin(MarginProto? marginProto)
+    {
+        if (marginProto == null)
+            return null;
+        
+        var margin = new Margin
+        {
+            Top = marginProto.Top,
+            Bottom = marginProto.Bottom,
+            Left = marginProto.Left,
+            Right = marginProto.Right
+        };
+
+        return margin;
+    }
+    
     private static Block? ParseBlock(BlockProto? blockProto)
     {
         if (blockProto == null)
@@ -47,22 +63,11 @@ public class ReportsParser : IParser<ReportProto, Report>
             default:
                 return null;
         }
-        
-        block.Location = ParseLocation(blockProto.Location);
+
+        block.Width = blockProto.Width;
+        block.Margin = ParseMargin(blockProto.Margin);
 
         return block;
-    }
-
-    private static Location? ParseLocation(LocationProto? locationProto)
-    {
-        if (locationProto == null) 
-            return null;
-        
-        return new Location
-        {
-            Left = locationProto.Left,
-            Right = locationProto.Right
-        };
     }
 
     private static TextBlock ParseTextBlock(TextBlockProto textBlockProto)
