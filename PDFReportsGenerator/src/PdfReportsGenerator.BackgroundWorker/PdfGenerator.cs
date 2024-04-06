@@ -32,7 +32,6 @@ public class PdfGenerator : IDisposable
                 page.Margin(1, Unit.Centimetre);
                 page.PageColor(Colors.White);
                 page.Content()
-                    .PaddingVertical(1, Unit.Centimetre)
                     .Grid(grid =>
                     {
                         grid.VerticalSpacing(10);

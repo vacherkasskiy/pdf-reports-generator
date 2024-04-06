@@ -15,12 +15,22 @@ message Block {
   // Обязятельно содержит информацию о расположении блока.
   int32 width = 1;
 
+  // Возможно содержит информацию об отступах.
+  Margin margin = 2;
+  
   // Остальное содержимое зависит как раз от типа.
   oneof content {
-    TextBlock text_block = 2;
-    ImageBlock image_block = 3;
-    TableBlock table_block = 4;
+    TextBlock text_block = 3;
+    ImageBlock image_block = 4;
+    TableBlock table_block = 5;
   }
+}
+
+message Margin {
+  int32 top = 1;
+  int32 bottom = 2;
+  int32 left = 3;
+  int32 right = 4;
 }
 
 // Описание содержимого для текстового блока.

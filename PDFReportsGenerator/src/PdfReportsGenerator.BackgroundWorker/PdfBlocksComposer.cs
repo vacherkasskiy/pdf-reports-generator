@@ -23,13 +23,19 @@ public static class PdfBlocksComposer
             switch (reportBlock)
             {
                 case TextBlock textBlock:
-                    grid.Item(width).ComposeTextBlock(textBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(textBlock.Margin)
+                        .ComposeTextBlock(textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    grid.Item(width).ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
+                    grid.Item(width)
+                        .GetMarginedContainer(imageBlock.Margin)
+                        .ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
                     break;
                 case TableBlock tableBlock:
-                    grid.Item(width).ComposeTableBlock(tableBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(tableBlock.Margin)
+                        .ComposeTableBlock(tableBlock);
                     break;
             }
         }
@@ -53,7 +59,8 @@ public static class PdfBlocksComposer
         this IContainer container,
         TextBlock textBlock)
     {
-        GetAlignedContainer(container, textBlock.Style!.Position)
+        container
+            .GetAlignedContainer(textBlock.Style!.Position)
             .Text(textBlock.Content)
             .FontSize(textBlock.Style!.Size * 10);
     }
@@ -113,7 +120,7 @@ public static class PdfBlocksComposer
     }
 
     private static IContainer GetAlignedContainer(
-        IContainer container,
+        this IContainer container,
         string? position)
     {
         switch (position)
@@ -127,5 +134,19 @@ public static class PdfBlocksComposer
             default:
                 return container;
         }
+    }
+
+    private static IContainer GetMarginedContainer(
+        this IContainer container,
+        Margin? margin)
+    {
+        if (margin == null)
+            return container;
+
+        return container
+            .PaddingTop(margin.Top ?? 0)
+            .PaddingBottom(margin.Bottom ?? 0)
+            .PaddingLeft(margin.Left ?? 0)
+            .PaddingRight(margin.Right ?? 0);
     }
 }

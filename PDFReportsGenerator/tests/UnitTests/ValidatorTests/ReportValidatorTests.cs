@@ -102,6 +102,22 @@ public class ReportValidatorTests
         // Assert
         result.Should().BeFalse();
     }
+    
+    [Fact]
+    public void WithNullMargin_ShouldSuccess()
+    {
+        // Arrange
+        var textBlockReport = ReportFaker.Generate().Single();
+        var textBlock = BlockFaker.GenerateBlocks().Single();
+        textBlock.Margin = null;
+        textBlockReport.Blocks = new Block[] {textBlock};
+
+        // Act
+        var result = _validator.Validate(textBlockReport).IsValid;
+
+        // Assert
+        result.Should().BeTrue();
+    }
 
     [Fact]
     public void WithNullContent_ShouldFail()

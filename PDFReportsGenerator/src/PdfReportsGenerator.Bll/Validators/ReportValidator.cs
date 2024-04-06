@@ -5,6 +5,28 @@ namespace PdfReportsGenerator.Bll.Validators;
 
 public class ReportValidator : AbstractValidator<Report>
 {
+    private class MarginValidator : AbstractValidator<Margin>
+    {
+        public MarginValidator()
+        {
+            RuleFor(x => x.Top)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Top.HasValue);
+            
+            RuleFor(x => x.Bottom)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Bottom.HasValue);
+            
+            RuleFor(x => x.Left)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Left.HasValue);
+            
+            RuleFor(x => x.Right)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Right.HasValue);
+        }
+    }
+    
     private class BlockValidator : AbstractValidator<Block>
     {
         public BlockValidator()
@@ -19,6 +41,11 @@ public class ReportValidator : AbstractValidator<Report>
                             .LessThanOrEqualTo(12);
                     }
                 );
+
+            RuleFor(x => x.Margin)
+                .SetValidator(new MarginValidator()!)
+                .When(x => x.Margin != null);
+            
             RuleFor(x => x.Type)
                 .NotNull()
                 .Must(new[] {"text", "image", "table"}.Contains);
