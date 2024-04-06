@@ -9,19 +9,14 @@ public class ReportValidator : AbstractValidator<Report>
     {
         public BlockValidator()
         {
-            RuleFor(x => x.Location)
+            RuleFor(x => x.Width)
                 .NotNull()
                 .NotEmpty()
                 .DependentRules(() =>
                     {
-                        RuleFor(x => x.Location!.Left)
+                        RuleFor(x => x.Width)
                             .GreaterThanOrEqualTo(1)
-                            .LessThanOrEqualTo(12)
-                            .LessThanOrEqualTo(x => x.Location!.Right);
-                        RuleFor(x => x.Location!.Right)
-                            .GreaterThanOrEqualTo(1)
-                            .LessThanOrEqualTo(12)
-                            .GreaterThanOrEqualTo(x => x.Location!.Left);
+                            .LessThanOrEqualTo(12);
                     }
                 );
             RuleFor(x => x.Type)

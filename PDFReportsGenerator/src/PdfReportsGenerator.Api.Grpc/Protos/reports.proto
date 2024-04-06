@@ -13,7 +13,7 @@ service ReportsService {
 // Тип для описания отдельного блока отчета.
 message Block {
   // Обязятельно содержит информацию о расположении блока.
-  Location location = 1;
+  int32 width = 1;
 
   // Остальное содержимое зависит как раз от типа.
   oneof content {
@@ -62,15 +62,6 @@ message Style {
 
   // Размер текста.
   int32 size = 2;
-}
-
-// Описание расположения блока.
-message Location {
-  // Начало блока.
-  int32 left = 1;
-
-  // Конец блока.
-  int32 right = 2;
 }
 
 message CreateReportRequest {

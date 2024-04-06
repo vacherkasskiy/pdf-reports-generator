@@ -36,6 +36,8 @@ public class PdfGenerator : IDisposable
                     .Grid(grid =>
                     {
                         grid.VerticalSpacing(10);
+                        grid.HorizontalSpacing(10);
+                        
                         grid.ComposeBody(_kafkaRecord);
                     });
             });

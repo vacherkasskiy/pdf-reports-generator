@@ -15,13 +15,7 @@ public class Block
 {
     [JsonProperty("type")]
     public virtual string? Type { get; set; }
-    public Location? Location { get; set; }
-}
-
-public class Location
-{
-    public int Left { get; set; }
-    public int Right { get; set; }
+    public int? Width { get; set; }
 }
 
 public class TextBlock : Block
