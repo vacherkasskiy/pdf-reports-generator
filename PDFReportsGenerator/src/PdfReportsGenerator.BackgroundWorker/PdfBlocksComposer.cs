@@ -89,7 +89,7 @@ public static class PdfBlocksComposer
                     foreach (var cell in row)
                         table.Header(header =>
                         {
-                            header.Cell().Element(HeaderBlock).Text(cell ?? " ").FontSize(13).Bold();
+                            header.Cell().Element(HeaderBlock).Text(cell ?? " ").FontSize(8).Bold();
                         });
 
                     continue;
@@ -97,7 +97,7 @@ public static class PdfBlocksComposer
 
                 foreach (var cell in row)
                 {
-                    table.Cell().Element(Block).Text(cell ?? " ").FontSize(13);
+                    table.Cell().Element(Block).Text(cell ?? " ").FontSize(8);
                 }
             }
 
