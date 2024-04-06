@@ -76,26 +76,12 @@ public class ReportValidatorTests
     {
         // Arrange
         var textBlockReport = ReportFaker.Generate().Single();
-        var imageBlockReport = ReportFaker.Generate().Single();
-        var tableBlockReport = ReportFaker.Generate().Single();
-
-        var textBlock = BlockFaker.GenerateTextBlocks().Single();
-        var imageBlock = BlockFaker.GenerateImageBlocks().Single();
-        var tableBlock = BlockFaker.GenerateTableBlocks().Single();
-
+        var textBlock = BlockFaker.GenerateBlocks().Single();
         textBlock.Type = null;
-        imageBlock.Type = null;
-        tableBlock.Type = null;
-
         textBlockReport.Blocks = new Block[] {textBlock};
-        imageBlockReport.Blocks = new Block[] {imageBlock};
-        tableBlockReport.Blocks = new Block[] {tableBlock};
 
         // Act
-        var result =
-            _validator.Validate(textBlockReport).IsValid ||
-            _validator.Validate(imageBlockReport).IsValid ||
-            _validator.Validate(tableBlockReport).IsValid;
+        var result = _validator.Validate(textBlockReport).IsValid;
 
         // Assert
         result.Should().BeFalse();
@@ -106,29 +92,31 @@ public class ReportValidatorTests
     {
         // Arrange
         var textBlockReport = ReportFaker.Generate().Single();
-        var imageBlockReport = ReportFaker.Generate().Single();
-        var tableBlockReport = ReportFaker.Generate().Single();
-
-        var textBlock = BlockFaker.GenerateTextBlocks().Single();
-        var imageBlock = BlockFaker.GenerateImageBlocks().Single();
-        var tableBlock = BlockFaker.GenerateTableBlocks().Single();
-
+        var textBlock = BlockFaker.GenerateBlocks().Single();
         textBlock.Type = "invalid";
-        imageBlock.Type = "invalid";
-        tableBlock.Type = "invalid";
-
         textBlockReport.Blocks = new Block[] {textBlock};
-        imageBlockReport.Blocks = new Block[] {imageBlock};
-        tableBlockReport.Blocks = new Block[] {tableBlock};
 
         // Act
-        var result =
-            _validator.Validate(textBlockReport).IsValid ||
-            _validator.Validate(imageBlockReport).IsValid ||
-            _validator.Validate(tableBlockReport).IsValid;
+        var result = _validator.Validate(textBlockReport).IsValid;
 
         // Assert
         result.Should().BeFalse();
+    }
+    
+    [Fact]
+    public void WithNullMargin_ShouldSuccess()
+    {
+        // Arrange
+        var textBlockReport = ReportFaker.Generate().Single();
+        var textBlock = BlockFaker.GenerateBlocks().Single();
+        textBlock.Margin = null;
+        textBlockReport.Blocks = new Block[] {textBlock};
+
+        // Act
+        var result = _validator.Validate(textBlockReport).IsValid;
+
+        // Assert
+        result.Should().BeTrue();
     }
 
     [Fact]
@@ -162,7 +150,7 @@ public class ReportValidatorTests
     }
 
     [Fact]
-    public void WithNullLocation_ShouldFail()
+    public void WithNullWidth_ShouldFail()
     {
         // Arrange
         var textBlockReport = ReportFaker.Generate().Single();
@@ -173,9 +161,9 @@ public class ReportValidatorTests
         var imageBlock = BlockFaker.GenerateImageBlocks().Single();
         var tableBlock = BlockFaker.GenerateTableBlocks().Single();
 
-        textBlock.Location = null;
-        imageBlock.Location = null;
-        tableBlock.Location = null;
+        textBlock.Width = null;
+        imageBlock.Width = null;
+        tableBlock.Width = null;
 
         textBlockReport.Blocks = new Block[] {textBlock};
         imageBlockReport.Blocks = new Block[] {imageBlock};
@@ -192,7 +180,7 @@ public class ReportValidatorTests
     }
     
     [Fact]
-    public void WithInvalidLocation_ShouldFail()
+    public void WithInvalidWidth_ShouldFail()
     {
         // Arrange
         var textBlockReport = ReportFaker.Generate().Single();
@@ -203,21 +191,9 @@ public class ReportValidatorTests
         var imageBlock = BlockFaker.GenerateImageBlocks().Single();
         var tableBlock = BlockFaker.GenerateTableBlocks().Single();
 
-        textBlock.Location = new Location
-        {
-            Left = -1,
-            Right = 5
-        };
-        imageBlock.Location = new Location
-        {
-            Left = 2,
-            Right = 16
-        };
-        tableBlock.Location = new Location
-        {
-            Left = 8,
-            Right = 4
-        };
+        textBlock.Width = -1;
+        imageBlock.Width = 13;
+        tableBlock.Width = 0;
 
         textBlockReport.Blocks = new Block[] {textBlock};
         imageBlockReport.Blocks = new Block[] {imageBlock};

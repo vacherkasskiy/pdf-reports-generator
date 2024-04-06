@@ -18,25 +18,26 @@ public static class PdfBlocksComposer
 
         foreach (var reportBlock in blocks)
         {
-            var location = reportBlock!.Location!;
-            var leftMargin = location.Left - 1;
-            var rightMargin = 12 - location.Right;
-            var width = location.Right - location.Left + 1;
-            
-            grid.Item(leftMargin);
+            var width = (int)reportBlock!.Width!;
+
             switch (reportBlock)
             {
                 case TextBlock textBlock:
-                    grid.Item(width).ComposeTextBlock(textBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(textBlock.Margin)
+                        .ComposeTextBlock(textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    grid.Item(width).ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
+                    grid.Item(width)
+                        .GetMarginedContainer(imageBlock.Margin)
+                        .ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
                     break;
                 case TableBlock tableBlock:
-                    grid.Item(width).ComposeTableBlock(tableBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(tableBlock.Margin)
+                        .ComposeTableBlock(tableBlock);
                     break;
             }
-            grid.Item(rightMargin);
         }
     }
 
@@ -50,7 +51,7 @@ public static class PdfBlocksComposer
 
         using var imageProvider = new ImageProvider(imageBlock.Content, imageName);
         var imagePath = imageProvider.GetImagePath();
-        
+
         container.Image(imagePath);
     }
 
@@ -58,7 +59,8 @@ public static class PdfBlocksComposer
         this IContainer container,
         TextBlock textBlock)
     {
-        GetAlignedContainer(container, textBlock.Style!.Position)
+        container
+            .GetAlignedContainer(textBlock.Style!.Position)
             .Text(textBlock.Content)
             .FontSize(textBlock.Style!.Size * 10);
     }
@@ -70,56 +72,55 @@ public static class PdfBlocksComposer
         var n = tableBlock.Content?.Length ?? 0;
         var m = tableBlock.Content?.Max(x => x?.Length) ?? 0;
 
-        container.Border(1)
-            .Table(table =>
+        container.Table(table =>
+        {
+            table.ColumnsDefinition(columns =>
             {
-                table.ColumnsDefinition(columns =>
-                {
-                    for (var i = 0; i < m; ++i)
-                        columns.RelativeColumn();
-                });
-
-                for (var i = 0; i < n; ++i)
-                {
-                    var row = tableBlock.Content![i] ?? new string[m];
-
-                    if (i == 0)
-                    {
-                        foreach (var cell in row)
-                            table.Header(header =>
-                            {
-                                header.Cell().Element(HeaderBlock).Text(cell ?? " ").FontSize(13).Bold();
-                            });
-                        
-                        continue;
-                    }
-
-                    foreach (var cell in row)
-                    {
-                        table.Cell().Element(Block).Text(cell ?? " ").FontSize(13);
-                    }
-                }
-
-                static IContainer Block(IContainer container)
-                {
-                    return container
-                        .Border(1)
-                        .Background(Colors.White)
-                        .Padding(5);
-                }
-                
-                static IContainer HeaderBlock(IContainer container)
-                {
-                    return container
-                        .Border(1)
-                        .Background("#D3D3D3")
-                        .Padding(5);
-                }
+                for (var i = 0; i < m; ++i)
+                    columns.RelativeColumn();
             });
+
+            for (var i = 0; i < n; ++i)
+            {
+                var row = tableBlock.Content![i] ?? new string[m];
+
+                if (i == 0)
+                {
+                    foreach (var cell in row)
+                        table.Header(header =>
+                        {
+                            header.Cell().Element(HeaderBlock).Text(cell ?? " ").FontSize(13).Bold();
+                        });
+
+                    continue;
+                }
+
+                foreach (var cell in row)
+                {
+                    table.Cell().Element(Block).Text(cell ?? " ").FontSize(13);
+                }
+            }
+
+            static IContainer Block(IContainer container)
+            {
+                return container
+                    .Border(1)
+                    .Background(Colors.White)
+                    .Padding(5);
+            }
+
+            static IContainer HeaderBlock(IContainer container)
+            {
+                return container
+                    .Border(1)
+                    .Background("#D3D3D3")
+                    .Padding(5);
+            }
+        });
     }
 
     private static IContainer GetAlignedContainer(
-        IContainer container,
+        this IContainer container,
         string? position)
     {
         switch (position)
@@ -133,5 +134,19 @@ public static class PdfBlocksComposer
             default:
                 return container;
         }
+    }
+
+    private static IContainer GetMarginedContainer(
+        this IContainer container,
+        Margin? margin)
+    {
+        if (margin == null)
+            return container;
+
+        return container
+            .PaddingTop(margin.Top ?? 0)
+            .PaddingBottom(margin.Bottom ?? 0)
+            .PaddingLeft(margin.Left ?? 0)
+            .PaddingRight(margin.Right ?? 0);
     }
 }

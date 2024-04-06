@@ -5,25 +5,47 @@ namespace PdfReportsGenerator.Bll.Validators;
 
 public class ReportValidator : AbstractValidator<Report>
 {
+    private class MarginValidator : AbstractValidator<Margin>
+    {
+        public MarginValidator()
+        {
+            RuleFor(x => x.Top)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Top.HasValue);
+            
+            RuleFor(x => x.Bottom)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Bottom.HasValue);
+            
+            RuleFor(x => x.Left)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Left.HasValue);
+            
+            RuleFor(x => x.Right)
+                .InclusiveBetween(-100, 100)
+                .When(x => x.Right.HasValue);
+        }
+    }
+    
     private class BlockValidator : AbstractValidator<Block>
     {
         public BlockValidator()
         {
-            RuleFor(x => x.Location)
+            RuleFor(x => x.Width)
                 .NotNull()
                 .NotEmpty()
                 .DependentRules(() =>
                     {
-                        RuleFor(x => x.Location!.Left)
+                        RuleFor(x => x.Width)
                             .GreaterThanOrEqualTo(1)
-                            .LessThanOrEqualTo(12)
-                            .LessThanOrEqualTo(x => x.Location!.Right);
-                        RuleFor(x => x.Location!.Right)
-                            .GreaterThanOrEqualTo(1)
-                            .LessThanOrEqualTo(12)
-                            .GreaterThanOrEqualTo(x => x.Location!.Left);
+                            .LessThanOrEqualTo(12);
                     }
                 );
+
+            RuleFor(x => x.Margin)
+                .SetValidator(new MarginValidator()!)
+                .When(x => x.Margin != null);
+            
             RuleFor(x => x.Type)
                 .NotNull()
                 .Must(new[] {"text", "image", "table"}.Contains);
