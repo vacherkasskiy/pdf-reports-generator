@@ -29,8 +29,14 @@ public class ReportsService : IReportsService
     public async Task<Report> CreateReport(Models.Report report)
     {
         var result = await _validator.ValidateAsync(report);
-        if (!result.IsValid) 
-            throw new InvalidReportFormatException("Report with invalid format was provided");
+        if (!result.IsValid)
+        {
+            string errors = "";
+            for (var i = 0; i < result.Errors.Count; ++i)
+                errors += $"{i + 1}. {result.Errors[i].ErrorMessage}\n";
+            
+            throw new InvalidReportFormatException($"Report with invalid format was provided. Errors are\n {errors}");
+        }
         
         var entity = (await _dbContext.Reports.AddAsync(new Report
         {
