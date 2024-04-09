@@ -22,7 +22,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
-builder.Services.AddBllServices(builder.Configuration);
+builder.Services.AddBllServices();
 
 builder.Host.UseSerilog();
 

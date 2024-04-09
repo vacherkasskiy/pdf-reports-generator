@@ -6,6 +6,7 @@ using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal;
 using PdfReportsGenerator.Dal.Entities;
+using PDFReportsGenerator.Kafka;
 using Report = PdfReportsGenerator.Dal.Entities.Report;
 
 namespace PdfReportsGenerator.Bll.Services;
@@ -14,14 +15,12 @@ public class ReportsService : IReportsService
 {
     private readonly IValidator<Models.Report> _validator;
     private readonly ApplicationDbContext _dbContext;
-    private readonly IKafkaProducer _kafkaProducer;
+    private readonly KafkaProducer _kafkaProducer = new ();
     
     public ReportsService(
         IValidator<Models.Report> validator, 
-        ApplicationDbContext dbContext,
-        IKafkaProducer kafkaProducer)
+        ApplicationDbContext dbContext)
     {
-        _kafkaProducer = kafkaProducer;
         _validator = validator;
         _dbContext = dbContext;
     }

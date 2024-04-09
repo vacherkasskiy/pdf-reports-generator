@@ -1,16 +1,15 @@
 using Confluent.Kafka;
 
-namespace PdfReportsGenerator.Bll.Configurations;
+namespace PDFReportsGenerator.Kafka;
 
-public class KafkaConfiguration
+internal class KafkaConfiguration
 {
-    public static string SectionName => "KafkaConfiguration";
-    public string KafkaExternalAddress { get; set; }
-    public string SaslUsername { get; set; }
-    public string SaslPassword { get; set; }
+    private const string KafkaExternalAddress = "192.168.49.2:31939";
+    private const string SaslUsername = "user1";
+    private const string SaslPassword = "YmScfOHfF5";
     
     public string TopicName => "cool-topic";
-
+    
     public ProducerConfig ProducerConfig => new ()
     {
         BootstrapServers = KafkaExternalAddress,

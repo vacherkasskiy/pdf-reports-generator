@@ -1,7 +1,10 @@
 interface ReportModel {
     id: string,
     status: Status,
-    link: string | undefined
+    link: string | undefined,
+    reportBody: string,
+    createdAt: Date,
+    updatedAt: Date,
 }
 
 enum Status {

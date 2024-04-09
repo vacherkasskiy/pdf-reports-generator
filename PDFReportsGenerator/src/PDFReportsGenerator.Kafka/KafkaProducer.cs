@@ -1,18 +1,10 @@
 using Confluent.Kafka;
-using Microsoft.Extensions.Options;
-using PdfReportsGenerator.Bll.Configurations;
-using PdfReportsGenerator.Bll.Services.Interfaces;
 
-namespace PdfReportsGenerator.Bll.Services;
+namespace PDFReportsGenerator.Kafka;
 
-public class ReportKafkaProducer : IKafkaProducer
+public class KafkaProducer
 {
-    private readonly KafkaConfiguration _kafkaConfiguration;
-    
-    public ReportKafkaProducer(IOptions<KafkaConfiguration> kafkaConfiguration)
-    {
-        _kafkaConfiguration = kafkaConfiguration.Value;
-    }
+    private readonly KafkaConfiguration _kafkaConfiguration = new ();
     
     public async Task Produce(string message)
     {
