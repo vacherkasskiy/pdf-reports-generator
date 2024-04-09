@@ -13,7 +13,9 @@ namespace PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
 
 public static class BllServicesExtension
 {
-    public static void AddBllServices(this IServiceCollection service, ConfigurationManager configuration)
+    public static void AddBllServices(
+        this IServiceCollection service,
+        ConfigurationManager configuration)
     {
         service.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
         service.AddExceptionHandler<ReportNotFoundExceptionHandler>();
