@@ -55,6 +55,7 @@ class Program
             {
                 Logger.Information($"Report with ID: {task.Id} started generating.");
                 task.Status = ReportStatus.Processing;
+                task.UpdatedAt = DateTime.UtcNow;
                 await reportsService.UpdateReport(task);
 
                 using var generator = new PdfGenerator(record);
@@ -62,6 +63,7 @@ class Program
                 var link = await minioClient.GetLink(reportFileName);
                 Logger.Information($"Report with ID: {task.Id} generated.");
                 task.Status = ReportStatus.Ready;
+                task.UpdatedAt = DateTime.UtcNow;
                 task.Link = link;
                 await reportsService.UpdateReport(task);
             }

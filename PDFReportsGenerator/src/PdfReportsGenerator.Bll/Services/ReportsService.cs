@@ -40,7 +40,8 @@ public class ReportsService : IReportsService
         
         var entity = (await _dbContext.Reports.AddAsync(new Report
         {
-            Status = ReportStatus.NotStarted
+            Status = ReportStatus.NotStarted,
+            ReportBody = JsonConvert.SerializeObject(report)
         })).Entity;
         await _dbContext.SaveChangesAsync();
         
