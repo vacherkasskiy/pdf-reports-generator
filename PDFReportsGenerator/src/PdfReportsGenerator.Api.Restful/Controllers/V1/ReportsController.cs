@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PdfReportsGenerator.Api.Restful.Responses;
 using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
 
@@ -17,7 +18,7 @@ public class ReportsController : ControllerBase
 
     [HttpPost]
     [Route("/api/v1/reports")]
-    public async Task<IActionResult> Post(Report request)
+    public async Task<ActionResult<string>> Post(Report request)
     {
         var reportTask = await _service.CreateReport(request);
         return Ok($"Task successfully created with Id: {reportTask.Id}");
@@ -25,9 +26,11 @@ public class ReportsController : ControllerBase
     
     [HttpGet]
     [Route("/api/v1/reports/{id}")]
-    public async Task<IActionResult> GetById(string id)
+    public async Task<ActionResult<GetReportResponse>> GetById(string id)
     {
         var response = await _service.GetReport(id);
-        return Ok(response);
+        return Ok(new GetReportResponse(
+            response.Status.ToString(),
+            response.Link ?? "Not ready yet."));
     }
 }

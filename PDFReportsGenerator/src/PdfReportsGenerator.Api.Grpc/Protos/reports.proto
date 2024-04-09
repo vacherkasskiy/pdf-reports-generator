@@ -88,13 +88,6 @@ message GetReportRequest {
 }
 
 message GetReportResponse {
-  enum Status {
-      NotStarted = 0;
-      Processing = 1;
-      Ready = 2;
-      Error = 3;
-  }
-
-  Status status = 1;
+  string status = 1;
   string link = 2;
 }

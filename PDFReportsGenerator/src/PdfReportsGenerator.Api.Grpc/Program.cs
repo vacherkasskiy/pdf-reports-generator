@@ -18,7 +18,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IParser<ReportProto, Report>, ReportsParser>();
-builder.Services.AddScoped<IParser<ReportStatus, GetReportResponse.Types.Status>, ProtoStatusParser>();
 builder.Services.AddBllServices(builder.Configuration);
 
 builder.Host.UseSerilog();

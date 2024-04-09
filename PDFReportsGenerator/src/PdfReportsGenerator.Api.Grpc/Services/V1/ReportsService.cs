@@ -13,16 +13,13 @@ public class ReportsService :
 {
     private readonly IReportsService _service;
     private readonly IParser<ReportProto, Report> _reportsParser;
-    private readonly IParser<ReportStatus, GetReportResponse.Types.Status> _protoParser;
 
     public ReportsService(
         IReportsService service,
-        IParser<ReportProto, Report> reportsParser,
-        IParser<ReportStatus, GetReportResponse.Types.Status> protoParser)
+        IParser<ReportProto, Report> reportsParser)
     {
         _service = service;
         _reportsParser = reportsParser;
-        _protoParser = protoParser;
     }
 
     public override async Task<CreateReportResponse> CreateReport(
@@ -45,7 +42,7 @@ public class ReportsService :
         return new GetReportResponse
         {
             Link = response.Link ?? "Not ready yet.",
-            Status = _protoParser.Parse(response.Status)
+            Status = response.Status.ToString()
         };
     }
 }
