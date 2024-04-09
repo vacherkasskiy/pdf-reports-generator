@@ -1,4 +1,4 @@
-interface PdfReport {
+interface ReportModel {
     id: string,
     status: Status,
     link: string | undefined
@@ -11,4 +11,4 @@ enum Status {
     Error
 }
 
-export default PdfReport;
+export default ReportModel;

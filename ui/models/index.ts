@@ -1,1 +1,1 @@
-export type {default as PdfReport} from './pdfReport'
+export type {default as ReportModel} from './reportModel'

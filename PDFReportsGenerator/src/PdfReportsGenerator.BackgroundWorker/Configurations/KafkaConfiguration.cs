@@ -4,9 +4,9 @@ namespace PdfReportsGenerator.BackgroundWorker.Configurations;
 
 public class KafkaConfiguration
 {
-    public string KafkaExternalAddress => "192.168.49.2:31662";
+    public string KafkaExternalAddress => "192.168.49.2:31939";
     public string SaslUsername => "user1";
-    public string SaslPassword => "EqIaqPl7VW";
+    public string SaslPassword => "YmScfOHfF5";
     
     public string TopicName => "cool-topic";
     

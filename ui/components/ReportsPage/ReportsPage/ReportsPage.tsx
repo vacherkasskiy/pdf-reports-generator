@@ -1,22 +1,19 @@
-import {PdfReport} from "@/models";
+import {ReportModel} from "@/models";
 import React from "react";
+import styles from "./ReportsPage.module.scss";
+import ReportsList from "@/components/ReportsPage/ReportsList/ReportsList";
 
 interface ReportsPageProps {
-    reports: PdfReport[]
+    reports: ReportModel[]
 }
 
-function ReportsPage({reports}: ReportsPageProps): React.ReactNode {
+function ReportsPage({reports}: ReportsPageProps): React.ReactElement {
     return (
-        <>
-            <div>Reports: </div>
-            {reports.map((report, i) =>
-                <div key={i}>
-                    {report.id}
-                    {report.status}
-                    {report.link ?? "Not ready"}
-                </div>
-            )}
-        </>
+        <div className={styles.reportsPage}>
+            <div className={styles.reportsList}>
+                <ReportsList reports={reports} />
+            </div>
+        </div>
     )
 }
 

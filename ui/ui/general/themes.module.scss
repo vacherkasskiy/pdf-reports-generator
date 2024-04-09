@@ -1,0 +1,65 @@
+.Theme_red {
+  &.Type_fill {
+    background-color: red;
+    color: white;
+  }
+
+  &.Type_outline {
+    border: 2px solid red;
+    background-color: white;
+    color: red;
+  }
+}
+
+.Theme_green {
+  &.Type_fill {
+    background-color: green;
+    color: white;
+  }
+
+  &.Type_outline {
+    border: 2px solid green;
+    background-color: white;
+    color: green;
+  }
+}
+
+.Theme_blue {
+  &.Type_fill {
+    background-color: blue;
+    color: white;
+  }
+
+  &.Type_outline {
+    border: 2px solid blue;
+    background-color: white;
+    color: blue;
+  }
+}
+
+.Theme_dark {
+  font-weight: 600;
+
+  &.Type_fill {
+    background-color: rgba(51, 51, 51, 0.5);
+    color: white;
+  }
+
+  &.Type_outline {
+    border: 2px solid rgba(51, 51, 51, 0.5);
+    color: white;
+  }
+}
+
+.Theme_orange {
+  &.Type_fill {
+    background-color: orange;
+    color: white;
+  }
+
+  &.Type_outline {
+    border: 2px solid orange;
+    background-color: white;
+    color: orange;
+  }
+}
