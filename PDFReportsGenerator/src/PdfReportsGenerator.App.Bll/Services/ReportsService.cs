@@ -37,13 +37,16 @@ public class ReportsService : IReportsService
     public async Task<bool> RegenerateReport(string id)
     {
         var reportTask = await _dbContext.ReportTasks
-            .AsNoTracking()
             .SingleOrDefaultAsync(x => x.Id == Guid.Parse(id));
 
         if (reportTask == null)
         {
             return false;
         }
+
+        reportTask.Status = ReportStatus.NotStarted;
+        _dbContext.ReportTasks.Update(reportTask);
+        await _dbContext.SaveChangesAsync();
         
         var body = JsonConvert.SerializeObject(new KafkaRecord
         {
