@@ -17,8 +17,21 @@ public class ReportsController : ControllerBase
     
     [HttpGet]
     [Route("/app/v1/reports/")]
-    public async Task<ActionResult<Report[]>> GetReports()
+    public async Task<ActionResult<ReportTask[]>> GetReports()
     {
         return await _service.GetReports();
+    }
+    
+    [HttpPatch]
+    [Route("/app/v1/reports/regenerate/{id}")]
+    public async Task<ActionResult<string>> RegenerateReport(string id)
+    {
+        var result = await _service.RegenerateReport(id);
+        if (result)
+        {
+            return "Task regenerated successfully.";
+        }
+
+        return "Something went wrong.";
     }
 }

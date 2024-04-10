@@ -1,4 +1,4 @@
-using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Dal.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;

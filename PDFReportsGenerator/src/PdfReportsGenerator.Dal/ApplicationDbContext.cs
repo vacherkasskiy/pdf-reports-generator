@@ -9,5 +9,5 @@ public class ApplicationDbContext : DbContext
     {
     }
     
-    public DbSet<Report> Reports { get; set; }
+    public DbSet<ReportTask> ReportTasks { get; set; }
 }

@@ -34,7 +34,7 @@ public class KafkaConsumer
         {
             return null;
         }
-
+        
         return consumeResult.Message.Value;
     }
     

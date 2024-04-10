@@ -6,14 +6,15 @@ public class KafkaProducer
 {
     private readonly KafkaConfiguration _kafkaConfiguration = new ();
     
-    public async Task Produce(string message)
+    public async Task Produce(string key, string message)
     {
-        using var producer = new ProducerBuilder<Null, string>(_kafkaConfiguration.ProducerConfig).Build();
+        using var producer = new ProducerBuilder<string, string>(_kafkaConfiguration.ProducerConfig).Build();
         var produceResult = await producer.ProduceAsync
         (
             _kafkaConfiguration.TopicName,
-            new Message<Null, string>
+            new Message<string, string>
             {
+                Key = key,
                 Value = message
             }
         );

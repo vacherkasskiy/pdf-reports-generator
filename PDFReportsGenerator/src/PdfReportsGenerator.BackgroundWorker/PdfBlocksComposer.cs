@@ -1,4 +1,4 @@
-using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Dal.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -11,7 +11,7 @@ public static class PdfBlocksComposer
         this GridDescriptor grid,
         KafkaRecord kafkaRecord)
     {
-        var blocks = kafkaRecord.Report.Blocks;
+        var blocks = kafkaRecord.ReportBody.Blocks;
 
         if (blocks is null)
             return;

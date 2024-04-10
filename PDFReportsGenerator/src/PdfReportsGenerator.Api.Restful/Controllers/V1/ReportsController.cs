@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PdfReportsGenerator.Api.Restful.Responses;
-using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Services.Interfaces;
+using PdfReportsGenerator.Dal.Models;
 
 namespace PdfReportsGenerator.Api.Restful.Controllers.V1;
 
@@ -18,7 +18,7 @@ public class ReportsController : ControllerBase
 
     [HttpPost]
     [Route("/api/v1/reports")]
-    public async Task<ActionResult<string>> Post(Report request)
+    public async Task<ActionResult<string>> Post(ReportBody request)
     {
         var reportTask = await _service.CreateReport(request);
         return Ok($"Task successfully created with Id: {reportTask.Id}");

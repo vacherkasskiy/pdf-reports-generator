@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
-using PdfReportsGenerator.Bll.JsonConverters;
+using PdfReportsGenerator.Dal.JsonConverters;
 
-namespace PdfReportsGenerator.Bll.Models;
+namespace PdfReportsGenerator.Dal.Models;
 
-public class Report
+public class ReportBody
 {
     public string? Name { get; set; }
     

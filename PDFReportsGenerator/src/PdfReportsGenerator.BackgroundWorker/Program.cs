@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PdfReportsGenerator.BackgroundWorker.Configurations;
-using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Dal.Entities;
+using PdfReportsGenerator.Dal.Models;
 using PDFReportsGenerator.Kafka;
 using Serilog;
 
@@ -35,7 +35,7 @@ class Program
             }
             
             var record = JsonConvert.DeserializeObject<KafkaRecord>(message)!;
-            Dal.Entities.Report task;
+            ReportTask task;
             
             try
             {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PdfReportsGenerator.Dal.Entities;
 
-public class Report
+public class ReportTask
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

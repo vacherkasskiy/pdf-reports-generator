@@ -1,5 +1,5 @@
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
-using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Dal.Models;
 using BlockProto = Reports.V1.Block;
 using ReportProto = Reports.V1.CreateReportRequest;
 using TextBlockProto = Reports.V1.TextBlock;
@@ -10,11 +10,11 @@ using MarginProto = Reports.V1.Margin;
 
 namespace PdfReportsGenerator.Api.Grpc.Parsers;
 
-public class ReportsParser : IParser<ReportProto, Report>
+public class ReportsParser : IParser<ReportProto, ReportBody>
 {
-    public Report Parse(ReportProto reportProto)
+    public ReportBody Parse(ReportProto reportProto)
     {
-        var report = new Report
+        var report = new ReportBody
         {
             Name = reportProto.Name,
             Blocks = reportProto.Blocks.Select(ParseBlock).ToArray()
