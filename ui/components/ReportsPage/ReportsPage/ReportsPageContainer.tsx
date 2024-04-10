@@ -1,7 +1,14 @@
 import ReportsPage from "@/components/ReportsPage/ReportsPage/ReportsPage";
-import {useFetchReportsQuery} from "@/api/ReportsApi";
+import {
+    useDeleteReportMutation,
+    useFetchReportsQuery,
+    useRegenerateReportMutation
+} from "@/api/ReportsApi";
 
 function ReportsPageContainer() {
+    const [regenerateReport, {}] = useRegenerateReportMutation();
+    const [deleteReport, {}] = useDeleteReportMutation();
+
     const {
         data: reports,
         isLoading,
@@ -9,7 +16,11 @@ function ReportsPageContainer() {
 
     return (
         <>
-            {reports && <ReportsPage reports={reports}/>}
+            {reports && <ReportsPage
+                reports={reports.toSorted((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())}
+                onRegenerate={regenerateReport}
+                onDelete={deleteReport}
+            />}
         </>
     )
 }

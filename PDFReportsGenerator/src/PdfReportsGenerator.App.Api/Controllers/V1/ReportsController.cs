@@ -34,4 +34,13 @@ public class ReportsController : ControllerBase
 
         return "Something went wrong.";
     }
+    
+    [HttpDelete]
+    [Route("/app/v1/reports/delete/{id}")]
+    public async Task<IActionResult> DeleteReport(string id)
+    {
+        await _service.DeleteReport(id);
+
+        return Ok();
+    }
 }

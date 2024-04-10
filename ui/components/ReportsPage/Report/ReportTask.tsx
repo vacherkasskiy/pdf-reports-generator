@@ -6,9 +6,11 @@ import {theme} from "@/ui/utils";
 
 interface ReportTaskProps {
     report: ReportModel
+    onRegenerate: () => void
+    onDelete: () => void
 }
 
-function ReportTask({report}: ReportTaskProps): React.ReactElement {
+function ReportTask({report, onRegenerate, onDelete}: ReportTaskProps): React.ReactElement {
     const getLabelText = (): string => {
         switch (report.status) {
             case 0:
@@ -55,8 +57,16 @@ function ReportTask({report}: ReportTaskProps): React.ReactElement {
                     text={"View"}
                     theme={'blue'}
                 />
-                <MyButton text={"Generate again"} theme={'orange'} />
-                <MyButton text={"Delete"} theme={'red'}/>
+                <MyButton
+                    text={"Generate again"}
+                    theme={'orange'}
+                    onClick={onRegenerate}
+                />
+                <MyButton
+                    text={"Delete"}
+                    theme={'red'}
+                    onClick={onDelete}
+                />
             </div>
         </div>
     )

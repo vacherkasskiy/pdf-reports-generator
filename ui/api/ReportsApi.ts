@@ -1,33 +1,37 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import {Report} from "@/models";
-import {AddReportRequest} from "@/api/requests";
+import {ReportModel} from "@/models";
 
 export const reportsApi = createApi({
     reducerPath: 'reportsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://localhost:7090'}),
+    baseQuery: fetchBaseQuery({baseUrl: 'https://localhost:7090/app/v1/reports'}),
     tagTypes: ['Reports'],
     endpoints: (build) => ({
-        fetchReports: build.query<Report[], void>({
+        fetchReports: build.query<ReportModel[], void>({
             query: () => ({
-                url: '/app/v1/reports',
-                method: 'GET',
-                // credentials: 'include',
+                url: '/',
+                method: 'GET'
             }),
             providesTags: ['Reports'],
         }),
-        addReport: build.mutation<void, AddReportRequest>({
-            query: (request: AddReportRequest) => ({
-                url: '/reports',
-                method: 'POST',
-                body: request,
-                // credentials: 'include',
+        regenerateReport: build.mutation<void, string>({
+            query: (id: string) => ({
+                url: `/regenerate/${id}`,
+                method: 'PATCH',
             }),
             invalidatesTags: ['Reports'],
-        })
+        }),
+        deleteReport: build.mutation<void, string>({
+            query: (id: string) => ({
+                url: `/delete/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Reports'],
+        }),
     }),
 })
 
 export const {
-    // useAddReportMutation,
-    useFetchReportsQuery
+    useFetchReportsQuery,
+    useRegenerateReportMutation,
+    useDeleteReportMutation,
 } = reportsApi
