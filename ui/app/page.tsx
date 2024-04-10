@@ -1,6 +1,6 @@
 'use client';
 
-import styles from "./page.module.css";
+import styles from "./page.module.scss";
 import ReportsPageContainer from "@/components/ReportsPage/ReportsPage/ReportsPageContainer";
 
 export default function Home() {

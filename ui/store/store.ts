@@ -1,15 +1,20 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {reportsApi} from "@/api/ReportsApi";
+import {reportsApi} from "@/api/services/ReportsApi";
+import {reportApi} from "@/api/services/ReportApi";
 
 const rootReducer = combineReducers({
     [reportsApi.reducerPath]: reportsApi.reducer,
+    [reportApi.reducerPath]: reportApi.reducer,
 })
 
 const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) =>
-            getDefaultMiddleware().concat(reportsApi.middleware)
+            getDefaultMiddleware().concat(
+                reportsApi.middleware,
+                reportApi.middleware
+            )
     })
 }
 

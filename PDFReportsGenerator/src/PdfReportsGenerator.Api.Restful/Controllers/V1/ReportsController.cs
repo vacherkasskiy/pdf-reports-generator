@@ -18,7 +18,7 @@ public class ReportsController : ControllerBase
 
     [HttpPost]
     [Route("/api/v1/reports")]
-    public async Task<ActionResult<string>> Post(ReportBody request)
+    public async Task<ActionResult<string>> Post([FromBody]ReportBody request)
     {
         var reportTask = await _service.CreateReport(request);
         return Ok($"Task successfully created with Id: {reportTask.Id}");

@@ -3,7 +3,7 @@ import {
     useDeleteReportMutation,
     useFetchReportsQuery,
     useRegenerateReportMutation
-} from "@/api/ReportsApi";
+} from "@/api/services/ReportsApi";
 
 function ReportsPageContainer() {
     const [regenerateReport, {}] = useRegenerateReportMutation();
