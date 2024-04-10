@@ -45,6 +45,7 @@ public class ReportsService : IReportsService
         }
 
         reportTask.Status = ReportStatus.NotStarted;
+        reportTask.Link = null;
         _dbContext.ReportTasks.Update(reportTask);
         await _dbContext.SaveChangesAsync();
         

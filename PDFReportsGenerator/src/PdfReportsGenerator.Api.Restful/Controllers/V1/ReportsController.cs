@@ -18,10 +18,12 @@ public class ReportsController : ControllerBase
 
     [HttpPost]
     [Route("/api/v1/reports")]
-    public async Task<ActionResult<string>> Post([FromBody]ReportBody request)
+    public async Task<ActionResult<PostReportResponse>> Post(ReportBody request)
     {
         var reportTask = await _service.CreateReport(request);
-        return Ok($"Task successfully created with Id: {reportTask.Id}");
+        var response = new PostReportResponse($"Task successfully created with Id: {reportTask.Id}");
+        
+        return Ok(response);
     }
     
     [HttpGet]
@@ -29,6 +31,7 @@ public class ReportsController : ControllerBase
     public async Task<ActionResult<GetReportResponse>> GetById(string id)
     {
         var response = await _service.GetReport(id);
+        
         return Ok(new GetReportResponse(
             response.Status.ToString(),
             response.Link ?? "Not ready yet."));

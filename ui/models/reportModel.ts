@@ -7,7 +7,7 @@ interface ReportModel {
     updatedAt: string,
 }
 
-enum Status {
+export enum Status {
     Waiting,
     InProgress,
     Ready,

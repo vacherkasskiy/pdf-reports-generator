@@ -1,6 +1,6 @@
 import styles from "./ReportTask.module.scss";
 import React from "react";
-import {ReportModel} from "@/models";
+import {ReportModel, ReportStatus} from "@/models";
 import {Label, MyButton} from "@/ui";
 import {theme} from "@/ui/utils";
 
@@ -61,6 +61,7 @@ function ReportTask({report, onRegenerate, onDelete}: ReportTaskProps): React.Re
                     text={"Generate again"}
                     theme={'orange'}
                     onClick={onRegenerate}
+                    disabled={![ReportStatus.Error, ReportStatus.Ready].includes(report.status)}
                 />
                 <MyButton
                     text={"Delete"}

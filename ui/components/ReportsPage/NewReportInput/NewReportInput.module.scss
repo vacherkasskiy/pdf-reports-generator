@@ -8,15 +8,40 @@
   .textarea {
     padding: 5px;
     overflow: auto;
-    flex: 1;
+    height: 400px;
     width: 100%;
     border-radius: 5px;
     border: 1px solid rgba(51, 51, 51, 0.5);
+    transition: border 0.2s ease-in-out;
   }
 
   .sendButtonContainer {
     padding: 2px;
     translate: -20px -40%;
     background-color: white;
+  }
+
+  .message {
+    padding: 20px;
+    width: 100%;
+    border-radius: 5px;
+
+    &.success {
+      border: 2px solid rgba(0, 128, 0, 0.8);
+      background-color: rgba(0, 128, 0, 0.2);
+
+      > .text {
+        color: green;
+      }
+    }
+
+    &.error {
+      border: 2px solid rgba(255, 0, 0, 0.80);
+      background-color: rgba(255, 0, 0, 0.2);
+
+      > .text {
+        color: red;
+      }
+    }
   }
 }

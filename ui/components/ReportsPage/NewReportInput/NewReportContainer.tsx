@@ -8,13 +8,10 @@ function NewReportContainer(): React.ReactElement {
     const dispatch = useAppDispatch();
 
     const [textareaValue, setTextareaValue] = React.useState<string | undefined>("");
-    const [addReport, {}] = useAddReportMutation();
+    const [addReport, { isLoading, isSuccess, isError }] = useAddReportMutation();
 
-    const handleOnAdd = () => {
-        addReport(textareaValue);
-
-        // Doesn't work
-        // TODO: Fix.
+    const handleOnAdd = async () => {
+        await addReport(textareaValue).unwrap();
         dispatch(reportsApi.util.invalidateTags(['Reports']));
     }
 
@@ -22,12 +19,18 @@ function NewReportContainer(): React.ReactElement {
         setTextareaValue(value)
     }
 
+
     return (
-        <NewReportInput
-            text={textareaValue}
-            onAdd={handleOnAdd}
-            onChange={handleOnChange}
-        />
+        <>
+            <NewReportInput
+                text={textareaValue}
+                onAdd={handleOnAdd}
+                onChange={handleOnChange}
+                isInProgress={isLoading}
+                isSuccess={isSuccess}
+                isError={isError}
+            />
+        </>
     )
 }
 
