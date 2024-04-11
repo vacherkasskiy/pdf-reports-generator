@@ -3,6 +3,7 @@ import {ReportModel, ReportStatus} from "@/models";
 import {useDeleteReportMutation, useRegenerateReportMutation} from "@/api/services/ReportsApi";
 import React, {useState} from "react";
 import {theme} from "@/ui/utils";
+import {beautifyReportBody} from "@/utils";
 
 interface ReportTaskContainerProps {
     report: ReportModel;
@@ -45,7 +46,7 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
     }
 
     const onCopy = (event: React.MouseEvent) => {
-        navigator.clipboard.writeText(report.reportBody);
+        navigator.clipboard.writeText(beautifyReportBody(report.reportBody));
         event.stopPropagation();
     }
 

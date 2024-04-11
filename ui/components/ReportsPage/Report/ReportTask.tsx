@@ -4,6 +4,7 @@ import {ReportModel, ReportStatus} from "@/models";
 import {Label, MyButton} from "@/ui";
 import {theme} from "@/ui/utils";
 import copyIcon from "@/public/icons/copy_icon.png"
+import {beautifyReportBody} from "@/utils";
 
 interface ReportTaskProps {
     report: ReportModel
@@ -17,7 +18,18 @@ interface ReportTaskProps {
     onCopy: (event: React.MouseEvent) => void
 }
 
-function ReportTask({report, labelTheme, labelText, isExpanded, onExpand, onRegenerate, onDelete, onView, onCopy}: ReportTaskProps): React.ReactElement {
+function ReportTask(
+    {
+        report,
+        labelTheme,
+        labelText,
+        isExpanded,
+        onExpand,
+        onRegenerate,
+        onDelete,
+        onView,
+        onCopy
+    }: ReportTaskProps): React.ReactElement {
     const reportBodyRef = useRef<HTMLDivElement>(null);
     const defaultReportBodyHeight = 100;
 
@@ -50,7 +62,7 @@ function ReportTask({report, labelTheme, labelText, isExpanded, onExpand, onRege
                     alt="Copy text"
                     onClick={onCopy}
                 />
-                <p className={styles.text}>{report.reportBody}</p>
+                <pre className={styles.text}>{beautifyReportBody(report.reportBody)}</pre>
             </div>
             <div className={styles.buttons}>
                 <MyButton
