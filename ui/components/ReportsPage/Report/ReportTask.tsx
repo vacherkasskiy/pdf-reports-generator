@@ -1,8 +1,9 @@
 import styles from "./ReportTask.module.scss";
-import React from "react";
+import React, {useRef, useState} from "react";
 import {ReportModel, ReportStatus} from "@/models";
 import {Label, MyButton} from "@/ui";
 import {theme} from "@/ui/utils";
+import copyIcon from "@/public/icons/copy_icon.png"
 
 interface ReportTaskProps {
     report: ReportModel
@@ -26,19 +27,41 @@ function ReportTask({report, onRegenerate, onDelete}: ReportTaskProps): React.Re
 
     const getLabelTheme = (): theme => {
         switch (report.status) {
-            case 0:
+            case ReportStatus.Waiting:
                 return 'dark';
-            case 1:
+            case ReportStatus.InProgress:
                 return 'blue';
-            case 2:
+            case ReportStatus.Ready:
                 return 'green';
             default:
                 return 'red';
         }
     }
 
-    const onClick = () => {
+    const [isExpanded, toggleExpanded] = useState<boolean>(false);
+    const defaultReportBodyHeight = 100;
+
+    const reportBodyRef = useRef<HTMLDivElement>(null);
+
+    const onView = () => {
         location.href = `http://192.168.49.2:30003/reports/${report.id}`
+    }
+
+    const onExpand = () => {
+        const curr = reportBodyRef.current;
+
+        if (curr) {
+            if (curr.scrollHeight <= defaultReportBodyHeight) return;
+            if (!isExpanded) curr.style.height = `${curr.scrollHeight}px`;
+            else curr.style.height = `${defaultReportBodyHeight}px`;
+
+            toggleExpanded(!isExpanded);
+        }
+    }
+
+    const onCopy = (event: React.MouseEvent) => {
+        navigator.clipboard.writeText(report.reportBody);
+        event.stopPropagation();
     }
 
     return (
@@ -50,9 +73,18 @@ function ReportTask({report, onRegenerate, onDelete}: ReportTaskProps): React.Re
                 </p>
                 <Label size={'s'} text={getLabelText()} theme={getLabelTheme()} type={'outline'} />
             </div>
+            <div ref={reportBodyRef} className={styles.reportBody} onClick={onExpand}>
+                <img
+                    src={copyIcon.src}
+                    className={styles.copyIcon}
+                    alt="Copy text"
+                    onClick={onCopy}
+                />
+                <p className={styles.text}>{report.reportBody}</p>
+            </div>
             <div className={styles.buttons}>
                 <MyButton
-                    onClick={onClick}
+                    onClick={onView}
                     disabled={report.link == null}
                     text={"View"}
                     theme={'blue'}
