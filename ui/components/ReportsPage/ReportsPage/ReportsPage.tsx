@@ -6,11 +6,9 @@ import NewReportContainer from "@/components/ReportsPage/NewReportInput/NewRepor
 
 interface ReportsPageProps {
     reports: ReportModel[]
-    onRegenerate: (reportId: string) => void
-    onDelete: (reportId: string) => void
 }
 
-function ReportsPage({reports, onRegenerate, onDelete}: ReportsPageProps): React.ReactElement {
+function ReportsPage({reports}: ReportsPageProps): React.ReactElement {
     return (
         <div className={styles.reportsPage}>
             <div className={styles.newReportInputContainer}>
@@ -19,8 +17,6 @@ function ReportsPage({reports, onRegenerate, onDelete}: ReportsPageProps): React
             <div className={styles.reportsList}>
                 <ReportsList
                     reports={reports}
-                    onDelete={onDelete}
-                    onRegenerate={onRegenerate}
                 />
             </div>
         </div>
