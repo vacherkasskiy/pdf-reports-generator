@@ -1,3 +1,5 @@
 namespace PdfReportsGenerator.Api.Restful.Responses;
 
-public record GetReportResponse(string Message);
+public record GetReportResponse(
+    string Status,
+    string? Link);

@@ -8,10 +8,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PdfReportsGenerator.Dal\PdfReportsGenerator.Dal.csproj" />
+      <ProjectReference Include="..\PDFReportsGenerator.Kafka\PDFReportsGenerator.Kafka.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Confluent.Kafka" Version="2.3.0" />
       <PackageReference Include="FluentValidation" Version="11.5.1" />
       <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="7.3.0.1" />
       <PackageReference Include="Minio" Version="6.0.2" />

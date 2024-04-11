@@ -1,15 +1,14 @@
-﻿using Confluent.Kafka;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using PdfReportsGenerator.BackgroundWorker.Configurations;
-using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Dal.Entities;
+using PdfReportsGenerator.Dal.Models;
+using PDFReportsGenerator.Kafka;
 using Serilog;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
 class Program
 {
-    private static readonly KafkaConfiguration KafkaConfiguration = new();
     private static readonly MinioConfiguration MinioConfiguration = new();
 
     private static readonly ILogger Logger = new LoggerConfiguration()
@@ -20,26 +19,23 @@ class Program
     static async Task Main()
     {
         Logger.Information("Start application.");
-
-        using var consumer = new ConsumerBuilder<Ignore, string>(KafkaConfiguration.ConsumerConfig).Build();
+        
         var reportsService = new ReportsServiceProvider().GetReportsService();
         var minioClient = new MyMinioClient(MinioConfiguration);
-        consumer.Subscribe(KafkaConfiguration.TopicName);
 
         using PeriodicTimer timer = new(TimeSpan.FromSeconds(1));
 
         while (await timer.WaitForNextTickAsync())
         {
-            var consumeResult = consumer.Consume();
+            var message = KafkaConsumer.Instance.ConsumeMessage();
 
-            if (consumeResult is null)
+            if (message is null)
             {
                 continue;
             }
-
-            var result = consumeResult.Message.Value;
-            var record = JsonConvert.DeserializeObject<KafkaRecord>(result)!;
-            Dal.Entities.Report task;
+            
+            var record = JsonConvert.DeserializeObject<KafkaRecord>(message)!;
+            ReportTask task;
             
             try
             {
@@ -55,6 +51,7 @@ class Program
             {
                 Logger.Information($"Report with ID: {task.Id} started generating.");
                 task.Status = ReportStatus.Processing;
+                task.UpdatedAt = DateTime.UtcNow;
                 await reportsService.UpdateReport(task);
 
                 using var generator = new PdfGenerator(record);
@@ -62,6 +59,7 @@ class Program
                 var link = await minioClient.GetLink(reportFileName);
                 Logger.Information($"Report with ID: {task.Id} generated.");
                 task.Status = ReportStatus.Ready;
+                task.UpdatedAt = DateTime.UtcNow;
                 task.Link = link;
                 await reportsService.UpdateReport(task);
             }
@@ -73,6 +71,6 @@ class Program
             }
         }
 
-        consumer.Close();
+        KafkaConsumer.Instance.Close();
     }
 }

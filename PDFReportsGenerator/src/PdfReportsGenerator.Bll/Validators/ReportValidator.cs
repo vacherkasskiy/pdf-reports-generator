@@ -1,9 +1,9 @@
 using FluentValidation;
-using PdfReportsGenerator.Bll.Models;
+using PdfReportsGenerator.Dal.Models;
 
 namespace PdfReportsGenerator.Bll.Validators;
 
-public class ReportValidator : AbstractValidator<Report>
+public class ReportValidator : AbstractValidator<ReportBody>
 {
     private class MarginValidator : AbstractValidator<Margin>
     {

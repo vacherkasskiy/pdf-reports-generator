@@ -1,7 +1,7 @@
 using FluentAssertions;
 using FluentValidation;
-using PdfReportsGenerator.Bll.Models;
 using PdfReportsGenerator.Bll.Validators;
+using PdfReportsGenerator.Dal.Models;
 using UnitTests.Fakers;
 using Xunit;
 
@@ -9,7 +9,7 @@ namespace UnitTests.ValidatorTests;
 
 public class ReportValidatorTests
 {
-    private readonly IValidator<Report> _validator = new ReportValidator();
+    private readonly IValidator<ReportBody> _validator = new ReportValidator();
 
     [Fact]
     public void Valid_ShouldSuccess()

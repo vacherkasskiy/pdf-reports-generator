@@ -1,10 +1,11 @@
-using Report = PdfReportsGenerator.Dal.Entities.Report;
+using PdfReportsGenerator.Dal.Entities;
+using PdfReportsGenerator.Dal.Models;
 
 namespace PdfReportsGenerator.Bll.Services.Interfaces;
 
 public interface IReportsService
 {
-    Task<Report> CreateReport(Models.Report report);
-    Task<Report> GetReport(string reportGuid);
-    Task<Report> UpdateReport(Report report);
+    Task<ReportTask> CreateReport(ReportBody report);
+    Task<ReportTask> GetReport(string reportGuid);
+    Task<ReportTask> UpdateReport(ReportTask report);
 }

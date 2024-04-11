@@ -18,11 +18,26 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000",
+        config =>
+        {
+            config.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials()
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                .WithExposedHeaders("Access-Control-Allow-Origin");
+        });
+});
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
         builder.Configuration.GetConnectionString("DefaultConnection") ?? string.Empty));
 
-builder.Services.AddBllServices(builder.Configuration);
+builder.Services.AddBllServices();
 
 builder.Host.UseSerilog();
 
@@ -43,6 +58,8 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 var app = builder.Build();
+
+app.UseCors("AllowLocalhost3000");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
