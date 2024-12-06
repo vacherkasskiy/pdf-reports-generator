@@ -1,5 +1,5 @@
-using PdfReportsGenerator.Core.Entities;
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Application.Models;
+using PdfReportsGenerator.Domain.Entities;
 
 namespace PdfReportsGenerator.Application.Services.Interfaces;
 

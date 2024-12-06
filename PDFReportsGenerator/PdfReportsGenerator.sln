@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Api.Rest", "src\PdfReportsGenerator.Api.Rest\PdfReportsGenerator.Api.Rest.csproj", "{578C9B0F-DA02-47FA-B104-BF6C251F5BB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Gateway.Rest", "src\PdfReportsGenerator.Gateway.Rest\PdfReportsGenerator.Gateway.Rest.csproj", "{578C9B0F-DA02-47FA-B104-BF6C251F5BB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Application", "src\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj", "{16162894-D499-4D42-B7B3-B8AB67FE6363}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Core", "src\PdfReportsGenerator.Core\PdfReportsGenerator.Core.csproj", "{1072F334-71FB-4CD1-99E0-46E6DB41F98E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Domain", "src\PdfReportsGenerator.Domain\PdfReportsGenerator.Domain.csproj", "{1072F334-71FB-4CD1-99E0-46E6DB41F98E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{40D20EC2-D4B9-49A4-B3E2-243BF316B38E}"
 EndProject
@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{84C6AF0C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "tests\UnitTests\UnitTests.csproj", "{C3BCCE45-DDA4-431B-B4A9-F918A01DA8C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Api.Grpc", "src\PdfReportsGenerator.Api.Grpc\PdfReportsGenerator.Api.Grpc.csproj", "{160DFE71-0FAC-4220-B570-51334BDFFA29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Gateway.Grpc", "src\PdfReportsGenerator.Gateway.Grpc\PdfReportsGenerator.Gateway.Grpc.csproj", "{160DFE71-0FAC-4220-B570-51334BDFFA29}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.BackgroundWorker", "src\PdfReportsGenerator.BackgroundWorker\PdfReportsGenerator.BackgroundWorker.csproj", "{92EFF280-0DB5-47E5-8231-C09C76D4F255}"
 EndProject

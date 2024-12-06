@@ -1,4 +1,4 @@
-using PdfReportsGenerator.Core;
+using PdfReportsGenerator.Domain;
 using Microsoft.EntityFrameworkCore;
 using PdfReportsGenerator.AdministratorApp.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;

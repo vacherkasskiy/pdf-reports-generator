@@ -3,10 +3,11 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Application.Exceptions;
+using PdfReportsGenerator.Application.Infrastructure.Persistence;
+using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services.Interfaces;
-using PdfReportsGenerator.Core;
-using PdfReportsGenerator.Core.Entities;
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Domain;
+using PdfReportsGenerator.Domain.Entities;
 using PDFReportsGenerator.Kafka;
 
 namespace PdfReportsGenerator.Application.Services;
@@ -14,12 +15,12 @@ namespace PdfReportsGenerator.Application.Services;
 public class ReportsService : IReportsService
 {
     private readonly IValidator<ReportBody> _validator;
-    private readonly ApplicationDbContext _dbContext;
+    private readonly IPdfGeneratorDbContext _dbContext;
     private readonly KafkaProducer _kafkaProducer = new ();
     
     public ReportsService(
         IValidator<ReportBody> validator, 
-        ApplicationDbContext dbContext)
+        IPdfGeneratorDbContext dbContext)
     {
         _validator = validator;
         _dbContext = dbContext;
@@ -77,7 +78,7 @@ public class ReportsService : IReportsService
     {
         var result = _dbContext.ReportTasks.Update(report);
         await _dbContext.SaveChangesAsync();
-        _dbContext.ChangeTracker.Clear();
+        //_dbContext.ChangeTracker.Clear(); // TODO tf???
 
         return result.Entity;
     }

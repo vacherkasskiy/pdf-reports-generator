@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
-using PdfReportsGenerator.Core;
-using PdfReportsGenerator.Core.Entities;
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Domain;
+using PdfReportsGenerator.Domain.Entities;
+using PdfReportsGenerator.Domain.Models;
 using PDFReportsGenerator.Kafka;
 
 namespace PdfReportsGenerator.AdministratorApp.Bll.Services;

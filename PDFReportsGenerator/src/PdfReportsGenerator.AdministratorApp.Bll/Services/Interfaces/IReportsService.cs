@@ -1,4 +1,4 @@
-using PdfReportsGenerator.Core.Entities;
+using PdfReportsGenerator.Domain.Entities;
 
 namespace PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
 

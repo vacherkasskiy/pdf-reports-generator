@@ -14,10 +14,67 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1ccb009-f5cd-411b-afcf-7f5bb71c432d" name="Changes" comment="Rename projects and delete unnecessary files.">
+    <list default="true" id="f1ccb009-f5cd-411b-afcf-7f5bb71c432d" name="Changes" comment="Rename project names and fix namespaces.">
+      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Kafka/KafkaConsumer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Kafka/KafkaProducer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/Repositories/ReportRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaConsumer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaProducer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/IPdfGeneratorDbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/Repositories/IReportRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Responses/PostReportResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.PdfReportsGenerator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PdfReportsGenerator/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/PdfReportsGenerator.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/PdfReportsGenerator.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PdfReportsGenerator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Bll/Services/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Bll/Services/ReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Bll/Validators/ReportValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Bll/Validators/ReportValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Controllers/V1/ReportsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Controllers/V1/ReportsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/PdfReportsGenerator.AdministratorApp.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/PdfReportsGenerator.AdministratorApp.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/PdfReportsGenerator.AdministratorApp.Bll.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/PdfReportsGenerator.AdministratorApp.Bll.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/Interfaces/IReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/Interfaces/IReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/ReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Parsers/Interfaces/IParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Parsers/Interfaces/IParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Parsers/ReportsParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Parsers/ReportsParser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/PdfReportsGenerator.Api.Grpc.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/PdfReportsGenerator.Gateway.Grpc.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Protos/reports.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Protos/reports.proto" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Services/V1/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Services/V1/ReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Controllers/V1/ReportsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Controllers/V1/ReportsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/PdfReportsGenerator.Api.Rest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Responses/GetReportResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Responses/GetReportResponse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Responses/PostReportResponse.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Extensions/ServiceRegistrationExtensions/BllServicesExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/PdfReportsGenerator.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/PdfReportsGenerator.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Validators/ReportValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Validators/ReportValidator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/PdfGeneratorDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Entities/ReportTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/Entities/ReportTask.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/JsonConverters/JsonBlockConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/JsonConverters/JsonBlockConverter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240106134115_AddReportsTable.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240106134115_AddReportsTable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240302142028_UseStatusInsteadOfBodyInReportsTable.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240302142028_UseStatusInsteadOfBodyInReportsTable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163103_AddLinkColumnToReportsTable.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163103_AddLinkColumnToReportsTable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163451_MakeLinkColumnNullableInReportsTable.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163451_MakeLinkColumnNullableInReportsTable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409214632_AddReportBodyAndTimeSpansToReportTable.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409214632_AddReportBodyAndTimeSpansToReportTable.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409235257_RenameReportsTableToReportTasks.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409235257_RenameReportsTableToReportTasks.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Models/KafkaRecord.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/KafkaRecord.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Models/ReportBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/ReportBody.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/PdfReportsGenerator.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/PdfReportsGenerator.Domain.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +91,7 @@
     <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/PdfGeneratorDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaConsumer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaProducer.cs" root0="SKIP_HIGHLIGHTING" />
@@ -47,30 +105,34 @@
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/ApplicationDbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/JsonConverters/JsonBlockConverter.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/Models/KafkaRecord.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/tests/UnitTests/Fakers/BlockFaker.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2pqqpZzhhoNpiORfOXxTZyzchqq" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "clean-architecture",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;clean-architecture&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.PdfReportsGenerator.Api.Grpc: http">
     <configuration name="PdfReportsGenerator.BackgroundWorker" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -91,7 +153,7 @@
       </method>
     </configuration>
     <configuration name="PdfReportsGenerator.Api.Grpc: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/PdfReportsGenerator.Api.Grpc.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/PdfReportsGenerator.Gateway.Grpc.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="http" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -106,7 +168,7 @@
       </method>
     </configuration>
     <configuration name="PdfReportsGenerator.Api.Grpc: https" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/PdfReportsGenerator.Api.Grpc.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/PdfReportsGenerator.Gateway.Grpc.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="https" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -121,7 +183,7 @@
       </method>
     </configuration>
     <configuration name="PdfReportsGenerator.Api.Restful: API" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Restful/PdfReportsGenerator.Api.Restful.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="API" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -136,7 +198,7 @@
       </method>
     </configuration>
     <configuration name="PdfReportsGenerator.Api.Restful: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
-      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Restful/PdfReportsGenerator.Api.Restful.csproj" />
+      <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" />
       <option name="LAUNCH_PROFILE_TFM" value="net8.0" />
       <option name="LAUNCH_PROFILE_NAME" value="IIS Express" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -204,7 +266,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733504137103</updated>
-      <workItem from="1733504138843" duration="1152000" />
+      <workItem from="1733504138843" duration="5896000" />
     </task>
     <task id="LOCAL-00001" summary="Rename projects and delete unnecessary files.">
       <option name="closed" value="true" />
@@ -222,7 +284,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733504907123</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Rename project names and fix namespaces.">
+      <option name="closed" value="true" />
+      <created>1733505948274</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733505948274</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,6 +315,7 @@
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Rename projects and delete unnecessary files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename projects and delete unnecessary files." />
+    <MESSAGE value="Rename project names and fix namespaces." />
+    <option name="LAST_COMMIT_MESSAGE" value="Rename project names and fix namespaces." />
   </component>
 </project>

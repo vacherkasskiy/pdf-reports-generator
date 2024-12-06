@@ -17,7 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PdfReportsGenerator.AdministratorApp.Bll\PdfReportsGenerator.AdministratorApp.Bll.csproj" />
-      <ProjectReference Include="..\PdfReportsGenerator.Core\PdfReportsGenerator.Core.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Domain\PdfReportsGenerator.Domain.csproj" />
     </ItemGroup>
 
 </Project>

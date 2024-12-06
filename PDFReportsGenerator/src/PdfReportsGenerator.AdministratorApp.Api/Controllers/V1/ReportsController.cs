@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
-using PdfReportsGenerator.Core.Entities;
+using PdfReportsGenerator.Domain.Entities;
 
 namespace PdfReportsGenerator.AdministratorApp.Api.Controllers.V1;
 

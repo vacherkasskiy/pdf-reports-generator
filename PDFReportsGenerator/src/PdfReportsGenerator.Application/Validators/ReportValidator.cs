@@ -1,5 +1,5 @@
 using FluentValidation;
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Application.Models;
 
 namespace PdfReportsGenerator.Application.Validators;
 
