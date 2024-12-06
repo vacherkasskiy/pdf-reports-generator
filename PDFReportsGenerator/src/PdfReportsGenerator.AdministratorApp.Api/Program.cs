@@ -1,6 +1,6 @@
 using PdfReportsGenerator.Dal;
 using Microsoft.EntityFrameworkCore;
-using PdfReportsGenerator.App.Bll.Extensions.ServiceRegistrationExtensions;
+using PdfReportsGenerator.AdministratorApp.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

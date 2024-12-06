@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using PdfReportsGenerator.App.Bll.Services.Interfaces;
+using PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
 using PdfReportsGenerator.Dal.Entities;
 
-namespace PdfReportsGenerator.App.Api.Controllers.V1;
+namespace PdfReportsGenerator.AdministratorApp.Api.Controllers.V1;
 
 [ApiController]
 [Route("[controller]")]

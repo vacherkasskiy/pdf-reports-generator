@@ -1,8 +1,8 @@
 using Microsoft.Extensions.DependencyInjection;
-using PdfReportsGenerator.App.Bll.Services;
-using PdfReportsGenerator.App.Bll.Services.Interfaces;
+using PdfReportsGenerator.AdministratorApp.Bll.Services;
+using PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
 
-namespace PdfReportsGenerator.App.Bll.Extensions.ServiceRegistrationExtensions;
+namespace PdfReportsGenerator.AdministratorApp.Bll.Extensions.ServiceRegistrationExtensions;
 
 public static class BllServicesExtension
 {

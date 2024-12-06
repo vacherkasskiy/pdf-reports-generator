@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PdfReportsGenerator.App.Bll\PdfReportsGenerator.App.Bll.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.AdministratorApp.Bll\PdfReportsGenerator.AdministratorApp.Bll.csproj" />
       <ProjectReference Include="..\PdfReportsGenerator.Dal\PdfReportsGenerator.Dal.csproj" />
     </ItemGroup>
 

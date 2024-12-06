@@ -1,6 +1,6 @@
 using PdfReportsGenerator.Dal.Entities;
 
-namespace PdfReportsGenerator.App.Bll.Services.Interfaces;
+namespace PdfReportsGenerator.AdministratorApp.Bll.Services.Interfaces;
 
 public interface IReportsService
 {
