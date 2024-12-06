@@ -16,7 +16,7 @@ public static class ServiceCollectionExtension
         service.AddExceptionHandler<ReportNotFoundExceptionHandler>();
         service.AddProblemDetails();
         
-        service.AddScoped<IReportsService, ReportsService>();
+        service.AddScoped<IReportTaskService, ReportTaskService>();
         service.AddScoped<IValidator<ReportBody>, ReportValidator>();
     }
 }

@@ -14,67 +14,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f1ccb009-f5cd-411b-afcf-7f5bb71c432d" name="Changes" comment="Rename project names and fix namespaces.">
-      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Kafka/KafkaConsumer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Kafka/KafkaProducer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/Repositories/ReportRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaConsumer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaProducer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/IPdfGeneratorDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/Repositories/IReportRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Responses/PostReportResponse.cs" afterDir="false" />
+    <list default="true" id="f1ccb009-f5cd-411b-afcf-7f5bb71c432d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/Repositories/IReportTaskRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/Enums/ReportStatusEnum.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/ReportTaskDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportTaskService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Builders/ReportBuilder.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Requests/CreateReportRequest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.PdfReportsGenerator/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.PdfReportsGenerator/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/PdfReportsGenerator.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/PdfReportsGenerator.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PdfReportsGenerator.sln" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Controllers/V1/ReportsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Controllers/V1/ReportsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/PdfReportsGenerator.AdministratorApp.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/PdfReportsGenerator.AdministratorApp.Api.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/PdfReportsGenerator.AdministratorApp.Bll.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/PdfReportsGenerator.AdministratorApp.Bll.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/Interfaces/IReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/Interfaces/IReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.AdministratorApp.Bll/Services/ReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Parsers/Interfaces/IParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Parsers/Interfaces/IParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Parsers/ReportsParser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Parsers/ReportsParser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/PdfReportsGenerator.Api.Grpc.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/PdfReportsGenerator.Gateway.Grpc.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Protos/reports.proto" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Protos/reports.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/Services/V1/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Services/V1/ReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Grpc/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Controllers/V1/ReportsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Controllers/V1/ReportsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/PdfReportsGenerator.Api.Rest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Responses/GetReportResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Responses/GetReportResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/Responses/PostReportResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Api.Rest/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Extensions/ServiceRegistrationExtensions/BllServicesExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Configurations/ServiceCollectionExtension.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Configurations/ServiceCollectionExtension.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaProducer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Kafka/IKafkaProducer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/IPdfGeneratorDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/IPdfGeneratorDbContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Infrastructure/Persistence/Repositories/IReportRepository.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/PdfReportsGenerator.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/PdfReportsGenerator.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportsService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Validators/ReportValidator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Validators/ReportValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/ApplicationDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/PdfGeneratorDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Entities/ReportTask.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/Entities/ReportTask.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/JsonConverters/JsonBlockConverter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/JsonConverters/JsonBlockConverter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240106134115_AddReportsTable.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240106134115_AddReportsTable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240302142028_UseStatusInsteadOfBodyInReportsTable.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240302142028_UseStatusInsteadOfBodyInReportsTable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163103_AddLinkColumnToReportsTable.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163103_AddLinkColumnToReportsTable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163451_MakeLinkColumnNullableInReportsTable.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240310163451_MakeLinkColumnNullableInReportsTable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409214632_AddReportBodyAndTimeSpansToReportTable.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409214632_AddReportBodyAndTimeSpansToReportTable.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409235257_RenameReportsTableToReportTasks.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/20240409235257_RenameReportsTableToReportTasks.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Migrations/ApplicationDbContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Models/KafkaRecord.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/KafkaRecord.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/Models/ReportBody.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Models/ReportBody.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Core/PdfReportsGenerator.Core.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Domain/PdfReportsGenerator.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/Interfaces/IReportTaskService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Application/Services/ReportsService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.BackgroundWorker/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.BackgroundWorker/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.BackgroundWorker/ReportsServiceProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.BackgroundWorker/ReportsServiceProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Services/V1/ReportsService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Grpc/Services/V1/ReportsService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Controllers/V1/ReportsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Controllers/V1/ReportsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,21 +51,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/PdfReportsGenerator.Infrastructure/Persistence/PdfGeneratorDbContext.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaConfiguration.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaConsumer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PDFReportsGenerator.Kafka/KafkaProducer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Api.Grpc/Services/V1/ReportsService.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.BackgroundWorker/ImageProvider.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.BackgroundWorker/MyMinioClient.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.BackgroundWorker/PdfBlocksComposer.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.BackgroundWorker/PdfGenerator.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Bll/ExceptionHandlers/InvalidReportFormatExceptionHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Bll/Extensions/ServiceRegistrationExtensions/BllServicesExtension.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/ApplicationDbContext.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/JsonConverters/JsonBlockConverter.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Dal/Models/KafkaRecord.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/src/PdfReportsGenerator.Application/Services/ReportsService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/PdfReportsGenerator.Gateway.Rest/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Vi/RiderProjects/pdf-reports-generator/PDFReportsGenerator/tests/UnitTests/Fakers/BlockFaker.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProjectColorInfo">{
@@ -266,7 +212,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1733504137103</updated>
-      <workItem from="1733504138843" duration="5896000" />
+      <workItem from="1733504138843" duration="6641000" />
+      <workItem from="1733510841522" duration="2537000" />
     </task>
     <task id="LOCAL-00001" summary="Rename projects and delete unnecessary files.">
       <option name="closed" value="true" />
@@ -292,7 +239,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733505948274</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Start to implement clean architecture principles at main application.">
+      <option name="closed" value="true" />
+      <created>1733510274584</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733510274584</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -316,6 +271,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Rename projects and delete unnecessary files." />
     <MESSAGE value="Rename project names and fix namespaces." />
-    <option name="LAST_COMMIT_MESSAGE" value="Rename project names and fix namespaces." />
+    <MESSAGE value="Start to implement clean architecture principles at main application." />
+    <option name="LAST_COMMIT_MESSAGE" value="Start to implement clean architecture principles at main application." />
   </component>
 </project>

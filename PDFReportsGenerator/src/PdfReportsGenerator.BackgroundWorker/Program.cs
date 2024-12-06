@@ -39,7 +39,7 @@ class Program
             
             try
             {
-                task = await reportsService.GetReport(record.TaskId.ToString());
+                task = await reportsService.GetReportAsync(record.TaskId.ToString());
             }
             catch (Exception e)
             {
@@ -52,7 +52,7 @@ class Program
                 Logger.Information($"Report with ID: {task.Id} started generating.");
                 task.Status = ReportStatus.Processing;
                 task.UpdatedAt = DateTime.UtcNow;
-                await reportsService.UpdateReport(task);
+                await reportsService.UpdateReportAsync(task);
 
                 using var generator = new PdfGenerator(record);
                 var reportFileName = generator.Generate();
@@ -61,13 +61,13 @@ class Program
                 task.Status = ReportStatus.Ready;
                 task.UpdatedAt = DateTime.UtcNow;
                 task.Link = link;
-                await reportsService.UpdateReport(task);
+                await reportsService.UpdateReportAsync(task);
             }
             catch (Exception e)
             {
                 Logger.Error(e, $"Unable to generate report with ID: {task.Id}");
                 task.Status = ReportStatus.Error;
-                await reportsService.UpdateReport(task);
+                await reportsService.UpdateReportAsync(task);
             }
         }
 

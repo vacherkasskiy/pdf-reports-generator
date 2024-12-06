@@ -22,9 +22,9 @@ public class ReportsServiceProvider
         _validator = new ReportValidator();
     }
 
-    public IReportsService GetReportsService()
+    public IReportTaskService GetReportsService()
     {
-        return new ReportsService(
+        return new ReportTaskService(
             _validator,
             _dbContext);
     }

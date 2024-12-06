@@ -5,7 +5,7 @@ namespace PdfReportsGenerator.Application.Infrastructure.Persistence;
 
 public interface IPdfGeneratorDbContext
 {
-    DbSet<ReportTask> ReportTasks { get; set; }
+    DbSet<ReportTask> ReportTasks { get; }
     
     Task SaveChangesAsync();
 }

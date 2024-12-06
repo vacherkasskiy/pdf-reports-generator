@@ -10,11 +10,11 @@ namespace PdfReportsGenerator.Gateway.Grpc.Services.V1;
 public class ReportsService :
     Reports.V1.ReportsService.ReportsServiceBase
 {
-    private readonly IReportsService _service;
+    private readonly IReportTaskService _service;
     private readonly IParser<ReportProto, ReportBody> _reportsParser;
 
     public ReportsService(
-        IReportsService service,
+        IReportTaskService service,
         IParser<ReportProto, ReportBody> reportsParser)
     {
         _service = service;
@@ -26,7 +26,7 @@ public class ReportsService :
         ServerCallContext context)
     {
         var report = _reportsParser.Parse(request);
-        var reportTask = await _service.CreateReport(report);
+        var reportTask = await _service.CreateReportAsync(report);
         return new CreateReportResponse
         {
             Id = reportTask.Id.ToString()
@@ -37,7 +37,7 @@ public class ReportsService :
         GetReportRequest request,
         ServerCallContext context)
     {
-        var response = await _service.GetReport(request.Id);
+        var response = await _service.GetReportAsync(request.Id);
         return new GetReportResponse
         {
             Link = response.Link ?? "Not ready yet.",

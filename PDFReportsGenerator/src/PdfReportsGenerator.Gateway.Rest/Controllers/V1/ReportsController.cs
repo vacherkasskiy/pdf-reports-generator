@@ -1,6 +1,8 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services.Interfaces;
+using PdfReportsGenerator.Gateway.Rest.Requests;
 using PdfReportsGenerator.Gateway.Rest.Responses;
 
 namespace PdfReportsGenerator.Gateway.Rest.Controllers.V1;
@@ -9,19 +11,22 @@ namespace PdfReportsGenerator.Gateway.Rest.Controllers.V1;
 [Route("[controller]")]
 public class ReportsController : ControllerBase
 {
-    private readonly IReportsService _service;
+    private readonly IReportTaskService _service;
+    private readonly IMapper _mapper;
     
-    public ReportsController(IReportsService service)
+    public ReportsController(IReportTaskService service, IMapper mapper)
     {
         _service = service;
+        _mapper = mapper;
     }
 
     [HttpPost]
     [Route("/api/v1/reports")]
-    public async Task<ActionResult<PostReportResponse>> Post(ReportBody request)
+    public async Task<ActionResult<PostReportResponse>> Post(CreateReportRequest request)
     {
-        var reportTask = await _service.CreateReport(request);
-        var response = new PostReportResponse($"Task successfully created with Id: {reportTask.Id}");
+        var reportModel = _mapper.Map<ReportTaskDto>(request);
+        var reportTaskId = await _service.CreateReportAsync(reportModel);
+        var response = new PostReportResponse($"Task successfully created with Id: {reportTaskId}");
         
         return Ok(response);
     }
@@ -30,10 +35,10 @@ public class ReportsController : ControllerBase
     [Route("/api/v1/reports/{id}")]
     public async Task<ActionResult<GetReportResponse>> GetById(string id)
     {
-        var response = await _service.GetReport(id);
+        var response = await _service.GetReportAsync(id);
         
         return Ok(new GetReportResponse(
             response.Status.ToString(),
-            response.Link ?? "Not ready yet."));
+            response.ReportS3Link ?? "Not ready yet."));
     }
 }

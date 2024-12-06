@@ -12,12 +12,17 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="AutoMapper" Version="13.0.1" />
       <PackageReference Include="FluentValidation" Version="11.5.1" />
       <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="7.3.0.1" />
       <PackageReference Include="Minio" Version="6.0.2" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="QuestPDF" Version="2023.12.6" />
       <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Builders\" />
     </ItemGroup>
 
 </Project>

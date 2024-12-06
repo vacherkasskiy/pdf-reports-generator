@@ -30,11 +30,6 @@
     <ItemGroup>
       <ProjectReference Include="..\..\PdfReportsGenerator.Infrastructure\PdfReportsGenerator.Infrastructure.csproj" />
       <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
-      <ProjectReference Include="..\PdfReportsGenerator.Domain\PdfReportsGenerator.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Requests\" />
     </ItemGroup>
 
 </Project>
