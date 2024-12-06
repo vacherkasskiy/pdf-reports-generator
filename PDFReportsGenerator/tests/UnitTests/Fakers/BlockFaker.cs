@@ -1,6 +1,6 @@
 using AutoBogus;
 using Bogus;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Core.Models;
 
 namespace UnitTests.Fakers;
 

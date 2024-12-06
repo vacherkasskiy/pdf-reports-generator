@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PdfReportsGenerator.Bll\PdfReportsGenerator.Bll.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
       <ProjectReference Include="..\PDFReportsGenerator.Kafka\PDFReportsGenerator.Kafka.csproj" />
     </ItemGroup>
 

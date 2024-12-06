@@ -1,6 +1,6 @@
 using AutoBogus;
 using Bogus;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Core.Models;
 
 namespace UnitTests.Fakers;
 
@@ -10,7 +10,7 @@ public static class ReportFaker
 
     private static readonly Faker<ReportBody> Faker = new AutoFaker<ReportBody>()
         .RuleFor(x => x.Name, f => f.Lorem.Word())
-        .RuleFor(x => x.Blocks, _ => new Block[] {});
+        .RuleFor(x => x.Blocks, _ => []);
 
     public static IEnumerable<ReportBody> Generate(int count = 1)
     {

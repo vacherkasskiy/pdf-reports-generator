@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PdfReportsGenerator.BackgroundWorker.Configurations;
-using PdfReportsGenerator.Dal.Entities;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Core.Entities;
+using PdfReportsGenerator.Core.Models;
 using PDFReportsGenerator.Kafka;
 using Serilog;
 

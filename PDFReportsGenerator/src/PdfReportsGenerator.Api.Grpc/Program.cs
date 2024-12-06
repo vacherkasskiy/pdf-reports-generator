@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using PdfReportsGenerator.Api.Grpc.Parsers;
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
-using PdfReportsGenerator.Bll.Extensions.ServiceRegistrationExtensions;
-using PdfReportsGenerator.Dal;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Application.Extensions.ServiceRegistrationExtensions;
+using PdfReportsGenerator.Core;
+using PdfReportsGenerator.Core.Models;
 using Serilog;
 using ReportProto = Reports.V1.CreateReportRequest;
 using ReportsService = PdfReportsGenerator.Api.Grpc.Services.V1.ReportsService;

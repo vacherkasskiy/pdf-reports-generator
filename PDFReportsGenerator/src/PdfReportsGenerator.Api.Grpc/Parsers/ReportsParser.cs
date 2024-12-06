@@ -1,5 +1,5 @@
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Core.Models;
 using BlockProto = Reports.V1.Block;
 using ReportProto = Reports.V1.CreateReportRequest;
 using TextBlockProto = Reports.V1.TextBlock;

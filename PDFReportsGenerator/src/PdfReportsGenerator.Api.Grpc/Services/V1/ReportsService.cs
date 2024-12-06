@@ -1,7 +1,7 @@
 using Grpc.Core;
 using PdfReportsGenerator.Api.Grpc.Parsers.Interfaces;
-using PdfReportsGenerator.Bll.Services.Interfaces;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Application.Services.Interfaces;
+using PdfReportsGenerator.Core.Models;
 using Reports.V1;
 using ReportProto = Reports.V1.CreateReportRequest;
 

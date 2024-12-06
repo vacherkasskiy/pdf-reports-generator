@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using PdfReportsGenerator.Bll.Services;
-using PdfReportsGenerator.Bll.Services.Interfaces;
-using PdfReportsGenerator.Bll.Validators;
-using PdfReportsGenerator.Dal;
+using PdfReportsGenerator.Application.Services;
+using PdfReportsGenerator.Application.Services.Interfaces;
+using PdfReportsGenerator.Application.Validators;
+using PdfReportsGenerator.Core;
 
 namespace PdfReportsGenerator.BackgroundWorker;
 
