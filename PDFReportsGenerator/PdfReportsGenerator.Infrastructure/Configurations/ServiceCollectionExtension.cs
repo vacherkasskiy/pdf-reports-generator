@@ -16,8 +16,6 @@ public static class ServiceCollectionExtension
     {
         services.ConfigureDatabase(configuration);
         services.ConfigureMessageBroker(configuration);
-
-        services.AddScoped<IPdfGeneratorDbContext, PdfGeneratorDbContext>();
     }
 
     private static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -34,7 +32,7 @@ public static class ServiceCollectionExtension
             throw new InvalidOperationException("Connection string for DatabaseOptions is not configured.");
         }
         
-        services.AddDbContext<PdfGeneratorDbContext>(options =>
+        services.AddDbContext<IPdfGeneratorDbContext, PdfGeneratorDbContext>(options =>
             options.UseNpgsql(databaseOptions.ConnectionString));
     }
 

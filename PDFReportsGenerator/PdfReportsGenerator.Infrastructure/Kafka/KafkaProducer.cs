@@ -1,12 +1,16 @@
+using Microsoft.Extensions.Options;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
 using PdfReportsGenerator.Application.Models;
+using PdfReportsGenerator.Infrastructure.Kafka.Options;
 
 namespace PdfReportsGenerator.Infrastructure.Kafka;
 
-internal sealed class KafkaProducer : IKafkaProducer
+internal sealed class KafkaProducer(IOptions<KafkaConfigurationOptions> options) : IKafkaProducer
 {
-    public Task ProduceAsync(ReportTaskDto report)
+    private readonly KafkaConfigurationOptions _options = options.Value;
+    
+    public async Task ProduceAsync(ReportTaskDto report)
     {
-        throw new NotImplementedException();
+        Console.WriteLine("ProduceAsync");
     }
 }
