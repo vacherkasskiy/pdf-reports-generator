@@ -21,18 +21,6 @@ builder.Services.ConfigureInfrastructure(builder.Configuration);
 
 builder.Host.UseSerilog();
 
-// builder.WebHost.UseSentry(options => options.SetBeforeSend((sentryEvent, _) =>
-// {
-//     if (sentryEvent.Exception
-//         is InvalidReportFormatException
-//         or ReportNotFoundException)
-//     {
-//         return null;
-//     }
-//
-//     return sentryEvent;
-// }));
-
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
@@ -51,6 +39,5 @@ app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.UseSentryTracing();
 app.UseExceptionHandler();
 app.Run();

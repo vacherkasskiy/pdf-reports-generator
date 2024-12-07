@@ -14,7 +14,7 @@ public sealed record ReportTaskDto
 
     public string? ReportS3Link { get; init; }
 
-    public ReportStatusEnum Status { get; init; }
+    public ReportStatuses Status { get; init; }
     
     public DateTime CreatedAt { get; init; }
     

@@ -1,9 +1,10 @@
 namespace PdfReportsGenerator.Application.Models.Enums;
 
-public enum ReportStatusEnum
+public enum ReportStatuses
 {
     NotStarted,
     Processing,
     Ready,
+    InvalidTemplate,
     Error,
 }

@@ -1,21 +1,25 @@
+using AutoMapper;
 using PdfReportsGenerator.Application.Exceptions;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
-using PdfReportsGenerator.Application.Infrastructure.Persistence.Repositories;
+using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Models.Enums;
 using PdfReportsGenerator.Application.Services.Interfaces;
+using PdfReportsGenerator.Domain.Entities;
 
 namespace PdfReportsGenerator.Application.Services;
 
 public class ReportTaskService : IReportTaskService
 {
-    private readonly IReportTaskRepository _repository;
+    private readonly IPdfGeneratorDbContext _context;
     private readonly IKafkaProducer _kafkaProducer;
+    private readonly IMapper _mapper;
     
-    public ReportTaskService(IReportTaskRepository taskRepository, IKafkaProducer kafkaProducer)
+    public ReportTaskService(IPdfGeneratorDbContext context, IKafkaProducer kafkaProducer, IMapper mapper)
     {
-        _repository = taskRepository;
+        _context = context;
         _kafkaProducer = kafkaProducer;
+        _mapper = mapper;
     }
     
     public async Task<Guid> CreateReportAsync(ReportTaskDto report)
@@ -23,24 +27,25 @@ public class ReportTaskService : IReportTaskService
         var enrichedReport = report with
         {
             Id = Guid.NewGuid(),
-            Status = ReportStatusEnum.NotStarted,
+            Status = ReportStatuses.NotStarted,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
         
-        await _repository.AddAsync(enrichedReport);
+        _context.ReportTasks.Add(_mapper.Map<ReportTask>(enrichedReport));
         await _kafkaProducer.ProduceAsync(enrichedReport);
+        await _context.SaveChangesAsync();
 
         return enrichedReport.Id;
     }
 
-    public async Task<ReportTaskDto> GetReportAsync(string reportGuid)
+    public async Task<ReportTaskDto> GetReportAsync(string reportId)
     {
         try
         {
-            var report = await _repository.GetByIdAsync(Guid.Parse(reportGuid));
+            var report = await _context.ReportTasks.FindAsync(Guid.Parse(reportId));
 
-            return report;
+            return _mapper.Map<ReportTaskDto>(report);
         }
         catch
         {
@@ -48,10 +53,24 @@ public class ReportTaskService : IReportTaskService
         }
     }
 
-    public async Task<ReportTaskDto> UpdateReportAsync(ReportTaskDto report)
+    public async Task SetStatusToReportAsync(string reportId, ReportStatuses status)
     {
-        var result = await _repository.UpdateAsync(report);
+        var report = await _context.ReportTasks.FindAsync(Guid.Parse(reportId));
+        
+        if (report == null)
+        {
+            throw new KeyNotFoundException($"Report with ID {reportId} was not found.");
+        }
+        
+        var reportDto = _mapper.Map<ReportTaskDto>(report);
+        var enrichedReport = reportDto with
+        {
+            Status = status,
+            UpdatedAt = DateTime.UtcNow
+        };
 
-        return result;
+        _mapper.Map(enrichedReport, report);
+
+        await _context.SaveChangesAsync();
     }
 }

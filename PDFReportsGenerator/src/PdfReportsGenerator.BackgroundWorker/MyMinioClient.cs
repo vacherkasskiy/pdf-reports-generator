@@ -53,7 +53,7 @@ public class MyMinioClient
                 .PutObjectAsync(putObjectArgs)
                 .ConfigureAwait(false);
 
-            PresignedGetObjectArgs args = new PresignedGetObjectArgs()
+            var args = new PresignedGetObjectArgs()
                 .WithBucket(_minioConfiguration.BucketName)
                 .WithObject(fileName)
                 .WithExpiry((int)TimeSpan.FromDays(1).TotalSeconds);

@@ -1,4 +1,3 @@
-using PdfReportsGenerator.Domain;
 using Microsoft.EntityFrameworkCore;
 using PdfReportsGenerator.AdministratorApp.Bll.Extensions.ServiceRegistrationExtensions;
 using Serilog;
@@ -31,7 +30,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddBllServices();
 builder.Host.UseSerilog();
-builder.WebHost.UseSentry();
 
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -52,5 +50,4 @@ app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
-app.UseSentryTracing();
 app.Run();

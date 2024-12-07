@@ -10,13 +10,13 @@ namespace PdfReportsGenerator.Application.Configurations;
 
 public static class ServiceCollectionExtension
 {
-    public static void ConfigureApplication(this IServiceCollection service)
+    public static void ConfigureApplication(this IServiceCollection services)
     {
-        service.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
-        service.AddExceptionHandler<ReportNotFoundExceptionHandler>();
-        service.AddProblemDetails();
+        services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
+        services.AddExceptionHandler<ReportNotFoundExceptionHandler>();
+        services.AddProblemDetails();
         
-        service.AddScoped<IReportTaskService, ReportTaskService>();
-        service.AddScoped<IValidator<ReportBody>, ReportValidator>();
+        services.AddScoped<IReportTaskService, ReportTaskService>();
+        services.AddScoped<IValidator<ReportBody>, ReportValidator>();
     }
 }

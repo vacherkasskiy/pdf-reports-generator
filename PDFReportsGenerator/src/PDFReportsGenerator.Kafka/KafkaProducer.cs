@@ -2,7 +2,7 @@ using Confluent.Kafka;
 
 namespace PDFReportsGenerator.Kafka;
 
-public class KafkaProducer
+public class KafkaProducer2
 {
     private readonly KafkaConfiguration _kafkaConfiguration = new ();
     

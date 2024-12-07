@@ -1,3 +1,6 @@
+using AutoMapper;
+using PdfReportsGenerator.Gateway.Rest.Builders;
+
 namespace PdfReportsGenerator.Gateway.Rest.Configurations;
 
 public static class ServiceCollectionExtension
@@ -19,10 +22,23 @@ public static class ServiceCollectionExtension
                         .WithExposedHeaders("Access-Control-Allow-Origin");
                 });
         });
+
+        services.ConfigureMapper();
     }
 
     public static void ApplyRestGatewaySettings(this IApplicationBuilder app)
     {
         app.UseCors(CorsPolicyName);
+    }
+    
+    private static void ConfigureMapper(this IServiceCollection services)
+    {
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new ReportBuilder());
+        });
+
+        var mapper = mapperConfig.CreateMapper();
+        services.AddSingleton(mapper);
     }
 }
