@@ -1,8 +1,10 @@
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
 using PdfReportsGenerator.Application.Infrastructure.Persistence;
+using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Infrastructure.Kafka;
 using PdfReportsGenerator.Infrastructure.Kafka.Options;
 using PdfReportsGenerator.Infrastructure.Persistence;
@@ -27,9 +29,9 @@ public static class ServiceCollectionExtension
             .GetSection(nameof(DatabaseOptions))
             .Get<DatabaseOptions>();
 
-        if (string.IsNullOrEmpty(databaseOptions?.ConnectionString))
+        if (databaseOptions == null)
         {
-            throw new InvalidOperationException("Connection string for DatabaseOptions is not configured.");
+            throw new InvalidOperationException("DatabaseOptions is not configured.");
         }
         
         services.AddDbContext<IPdfGeneratorDbContext, PdfGeneratorDbContext>(options =>
@@ -40,8 +42,37 @@ public static class ServiceCollectionExtension
     {
         services.Configure<KafkaConfigurationOptions>(
             configuration.GetSection(nameof(KafkaConfigurationOptions)));
+        
+        var brokerOptions = configuration
+            .GetSection(nameof(KafkaConfigurationOptions))
+            .Get<KafkaConfigurationOptions>();
+        
+        if (brokerOptions == null)
+        {
+            throw new InvalidOperationException("BrokerOptions is not configured.");
+        }
 
         services.AddScoped<IKafkaProducer, KafkaProducer>();
-        services.AddScoped<IKafkaConsumer, KafkaConsumer>();
+        
+        // Add consumer via MassTransit.
+        services.AddMassTransit(x =>
+        {
+            x.UsingInMemory();
+
+            x.AddRider(rider =>
+            {
+                rider.AddConsumer<KafkaReportsConsumer>();
+
+                rider.UsingKafka((context, k) =>
+                {
+                    k.Host(brokerOptions.KafkaExternalAddress);
+
+                    k.TopicEndpoint<ReportTaskDto>(brokerOptions.TopicName, brokerOptions.ConsumerGroupId, e =>
+                    {
+                        e.ConfigureConsumer<KafkaReportsConsumer>(context);
+                    });
+                });
+            });
+        });
     }
 }

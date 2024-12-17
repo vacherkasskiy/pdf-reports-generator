@@ -35,6 +35,7 @@ public static class ServiceCollectionExtension
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
+            mc.AddProfile(new PdfReportsGenerator.Application.Builders.ReportBuilder());
             mc.AddProfile(new ReportBuilder());
         });
 

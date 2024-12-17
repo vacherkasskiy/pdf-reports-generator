@@ -18,7 +18,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
-      <ProjectReference Include="..\PDFReportsGenerator.Kafka\PDFReportsGenerator.Kafka.csproj" />
     </ItemGroup>
 
 </Project>
