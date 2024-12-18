@@ -8,6 +8,7 @@ builder.Services.AddGrpc();
 builder.Services.ConfigureApplication();
 
 builder.Host.UseSerilog();
+
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();

@@ -4,6 +4,7 @@ using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services.Interfaces;
 using PdfReportsGenerator.Gateway.Rest.Requests;
 using PdfReportsGenerator.Gateway.Rest.Responses;
+using PdfReportsGenerator.Infrastructure.Minio.Interfaces;
 
 namespace PdfReportsGenerator.Gateway.Rest.Controllers.V1;
 
@@ -13,11 +14,13 @@ public class ReportsController : ControllerBase
 {
     private readonly IReportTaskService _service;
     private readonly IMapper _mapper;
+    private readonly IPdfReportMinioClient _client;
     
-    public ReportsController(IReportTaskService service, IMapper mapper)
+    public ReportsController(IReportTaskService service, IMapper mapper, IPdfReportMinioClient client)
     {
         _service = service;
         _mapper = mapper;
+        _client = client;
     }
 
     [HttpPost]

@@ -19,11 +19,7 @@ builder.Services.ConfigureRestGateway();
 builder.Services.ConfigureApplication();
 builder.Services.ConfigureInfrastructure(builder.Configuration);
 
-builder.Host.UseSerilog();
-
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration)
-    .CreateLogger();
+builder.Host.ConfigureLogging(builder.Configuration);
 
 var app = builder.Build();
 
@@ -39,5 +35,6 @@ app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+app.AddInfrastructureEndpoints();
 app.UseExceptionHandler();
 app.Run();

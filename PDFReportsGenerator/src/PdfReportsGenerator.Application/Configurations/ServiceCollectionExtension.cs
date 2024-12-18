@@ -1,10 +1,13 @@
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PdfReportsGenerator.Application.ExceptionHandlers;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services;
 using PdfReportsGenerator.Application.Services.Interfaces;
 using PdfReportsGenerator.Application.Validators;
+using Serilog;
 
 namespace PdfReportsGenerator.Application.Configurations;
 
@@ -18,5 +21,16 @@ public static class ServiceCollectionExtension
         
         services.AddScoped<IReportTaskService, ReportTaskService>();
         services.AddScoped<IValidator<ReportBody>, ReportValidator>();
+    }
+
+    public static void ConfigureLogging(
+        this IHostBuilder builder,
+        IConfiguration configuration)
+    {
+        builder.UseSerilog();
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
     }
 }
