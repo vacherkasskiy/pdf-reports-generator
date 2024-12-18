@@ -18,7 +18,7 @@ public static class ServiceCollectionExtension
         services.AddExceptionHandler<InvalidReportFormatExceptionHandler>();
         services.AddExceptionHandler<ReportNotFoundExceptionHandler>();
         services.AddProblemDetails();
-        
+
         services.AddScoped<IReportTaskService, ReportTaskService>();
         services.AddScoped<IValidator<ReportBody>, ReportValidator>();
     }

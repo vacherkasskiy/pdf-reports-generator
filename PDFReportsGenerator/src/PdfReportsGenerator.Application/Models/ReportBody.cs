@@ -5,15 +5,14 @@ namespace PdfReportsGenerator.Application.Models;
 public class ReportBody
 {
     public string? Name { get; set; }
-    
+
     //[JsonConverter(typeof(JsonBlockConverter))]
     public Block?[]? Blocks { get; set; }
 }
 
 public class Block
 {
-    [JsonProperty("type")]
-    public virtual string? Type { get; set; }
+    [JsonProperty("type")] public virtual string? Type { get; set; }
     public Margin? Margin { get; set; }
     public int? Width { get; set; }
 }

@@ -19,7 +19,7 @@ public static class Program
 
         var logger = serviceProvider.GetService<ILoggerFactory>()
             .CreateLogger<Program>();
-        
+
         logger.LogDebug("Starting application");
 
         //do the actual work here
@@ -27,6 +27,5 @@ public static class Program
         bar.DoSomeRealWork();
 
         logger.LogDebug("All done!");
-
     }
 }

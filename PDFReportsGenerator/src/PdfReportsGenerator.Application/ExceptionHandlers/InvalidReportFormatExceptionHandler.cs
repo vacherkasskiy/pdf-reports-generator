@@ -16,7 +16,7 @@ public class InvalidReportFormatExceptionHandler : IExceptionHandler
         {
             return false;
         }
-        
+
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,

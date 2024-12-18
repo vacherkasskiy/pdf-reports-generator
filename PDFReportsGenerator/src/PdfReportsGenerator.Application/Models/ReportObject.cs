@@ -1,8 +1,8 @@
 namespace PdfReportsGenerator.Application.Models;
 
-public class KafkaRecord
+public class ReportObject
 {
     public Guid TaskId { get; set; }
-    
+
     public ReportBody ReportBody { get; set; }
 }

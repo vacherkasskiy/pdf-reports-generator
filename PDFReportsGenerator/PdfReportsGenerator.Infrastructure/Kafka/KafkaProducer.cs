@@ -8,7 +8,7 @@ namespace PdfReportsGenerator.Infrastructure.Kafka;
 internal sealed class KafkaProducer(IOptions<KafkaConfigurationOptions> options) : IKafkaProducer
 {
     private readonly KafkaConfigurationOptions _options = options.Value;
-    
+
     public async Task ProduceAsync(ReportTaskDto report)
     {
         Console.WriteLine("ProduceAsync");

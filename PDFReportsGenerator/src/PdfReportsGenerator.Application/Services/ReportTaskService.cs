@@ -14,14 +14,14 @@ public class ReportTaskService : IReportTaskService
     private readonly IPdfGeneratorDbContext _context;
     private readonly IKafkaProducer _kafkaProducer;
     private readonly IMapper _mapper;
-    
+
     public ReportTaskService(IPdfGeneratorDbContext context, IKafkaProducer kafkaProducer, IMapper mapper)
     {
         _context = context;
         _kafkaProducer = kafkaProducer;
         _mapper = mapper;
     }
-    
+
     public async Task<Guid> CreateReportAsync(ReportTaskDto report)
     {
         var enrichedReport = report with
@@ -31,7 +31,7 @@ public class ReportTaskService : IReportTaskService
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
-        
+
         _context.ReportTasks.Add(_mapper.Map<ReportTask>(enrichedReport));
         await _kafkaProducer.ProduceAsync(enrichedReport);
         await _context.SaveChangesAsync();
@@ -56,12 +56,12 @@ public class ReportTaskService : IReportTaskService
     public async Task SetStatusToReportAsync(string reportId, ReportStatuses status)
     {
         var report = await _context.ReportTasks.FindAsync(Guid.Parse(reportId));
-        
+
         if (report == null)
         {
             throw new KeyNotFoundException($"Report with ID {reportId} was not found.");
         }
-        
+
         var reportDto = _mapper.Map<ReportTaskDto>(report);
         var enrichedReport = reportDto with
         {

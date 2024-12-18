@@ -2,13 +2,13 @@ using Microsoft.Extensions.Options;
 using Minio;
 using Minio.DataModel.Args;
 using Minio.Exceptions;
-using PdfReportsGenerator.Infrastructure.Minio.Interfaces;
+using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Infrastructure.Minio.Options;
 using Serilog;
 
 namespace PdfReportsGenerator.Infrastructure.Minio;
 
-public class PdfReportMinioClient : IPdfReportMinioClient
+internal class PdfReportMinioClient : IPdfReportMinioClient
 {
     private readonly IMinioClient _minioClient;
     private readonly MinioConfigurationOptions _minioConfiguration;
@@ -34,7 +34,7 @@ public class PdfReportMinioClient : IPdfReportMinioClient
         try
         {
             await _initializationTask.ConfigureAwait(false);
-            
+
             ValidateOrThrow(fileName);
 
             var putObjectArgs = new PutObjectArgs()
@@ -44,7 +44,7 @@ public class PdfReportMinioClient : IPdfReportMinioClient
                 .WithContentType(ContentType);
 
             await _minioClient.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
-            
+
             Log.Logger.Information($"MinIO successfully received file {fileName}");
 
             var args = new PresignedGetObjectArgs()
@@ -64,7 +64,7 @@ public class PdfReportMinioClient : IPdfReportMinioClient
     }
 
     #region Private Members
-    
+
     private async Task Initialize()
     {
         try
@@ -101,9 +101,9 @@ public class PdfReportMinioClient : IPdfReportMinioClient
     private static string TrimUri(string fullUriString)
     {
         var fullUri = new Uri(fullUriString);
-        
+
         return $"{fullUri.Scheme}://{fullUri.Authority}{fullUri.AbsolutePath}";
     }
-    
+
     #endregion
 }

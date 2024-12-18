@@ -1,72 +1,68 @@
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Application.Models;
+using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace PdfReportsGenerator.BackgroundWorker;
+namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
 
-public static class PdfBlocksComposer
+internal class PdfBlocksComposer(IPdfImageProvider imageProvider) : IPdfBlocksComposer
 {
-    public static void ComposeBody(
-        this GridDescriptor grid,
-        KafkaRecord kafkaRecord)
+    public async Task ComposeBodyAsync(GridDescriptor grid, ReportObject reportObject)
     {
-        var blocks = kafkaRecord.ReportBody.Blocks;
+        var blocks = reportObject.ReportBody.Blocks;
 
         if (blocks is null)
+        {
             return;
+        }
 
         foreach (var reportBlock in blocks)
         {
             var width = (int)reportBlock!.Width!;
+            var item = GetMarginedContainer(grid.Item(width), reportBlock.Margin);
 
             switch (reportBlock)
             {
                 case TextBlock textBlock:
-                    grid.Item(width)
-                        .GetMarginedContainer(textBlock.Margin)
-                        .ComposeTextBlock(textBlock);
+                    ComposeTextBlock(item, textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    grid.Item(width)
-                        .GetMarginedContainer(imageBlock.Margin)
-                        .ComposeImageBlock(imageBlock, kafkaRecord.TaskId.ToString());
+                    item.Image(await imageProvider.GetImageAsync(imageBlock.Content));
                     break;
                 case TableBlock tableBlock:
-                    grid.Item(width)
-                        .GetMarginedContainer(tableBlock.Margin)
-                        .ComposeTableBlock(tableBlock);
+                    ComposeTableBlock(item, tableBlock);
                     break;
             }
         }
     }
 
-    private static void ComposeImageBlock(
-        this IContainer container,
-        ImageBlock imageBlock,
-        string? imageName)
-    {
-        if (imageBlock.Content is null || imageName is null)
-            return;
-
-        using var imageProvider = new ImageProvider(imageBlock.Content, imageName);
-        var imagePath = imageProvider.GetImagePath();
-
-        container.Image(imagePath);
-    }
+    #region Private Members
 
     private static void ComposeTextBlock(
-        this IContainer container,
+        IContainer container,
         TextBlock textBlock)
     {
+        switch (textBlock.Style!.Position)
+        {
+            case "left":
+                container.AlignLeft();
+                break;
+            case "center":
+                container.AlignCenter();
+                break;
+            case "right":
+                container.AlignRight();
+                break;
+        }
+
         container
-            .GetAlignedContainer(textBlock.Style!.Position)
             .Text(textBlock.Content)
             .FontSize(textBlock.Style!.Size * 10);
     }
 
     private static void ComposeTableBlock(
-        this IContainer container,
+        IContainer container,
         TableBlock tableBlock)
     {
         var n = tableBlock.Content?.Length ?? 0;
@@ -119,29 +115,14 @@ public static class PdfBlocksComposer
         });
     }
 
-    private static IContainer GetAlignedContainer(
-        this IContainer container,
-        string? position)
-    {
-        switch (position)
-        {
-            case "left":
-                return container.AlignLeft();
-            case "center":
-                return container.AlignCenter();
-            case "right":
-                return container.AlignRight();
-            default:
-                return container;
-        }
-    }
-
     private static IContainer GetMarginedContainer(
-        this IContainer container,
+        IContainer container,
         Margin? margin)
     {
         if (margin == null)
+        {
             return container;
+        }
 
         return container
             .PaddingTop(margin.Top ?? 0)
@@ -149,4 +130,6 @@ public static class PdfBlocksComposer
             .PaddingLeft(margin.Left ?? 0)
             .PaddingRight(margin.Right ?? 0);
     }
+
+    #endregion
 }

@@ -1,4 +1,4 @@
-namespace PdfReportsGenerator.Infrastructure.Minio.Interfaces;
+namespace PdfReportsGenerator.Application.Infrastructure.Minio;
 
 public interface IPdfReportMinioClient
 {

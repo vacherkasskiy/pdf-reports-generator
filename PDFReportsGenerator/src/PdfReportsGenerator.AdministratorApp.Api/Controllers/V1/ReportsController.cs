@@ -14,14 +14,14 @@ public class ReportsController : ControllerBase
     {
         _service = service;
     }
-    
+
     [HttpGet]
     [Route("/app/v1/reports/")]
     public async Task<ActionResult<ReportTask[]>> GetReports()
     {
         return await _service.GetReports();
     }
-    
+
     [HttpPatch]
     [Route("/app/v1/reports/regenerate/{id}")]
     public async Task<ActionResult<string>> RegenerateReport(string id)
@@ -34,7 +34,7 @@ public class ReportsController : ControllerBase
 
         return "Something went wrong.";
     }
-    
+
     [HttpDelete]
     [Route("/app/v1/reports/delete/{id}")]
     public async Task<IActionResult> DeleteReport(string id)

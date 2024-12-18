@@ -11,7 +11,7 @@ namespace PdfReportsGenerator.AdministratorApp.Bll.Services;
 public class ReportsService : IReportsService
 {
     private readonly ApplicationDbContext _dbContext;
-    private readonly KafkaProducer _kafkaProducer = new ();
+    private readonly KafkaProducer _kafkaProducer = new();
 
     public ReportsService(ApplicationDbContext dbContext)
     {
@@ -33,7 +33,7 @@ public class ReportsService : IReportsService
 
         await _dbContext.SaveChangesAsync();
     }
-    
+
     public async Task<bool> RegenerateReport(string id)
     {
         var reportTask = await _dbContext.ReportTasks
@@ -48,10 +48,10 @@ public class ReportsService : IReportsService
         reportTask.Link = null;
         _dbContext.ReportTasks.Update(reportTask);
         await _dbContext.SaveChangesAsync();
-        
+
         var body = JsonConvert.SerializeObject(new KafkaRecord
         {
-            TaskId = reportTask.Id, 
+            TaskId = reportTask.Id,
             ReportBody = JsonConvert.DeserializeObject<ReportBody>(reportTask.ReportBody)!
         });
         await _kafkaProducer.Produce(reportTask.Id.ToString(), body);

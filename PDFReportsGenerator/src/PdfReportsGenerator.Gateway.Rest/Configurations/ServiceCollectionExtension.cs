@@ -6,7 +6,7 @@ namespace PdfReportsGenerator.Gateway.Rest.Configurations;
 public static class ServiceCollectionExtension
 {
     private const string CorsPolicyName = "AllowLocalhost3000";
-    
+
     public static void ConfigureRestGateway(this IServiceCollection services)
     {
         services.AddCors(options =>
@@ -30,7 +30,7 @@ public static class ServiceCollectionExtension
     {
         app.UseCors(CorsPolicyName);
     }
-    
+
     private static void ConfigureMapper(this IServiceCollection services)
     {
         var mapperConfig = new MapperConfiguration(mc =>

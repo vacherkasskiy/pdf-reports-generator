@@ -6,13 +6,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PdfReportsGenerator.Application.Infrastructure.Hubs;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
+using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
+using PdfReportsGenerator.Application.Services;
+using PdfReportsGenerator.Application.Services.Interfaces;
 using PdfReportsGenerator.Infrastructure.Hubs;
 using PdfReportsGenerator.Infrastructure.Kafka;
 using PdfReportsGenerator.Infrastructure.Kafka.Options;
 using PdfReportsGenerator.Infrastructure.Minio;
-using PdfReportsGenerator.Infrastructure.Minio.Interfaces;
 using PdfReportsGenerator.Infrastructure.Minio.Options;
 using PdfReportsGenerator.Infrastructure.Persistence;
 using PdfReportsGenerator.Infrastructure.Persistence.Options;
@@ -35,11 +37,11 @@ public static class ServiceCollectionExtension
     }
 
     #region Private Members
-    
+
     private static void ConfigureDatabase(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(nameof(DatabaseOptions)));
-        
+
         var databaseOptions = configuration
             .GetSection(nameof(DatabaseOptions))
             .Get<DatabaseOptions>();
@@ -48,27 +50,27 @@ public static class ServiceCollectionExtension
         {
             throw new InvalidOperationException("DatabaseOptions is not configured.");
         }
-        
+
         services.AddDbContext<IPdfGeneratorDbContext, PdfGeneratorDbContext>(options =>
             options.UseNpgsql(databaseOptions.ConnectionString));
     }
 
     private static void ConfigureMessageBroker(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<KafkaConfigurationOptions>(
-            configuration.GetSection(nameof(KafkaConfigurationOptions)));
-        
+        services.Configure<KafkaConfigurationOptions>(configuration.GetSection(nameof(KafkaConfigurationOptions)));
+
         var brokerOptions = configuration
             .GetSection(nameof(KafkaConfigurationOptions))
             .Get<KafkaConfigurationOptions>();
-        
+
         if (brokerOptions == null)
         {
             throw new InvalidOperationException("BrokerOptions is not configured.");
         }
 
         services.AddScoped<IKafkaProducer, KafkaProducer>();
-        
+        services.AddScoped<IKafkaMessagesHandler, KafkaMessagesHandler>();
+
         // Add consumer via MassTransit.
         services.AddMassTransit(x =>
         {
@@ -82,10 +84,8 @@ public static class ServiceCollectionExtension
                 {
                     k.Host(brokerOptions.Url);
 
-                    k.TopicEndpoint<ReportTaskDto>(brokerOptions.TopicName, brokerOptions.ConsumerGroupId, e =>
-                    {
-                        e.ConfigureConsumer<KafkaReportsConsumer>(context);
-                    });
+                    k.TopicEndpoint<ReportTaskDto>(brokerOptions.TopicName, brokerOptions.ConsumerGroupId,
+                        e => { e.ConfigureConsumer<KafkaReportsConsumer>(context); });
                 });
             });
         });
@@ -102,6 +102,6 @@ public static class ServiceCollectionExtension
         services.Configure<MinioConfigurationOptions>(configuration.GetSection(nameof(MinioConfigurationOptions)));
         services.AddSingleton<IPdfReportMinioClient, PdfReportMinioClient>();
     }
-    
+
     #endregion
 }

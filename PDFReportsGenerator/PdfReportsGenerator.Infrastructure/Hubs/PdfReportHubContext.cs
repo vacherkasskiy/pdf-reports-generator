@@ -5,7 +5,7 @@ using PdfReportsGenerator.Infrastructure.Hubs.Interfaces;
 
 namespace PdfReportsGenerator.Infrastructure.Hubs;
 
-public class PdfReportHubContext(IHubContext<PdfReportHub, IPdfReportHub> hubContext) : IPdfReportHubContext
+internal class PdfReportHubContext(IHubContext<PdfReportHub, IPdfReportHub> hubContext) : IPdfReportHubContext
 {
     public Task ReceivePdfReportTaskStatus(Guid reportTaskId, ReportStatuses status)
     {

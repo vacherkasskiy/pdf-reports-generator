@@ -19,7 +19,7 @@ class Program
     static async Task Main()
     {
         Logger.Information("Start application.");
-        
+
         var reportsService = new ReportsServiceProvider().GetReportsService();
         var minioClient = new MyMinioClient(MinioConfiguration);
 
@@ -33,10 +33,10 @@ class Program
             {
                 continue;
             }
-            
+
             var record = JsonConvert.DeserializeObject<KafkaRecord>(message)!;
             ReportTask task;
-            
+
             try
             {
                 task = await reportsService.GetReportAsync(record.TaskId.ToString());
