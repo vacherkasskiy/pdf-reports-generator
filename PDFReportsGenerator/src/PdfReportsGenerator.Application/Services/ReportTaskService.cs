@@ -53,9 +53,9 @@ public class ReportTaskService : IReportTaskService
         }
     }
 
-    public async Task SetStatusToReportAsync(string reportId, ReportStatuses status)
+    public async Task SetStatusToReportAsync(Guid reportId, ReportStatuses status, string? reportLink = null)
     {
-        var report = await _context.ReportTasks.FindAsync(Guid.Parse(reportId));
+        var report = await _context.ReportTasks.FindAsync(reportId);
 
         if (report == null)
         {

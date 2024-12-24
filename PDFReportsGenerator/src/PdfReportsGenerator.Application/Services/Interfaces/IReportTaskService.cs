@@ -9,5 +9,5 @@ public interface IReportTaskService
 
     Task<ReportTaskDto> GetReportAsync(string reportId);
 
-    Task SetStatusToReportAsync(string reportId, ReportStatuses status);
+    Task SetStatusToReportAsync(Guid reportId, ReportStatuses status, string? reportLink = null);
 }

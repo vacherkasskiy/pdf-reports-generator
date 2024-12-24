@@ -29,18 +29,21 @@ internal class PdfReportMinioClient : IPdfReportMinioClient
         _initializationTask = Initialize();
     }
 
-    public async Task<string> GenerateLink(string fileName)
+    public async Task<string> GenerateLinkAsync(string fileName, byte[] fileBytes)
     {
         try
         {
             await _initializationTask.ConfigureAwait(false);
 
             ValidateOrThrow(fileName);
+            
+            using var fileStream = new MemoryStream(fileBytes);
 
             var putObjectArgs = new PutObjectArgs()
                 .WithBucket(_minioConfiguration.BucketName)
                 .WithObject(fileName)
-                .WithFileName(fileName)
+                .WithStreamData(fileStream)
+                .WithObjectSize(fileBytes.Length) // Указываем размер объекта
                 .WithContentType(ContentType);
 
             await _minioClient.PutObjectAsync(putObjectArgs).ConfigureAwait(false);

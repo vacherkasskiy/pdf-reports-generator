@@ -112,6 +112,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPdfGenerator, PdfGenerator.PdfGenerator>();
         services.AddScoped<IPdfBlocksComposer, PdfBlocksComposer>();
         services.AddScoped<IPdfImageProvider, PdfImageProvider>();
+        services.AddScoped<IPdfParser, PdfParser>();
     }
 
     #endregion

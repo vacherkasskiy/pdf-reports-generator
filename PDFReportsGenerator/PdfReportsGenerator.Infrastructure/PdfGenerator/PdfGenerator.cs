@@ -9,15 +9,17 @@ namespace PdfReportsGenerator.Infrastructure.PdfGenerator;
 
 internal sealed class PdfGenerator(
     IPdfBlocksComposer composer,
-    IPdfImageProvider imageProvider) : IPdfGenerator
+    IPdfImageProvider imageProvider,
+    IPdfParser parser) : IPdfGenerator
 {
     /// <summary>
     /// Generates PDF report for following ReportObject and returns it as a byte array.
     /// </summary>
     /// <returns> Byte array containing the PDF report. </returns>
-    public async Task<byte[]> Generate(ReportObject reportObject)
+    public async Task<byte[]> GenerateAsync(ReportTaskDto reportTask)
     {
         QuestPDF.Settings.License = LicenseType.Community;
+        var reportObject = parser.ParseToObject(reportTask);
         var imagesDictionary = await GetImagesAsync(reportObject);
         
         var document = Document.Create(container =>
