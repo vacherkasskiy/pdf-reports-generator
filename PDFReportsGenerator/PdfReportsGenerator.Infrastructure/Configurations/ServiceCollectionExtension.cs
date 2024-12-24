@@ -28,6 +28,7 @@ public static class ServiceCollectionExtension
 {
     public static void ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddHttpClient();
         services.ConfigureDatabase(configuration);
         services.ConfigureMessageBroker(configuration);
         services.ConfigureSignalR();
@@ -83,6 +84,7 @@ public static class ServiceCollectionExtension
             x.AddRider(rider =>
             {
                 rider.AddConsumer<KafkaReportsConsumer>();
+                rider.AddProducer<ReportTaskDto>(brokerOptions.TopicName);
 
                 rider.UsingKafka((context, k) =>
                 {

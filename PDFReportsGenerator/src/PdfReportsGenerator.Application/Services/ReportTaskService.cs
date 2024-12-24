@@ -33,8 +33,8 @@ public class ReportTaskService : IReportTaskService
         };
 
         _context.ReportTasks.Add(_mapper.Map<ReportTask>(enrichedReport));
-        await _kafkaProducer.ProduceAsync(enrichedReport);
         await _context.SaveChangesAsync();
+        await _kafkaProducer.ProduceAsync(enrichedReport);
 
         return enrichedReport.Id;
     }

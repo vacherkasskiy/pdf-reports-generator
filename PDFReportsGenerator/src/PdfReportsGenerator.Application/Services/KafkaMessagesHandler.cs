@@ -29,8 +29,8 @@ public class KafkaMessagesHandler(
         }
         catch (Exception e)
         {
-            await UpdateStatusAsync(ReportStatuses.Error, reportTask.Id);
             Log.Error(e, $"Error while processing report task: {e.Message}");
+            await UpdateStatusAsync(ReportStatuses.Error, reportTask.Id);
         }
     }
 
