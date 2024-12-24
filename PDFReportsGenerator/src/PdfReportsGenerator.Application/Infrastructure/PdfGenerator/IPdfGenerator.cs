@@ -4,5 +4,5 @@ namespace PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
 
 public interface IPdfGenerator
 {
-    byte[] Generate(ReportObject reportObject);
+    Task<byte[]> Generate(ReportObject reportObject);
 }

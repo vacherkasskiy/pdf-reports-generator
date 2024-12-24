@@ -4,5 +4,5 @@ namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 
 public interface IPdfImageProvider
 {
-    Task<Image> GetImageAsync(string imageUrl);
+    Task<Image> GetImageAsync(string? imageUrl);
 }

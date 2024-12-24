@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PdfReportsGenerator.Application.Infrastructure.Hubs;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
+using PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
 using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services;
@@ -16,6 +17,8 @@ using PdfReportsGenerator.Infrastructure.Kafka;
 using PdfReportsGenerator.Infrastructure.Kafka.Options;
 using PdfReportsGenerator.Infrastructure.Minio;
 using PdfReportsGenerator.Infrastructure.Minio.Options;
+using PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
+using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using PdfReportsGenerator.Infrastructure.Persistence;
 using PdfReportsGenerator.Infrastructure.Persistence.Options;
 
@@ -29,6 +32,7 @@ public static class ServiceCollectionExtension
         services.ConfigureMessageBroker(configuration);
         services.ConfigureSignalR();
         services.ConfigureMinio(configuration);
+        services.ConfigurePdfGenerator();
     }
 
     public static void AddInfrastructureEndpoints(this IEndpointRouteBuilder app)
@@ -101,6 +105,13 @@ public static class ServiceCollectionExtension
     {
         services.Configure<MinioConfigurationOptions>(configuration.GetSection(nameof(MinioConfigurationOptions)));
         services.AddSingleton<IPdfReportMinioClient, PdfReportMinioClient>();
+    }
+
+    private static void ConfigurePdfGenerator(this IServiceCollection services)
+    {
+        services.AddScoped<IPdfGenerator, PdfGenerator.PdfGenerator>();
+        services.AddScoped<IPdfBlocksComposer, PdfBlocksComposer>();
+        services.AddScoped<IPdfImageProvider, PdfImageProvider>();
     }
 
     #endregion

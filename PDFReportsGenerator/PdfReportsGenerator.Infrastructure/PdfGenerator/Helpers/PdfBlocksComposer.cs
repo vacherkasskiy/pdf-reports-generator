@@ -6,9 +6,12 @@ using QuestPDF.Infrastructure;
 
 namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
 
-internal class PdfBlocksComposer(IPdfImageProvider imageProvider) : IPdfBlocksComposer
+internal class PdfBlocksComposer : IPdfBlocksComposer
 {
-    public async Task ComposeBodyAsync(GridDescriptor grid, ReportObject reportObject)
+    public void ComposeBody(
+        GridDescriptor grid,
+        ReportObject reportObject,
+        Dictionary<string, Image> images)
     {
         var blocks = reportObject.ReportBody.Blocks;
 
@@ -28,7 +31,7 @@ internal class PdfBlocksComposer(IPdfImageProvider imageProvider) : IPdfBlocksCo
                     ComposeTextBlock(item, textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    item.Image(await imageProvider.GetImageAsync(imageBlock.Content));
+                    item.Image(images[imageBlock.Content]);
                     break;
                 case TableBlock tableBlock:
                     ComposeTableBlock(item, tableBlock);
