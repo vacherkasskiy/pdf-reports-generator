@@ -66,6 +66,7 @@ public class ReportTaskService : IReportTaskService
         var enrichedReport = reportDto with
         {
             Status = status,
+            ReportS3Link = reportLink ?? reportDto.ReportS3Link,
             UpdatedAt = DateTime.UtcNow
         };
 

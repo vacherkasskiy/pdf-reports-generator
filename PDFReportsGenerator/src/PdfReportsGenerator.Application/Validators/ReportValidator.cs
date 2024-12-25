@@ -3,7 +3,7 @@ using PdfReportsGenerator.Application.Models;
 
 namespace PdfReportsGenerator.Application.Validators;
 
-public class ReportValidator : AbstractValidator<ReportBody>
+public class ReportValidator : AbstractValidator<ReportObject>
 {
     private class MarginValidator : AbstractValidator<Margin>
     {

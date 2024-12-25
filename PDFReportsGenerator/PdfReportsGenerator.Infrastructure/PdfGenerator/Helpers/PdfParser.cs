@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+using PdfReportsGenerator.Application.Converters;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 
@@ -7,6 +9,36 @@ public class PdfParser : IPdfParser
 {
     public ReportObject ParseToObject(ReportTaskDto task)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrWhiteSpace(task.ReportBody))
+        {
+            throw new ArgumentException("ReportBody cannot be null or empty", nameof(task));
+        }
+
+        try
+        {
+            var blocks = JsonConvert.DeserializeObject<Block[]>(
+                task.ReportBody,
+                new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.None,
+                    Converters = { new JsonReportBlockConverter() }
+                });
+
+            if (blocks == null)
+            {
+                throw new JsonSerializationException("Failed to deserialize ReportBody to blocks.");
+            }
+
+            return new ReportObject
+            {
+                Id = task.Id,
+                Name = task.ReportName,
+                Blocks = blocks
+            };
+        }
+        catch (JsonException ex)
+        {
+            throw new InvalidOperationException("Failed to parse ReportBody from the task.", ex);
+        }
     }
 }

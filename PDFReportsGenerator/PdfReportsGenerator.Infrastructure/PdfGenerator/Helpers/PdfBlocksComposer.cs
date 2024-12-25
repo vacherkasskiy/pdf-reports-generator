@@ -13,7 +13,7 @@ internal class PdfBlocksComposer : IPdfBlocksComposer
         ReportObject reportObject,
         Dictionary<string, Image> images)
     {
-        var blocks = reportObject.ReportBody.Blocks;
+        var blocks = reportObject.Blocks;
 
         if (blocks is null)
         {
@@ -46,7 +46,7 @@ internal class PdfBlocksComposer : IPdfBlocksComposer
         IContainer container,
         TextBlock textBlock)
     {
-        switch (textBlock.Style!.Position)
+        switch (textBlock.Style?.Position)
         {
             case "left":
                 container.AlignLeft();
@@ -61,7 +61,7 @@ internal class PdfBlocksComposer : IPdfBlocksComposer
 
         container
             .Text(textBlock.Content)
-            .FontSize(textBlock.Style!.Size * 10);
+            .FontSize((textBlock.Style?.Size ?? 5) * 10);
     }
 
     private static void ComposeTableBlock(

@@ -1,0 +1,10 @@
+[
+  {
+    "type": "text",
+    "content": "some text here",
+    "width": 10,
+    "margin": {
+      "top": 40
+    }
+  }
+]

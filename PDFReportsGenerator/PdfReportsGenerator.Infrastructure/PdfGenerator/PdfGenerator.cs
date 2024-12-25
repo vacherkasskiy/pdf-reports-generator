@@ -45,7 +45,7 @@ internal sealed class PdfGenerator(
 
     private async Task<Dictionary<string, Image>> GetImagesAsync(ReportObject reportObject)
     {
-        var imagesTasks = reportObject.ReportBody.Blocks?
+        var imagesTasks = reportObject.Blocks?
             .Where(x => x != null && x is ImageBlock imageBlock && imageBlock.Content != null)
             .Select(x => x as ImageBlock)
             .ToDictionary(

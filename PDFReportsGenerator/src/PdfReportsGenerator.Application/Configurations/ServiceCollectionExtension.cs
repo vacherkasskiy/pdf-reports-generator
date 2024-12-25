@@ -20,7 +20,7 @@ public static class ServiceCollectionExtension
         services.AddProblemDetails();
 
         services.AddScoped<IReportTaskService, ReportTaskService>();
-        services.AddScoped<IValidator<ReportBody>, ReportValidator>();
+        services.AddScoped<IValidator<ReportObject>, ReportValidator>();
     }
 
     public static void ConfigureLogging(
