@@ -19,33 +19,11 @@ public class ReportsController : ControllerBase
 {
     private readonly IReportTaskService _service;
     private readonly IMapper _mapper;
-    private readonly IPdfParser _parser;
-    private readonly IPdfReportMinioClient _client;
 
-    public ReportsController(IReportTaskService service, IMapper mapper, IPdfReportMinioClient client, IPdfParser parser)
+    public ReportsController(IReportTaskService service, IMapper mapper)
     {
         _service = service;
         _mapper = mapper;
-        _client = client;
-        _parser = parser;
-    }
-    
-    [HttpGet("/api/v1/reports/download/{fileName}")]
-    public async Task<IActionResult> DownloadFile(string fileName)
-    {
-        try
-        {
-            Response.ContentType = "application/pdf";
-            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\"");
-            
-            await _client.DownloadFileAsync(fileName, Response.Body);
-
-            return new EmptyResult();
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { error = ex.Message });
-        }
     }
 
     [HttpPost]
