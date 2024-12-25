@@ -43,7 +43,7 @@ internal class PdfReportMinioClient : IPdfReportMinioClient
                 .WithBucket(_minioConfiguration.BucketName)
                 .WithObject(fileName)
                 .WithStreamData(fileStream)
-                .WithObjectSize(fileBytes.Length) // Указываем размер объекта
+                .WithObjectSize(fileBytes.Length)
                 .WithContentType(ContentType);
 
             await _minioClient.PutObjectAsync(putObjectArgs).ConfigureAwait(false);
@@ -62,6 +62,33 @@ internal class PdfReportMinioClient : IPdfReportMinioClient
         catch (MinioException e)
         {
             Log.Logger.Error(e, $"File upload error for file {fileName}");
+            throw;
+        }
+    }
+    
+    public async Task DownloadFileAsync(string fileName, Stream destinationStream)
+    {
+        try
+        {
+            await _initializationTask.ConfigureAwait(false);
+
+            ValidateOrThrow(fileName);
+
+            var getObjectArgs = new GetObjectArgs()
+                .WithBucket(_minioConfiguration.BucketName)
+                .WithObject(fileName)
+                .WithCallbackStream(async stream =>
+                {
+                    await stream.CopyToAsync(destinationStream).ConfigureAwait(false);
+                });
+
+            await _minioClient.GetObjectAsync(getObjectArgs).ConfigureAwait(false);
+
+            Log.Logger.Information($"File {fileName} successfully downloaded from MinIO");
+        }
+        catch (MinioException e)
+        {
+            Log.Logger.Error(e, $"File download error for file {fileName}");
             throw;
         }
     }

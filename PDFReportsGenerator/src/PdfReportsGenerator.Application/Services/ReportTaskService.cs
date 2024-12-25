@@ -59,7 +59,7 @@ public class ReportTaskService : IReportTaskService
 
         if (report == null)
         {
-            throw new KeyNotFoundException($"Report with ID {reportId} was not found.");
+            throw new ReportNotFoundException($"Report with ID {reportId} was not found.");
         }
 
         var reportDto = _mapper.Map<ReportTaskDto>(report);

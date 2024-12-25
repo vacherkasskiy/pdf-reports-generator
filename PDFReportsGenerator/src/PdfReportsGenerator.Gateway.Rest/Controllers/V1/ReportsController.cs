@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Minio;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Application.Converters;
 using PdfReportsGenerator.Application.Helpers.Interfaces;
@@ -29,17 +30,22 @@ public class ReportsController : ControllerBase
         _parser = parser;
     }
     
-    [HttpPost]
-    [Route("/TEST")]
-    public async Task<ActionResult<PostReportResponse>> TEST(TestClass reportTaskDto)
+    [HttpGet("/api/v1/reports/download/{fileName}")]
+    public async Task<IActionResult> DownloadFile(string fileName)
     {
-        return Ok();
-    }
+        try
+        {
+            Response.ContentType = "application/pdf";
+            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\"");
+            
+            await _client.DownloadFileAsync(fileName, Response.Body);
 
-    public class TestClass
-    {
-        [JsonConverter(typeof(JsonReportBlockConverter))]
-        public Block block { get; set; }
+            return new EmptyResult();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpPost]
