@@ -36,5 +36,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.AddInfrastructureEndpoints();
+app.AddPrometheus();
 app.UseExceptionHandler();
 app.Run();

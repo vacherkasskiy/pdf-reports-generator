@@ -10,4 +10,6 @@ public interface IReportTaskService
     Task<ReportTaskDto> GetReportAsync(string reportId);
 
     Task SetStatusToReportAsync(Guid reportId, ReportStatuses status, string? reportLink = null);
+
+    Task DownloadReportAsync(string fileName, Stream destinationStream);
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using PdfReportsGenerator.Application.Exceptions;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
+using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Models.Enums;
@@ -13,13 +14,19 @@ public class ReportTaskService : IReportTaskService
 {
     private readonly IPdfGeneratorDbContext _context;
     private readonly IKafkaProducer _kafkaProducer;
+    private readonly IPdfReportMinioClient _minioClient;
     private readonly IMapper _mapper;
 
-    public ReportTaskService(IPdfGeneratorDbContext context, IKafkaProducer kafkaProducer, IMapper mapper)
+    public ReportTaskService(
+        IPdfGeneratorDbContext context,
+        IKafkaProducer kafkaProducer, 
+        IMapper mapper, 
+        IPdfReportMinioClient minioClient)
     {
         _context = context;
         _kafkaProducer = kafkaProducer;
         _mapper = mapper;
+        _minioClient = minioClient;
     }
 
     public async Task<Guid> CreateReportAsync(ReportTaskDto report)
@@ -50,6 +57,18 @@ public class ReportTaskService : IReportTaskService
         catch
         {
             throw new ReportNotFoundException("No report was found by provided id");
+        }
+    }
+    
+    public async Task DownloadReportAsync(string fileName, Stream destinationStream)
+    {
+        try
+        {
+            await _minioClient.DownloadFileAsync(fileName, destinationStream);
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message);
         }
     }
 

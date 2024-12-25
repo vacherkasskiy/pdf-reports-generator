@@ -1,15 +1,9 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Minio;
-using Newtonsoft.Json;
-using PdfReportsGenerator.Application.Converters;
-using PdfReportsGenerator.Application.Helpers.Interfaces;
-using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services.Interfaces;
 using PdfReportsGenerator.Gateway.Rest.Requests;
 using PdfReportsGenerator.Gateway.Rest.Responses;
-using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 
 namespace PdfReportsGenerator.Gateway.Rest.Controllers.V1;
 
@@ -46,5 +40,23 @@ public class ReportsController : ControllerBase
         return Ok(new GetReportResponse(
             response.Status.ToString(),
             response.ReportS3Link ?? "Not ready yet."));
+    }
+    
+    [HttpGet("/api/v1/reports/download/{fileName}")]
+    public async Task<IActionResult> DownloadFile(string fileName)
+    {
+        try
+        {
+            Response.ContentType = "application/pdf";
+            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\"");
+            
+            await _service.DownloadReportAsync(fileName, Response.Body);
+
+            return new EmptyResult();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 }

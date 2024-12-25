@@ -24,6 +24,7 @@ using PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
 using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using PdfReportsGenerator.Infrastructure.Persistence;
 using PdfReportsGenerator.Infrastructure.Persistence.Options;
+using Prometheus;
 
 namespace PdfReportsGenerator.Infrastructure.Configurations;
 
@@ -42,6 +43,19 @@ public static class ServiceCollectionExtension
     public static void AddInfrastructureEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapHub<PdfReportHub>("/signalR");
+    }
+    
+    public static IApplicationBuilder AddPrometheus(this IApplicationBuilder app)
+    {
+        app.UseRouting();
+        app.UseHttpMetrics();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapMetrics();
+        });
+
+        return app;
     }
 
     #region Private Members
