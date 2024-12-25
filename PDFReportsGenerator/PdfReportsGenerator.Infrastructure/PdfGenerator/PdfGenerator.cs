@@ -1,5 +1,7 @@
+using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
 using PdfReportsGenerator.Application.Models;
+using PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
 using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -7,19 +9,15 @@ using QuestPDF.Infrastructure;
 
 namespace PdfReportsGenerator.Infrastructure.PdfGenerator;
 
-internal sealed class PdfGenerator(
-    IPdfBlocksComposer composer,
-    IPdfImageProvider imageProvider,
-    IPdfParser parser) : IPdfGenerator
+internal sealed class PdfGenerator(IPdfImageProvider imageProvider) : IPdfGenerator
 {
     /// <summary>
     /// Generates PDF report for following ReportObject and returns it as a byte array.
     /// </summary>
     /// <returns> Byte array containing the PDF report. </returns>
-    public async Task<byte[]> GenerateAsync(ReportTaskDto reportTask)
+    public async Task<byte[]> GenerateAsync(ReportObject reportObject)
     {
         QuestPDF.Settings.License = LicenseType.Community;
-        var reportObject = parser.ParseToObject(reportTask);
         var imagesDictionary = await GetImagesAsync(reportObject);
         
         var document = Document.Create(container =>
@@ -35,7 +33,7 @@ internal sealed class PdfGenerator(
                         grid.VerticalSpacing(10);
                         grid.HorizontalSpacing(10);
 
-                        composer.ComposeBody(grid, reportObject, imagesDictionary);
+                        grid.ComposeBody(reportObject, imagesDictionary);
                     });
             });
         });

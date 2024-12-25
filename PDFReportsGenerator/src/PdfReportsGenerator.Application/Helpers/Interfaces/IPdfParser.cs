@@ -1,6 +1,6 @@
 using PdfReportsGenerator.Application.Models;
 
-namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
+namespace PdfReportsGenerator.Application.Helpers.Interfaces;
 
 public interface IPdfParser
 {

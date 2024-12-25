@@ -6,5 +6,5 @@ public enum ReportStatuses
     Processing,
     Ready,
     InvalidTemplate,
-    Error,
+    Error
 }

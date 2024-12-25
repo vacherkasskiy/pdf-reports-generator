@@ -1,9 +1,9 @@
 using FluentValidation;
 using PdfReportsGenerator.Application.Models;
 
-namespace PdfReportsGenerator.Application.Validators;
+namespace PdfReportsGenerator.Application.Helpers;
 
-public class ReportValidator : AbstractValidator<ReportObject>
+public class ReportObjectValidator : AbstractValidator<ReportObject>
 {
     private class MarginValidator : AbstractValidator<Margin>
     {
@@ -106,7 +106,7 @@ public class ReportValidator : AbstractValidator<ReportObject>
         }
     }
 
-    public ReportValidator()
+    public ReportObjectValidator()
     {
         RuleFor(x => x).NotNull();
         RuleFor(x => x.Name)

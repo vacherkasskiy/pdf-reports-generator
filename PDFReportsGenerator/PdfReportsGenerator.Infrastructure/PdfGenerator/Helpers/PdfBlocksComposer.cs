@@ -1,71 +1,59 @@
 using PdfReportsGenerator.Application.Models;
-using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
 
-internal class PdfBlocksComposer : IPdfBlocksComposer
+internal static class PdfBlocksComposer
 {
-    public void ComposeBody(
-        GridDescriptor grid,
+    public static void ComposeBody(
+        this GridDescriptor grid,
         ReportObject reportObject,
         Dictionary<string, Image> images)
     {
         var blocks = reportObject.Blocks;
 
         if (blocks is null)
-        {
             return;
-        }
 
         foreach (var reportBlock in blocks)
         {
             var width = (int)reportBlock!.Width!;
-            var item = GetMarginedContainer(grid.Item(width), reportBlock.Margin);
 
             switch (reportBlock)
             {
                 case TextBlock textBlock:
-                    ComposeTextBlock(item, textBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(textBlock.Margin)
+                        .ComposeTextBlock(textBlock);
                     break;
                 case ImageBlock imageBlock:
-                    item.Image(images[imageBlock.Content]);
+                    grid.Item(width)
+                        .GetMarginedContainer(imageBlock.Margin)
+                        .Image(images[imageBlock.Content]);
                     break;
                 case TableBlock tableBlock:
-                    ComposeTableBlock(item, tableBlock);
+                    grid.Item(width)
+                        .GetMarginedContainer(tableBlock.Margin)
+                        .ComposeTableBlock(tableBlock);
                     break;
             }
         }
     }
 
-    #region Private Members
-
     private static void ComposeTextBlock(
-        IContainer container,
+        this IContainer container,
         TextBlock textBlock)
     {
-        switch (textBlock.Style?.Position)
-        {
-            case "left":
-                container.AlignLeft();
-                break;
-            case "center":
-                container.AlignCenter();
-                break;
-            case "right":
-                container.AlignRight();
-                break;
-        }
-
         container
+            .GetAlignedContainer(textBlock.Style!.Position)
             .Text(textBlock.Content)
-            .FontSize((textBlock.Style?.Size ?? 5) * 10);
+            .FontSize(textBlock.Style!.Size * 10);
     }
 
     private static void ComposeTableBlock(
-        IContainer container,
+        this IContainer container,
         TableBlock tableBlock)
     {
         var n = tableBlock.Content?.Length ?? 0;
@@ -118,14 +106,29 @@ internal class PdfBlocksComposer : IPdfBlocksComposer
         });
     }
 
+    private static IContainer GetAlignedContainer(
+        this IContainer container,
+        string? position)
+    {
+        switch (position)
+        {
+            case "left":
+                return container.AlignLeft();
+            case "center":
+                return container.AlignCenter();
+            case "right":
+                return container.AlignRight();
+            default:
+                return container;
+        }
+    }
+
     private static IContainer GetMarginedContainer(
-        IContainer container,
+        this IContainer container,
         Margin? margin)
     {
         if (margin == null)
-        {
             return container;
-        }
 
         return container
             .PaddingTop(margin.Top ?? 0)
@@ -133,6 +136,4 @@ internal class PdfBlocksComposer : IPdfBlocksComposer
             .PaddingLeft(margin.Left ?? 0)
             .PaddingRight(margin.Right ?? 0);
     }
-
-    #endregion
 }

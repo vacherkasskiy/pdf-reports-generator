@@ -25,5 +25,6 @@ public enum ReportStatus
     NotStarted,
     Processing,
     Ready,
-    Error,
+    InvalidTemplate,
+    Error
 }

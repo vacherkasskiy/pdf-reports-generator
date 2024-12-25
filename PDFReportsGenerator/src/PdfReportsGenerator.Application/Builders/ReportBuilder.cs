@@ -8,6 +8,10 @@ public class ReportBuilder : Profile
 {
     public ReportBuilder()
     {
-        CreateMap<ReportTaskDto, ReportTask>().ReverseMap();
+        CreateMap<ReportTaskDto, ReportTask>()
+            .ForMember(
+                dest => dest.Link, 
+                opt => opt.MapFrom(src => src.ReportS3Link))
+            .ReverseMap();
     }
 }

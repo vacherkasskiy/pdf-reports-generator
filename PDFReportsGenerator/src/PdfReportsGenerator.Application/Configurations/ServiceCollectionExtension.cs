@@ -3,10 +3,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PdfReportsGenerator.Application.ExceptionHandlers;
+using PdfReportsGenerator.Application.Helpers;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services;
 using PdfReportsGenerator.Application.Services.Interfaces;
-using PdfReportsGenerator.Application.Validators;
 using Serilog;
 
 namespace PdfReportsGenerator.Application.Configurations;
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtension
         services.AddProblemDetails();
 
         services.AddScoped<IReportTaskService, ReportTaskService>();
-        services.AddScoped<IValidator<ReportObject>, ReportValidator>();
+        services.AddScoped<IValidator<ReportObject>, ReportObjectValidator>();
     }
 
     public static void ConfigureLogging(

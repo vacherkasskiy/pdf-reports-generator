@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PdfReportsGenerator.Application.Converters;
+using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Services.Interfaces;

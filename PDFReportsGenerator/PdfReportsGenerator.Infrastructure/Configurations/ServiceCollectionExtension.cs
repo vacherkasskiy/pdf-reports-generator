@@ -1,9 +1,12 @@
+using FluentValidation;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PdfReportsGenerator.Application.Helpers;
+using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.Hubs;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
@@ -112,7 +115,6 @@ public static class ServiceCollectionExtension
     private static void ConfigurePdfGenerator(this IServiceCollection services)
     {
         services.AddScoped<IPdfGenerator, PdfGenerator.PdfGenerator>();
-        services.AddScoped<IPdfBlocksComposer, PdfBlocksComposer>();
         services.AddScoped<IPdfImageProvider, PdfImageProvider>();
         services.AddScoped<IPdfParser, PdfParser>();
     }

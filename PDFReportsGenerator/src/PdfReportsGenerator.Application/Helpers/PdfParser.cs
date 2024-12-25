@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using PdfReportsGenerator.Application.Converters;
+using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Models;
-using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 
-namespace PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;
+namespace PdfReportsGenerator.Application.Helpers;
 
 public class PdfParser : IPdfParser
 {
