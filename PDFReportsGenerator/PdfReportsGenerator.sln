@@ -24,11 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdministratorApp", "Adminis
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MainApp", "MainApp", "{7B835985-18D8-46CB-B8B6-83B269E440FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Infrastructure", "PdfReportsGenerator.Infrastructure\PdfReportsGenerator.Infrastructure.csproj", "{05887CBB-3973-4CED-8A0C-1B398AB0A124}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.BackgroundGenerator", "PdfReportsGenerator.BackgroundGenerator\PdfReportsGenerator.BackgroundGenerator.csproj", "{DAD3C54D-E373-446E-A1B7-4A087AB6E35A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BackgroundGenerator", "BackgroundGenerator", "{F96D0158-72F1-49B0-A5BA-FB9C49F7A779}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfReportsGenerator.Infrastructure", "src\PdfReportsGenerator.Infrastructure\PdfReportsGenerator.Infrastructure.csproj", "{05887CBB-3973-4CED-8A0C-1B398AB0A124}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,10 +68,6 @@ Global
 		{05887CBB-3973-4CED-8A0C-1B398AB0A124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05887CBB-3973-4CED-8A0C-1B398AB0A124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05887CBB-3973-4CED-8A0C-1B398AB0A124}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAD3C54D-E373-446E-A1B7-4A087AB6E35A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DAD3C54D-E373-446E-A1B7-4A087AB6E35A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DAD3C54D-E373-446E-A1B7-4A087AB6E35A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DAD3C54D-E373-446E-A1B7-4A087AB6E35A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C3BCCE45-DDA4-431B-B4A9-F918A01DA8C2} = {84C6AF0C-8794-40ED-B466-E00BADB8040F}
@@ -87,6 +79,5 @@ Global
 		{16162894-D499-4D42-B7B3-B8AB67FE6363} = {7B835985-18D8-46CB-B8B6-83B269E440FE}
 		{1072F334-71FB-4CD1-99E0-46E6DB41F98E} = {7B835985-18D8-46CB-B8B6-83B269E440FE}
 		{05887CBB-3973-4CED-8A0C-1B398AB0A124} = {7B835985-18D8-46CB-B8B6-83B269E440FE}
-		{DAD3C54D-E373-446E-A1B7-4A087AB6E35A} = {F96D0158-72F1-49B0-A5BA-FB9C49F7A779}
 	EndGlobalSection
 EndGlobal

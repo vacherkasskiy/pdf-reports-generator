@@ -1,4 +1,3 @@
-using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Infrastructure.PdfGenerator.Helpers;

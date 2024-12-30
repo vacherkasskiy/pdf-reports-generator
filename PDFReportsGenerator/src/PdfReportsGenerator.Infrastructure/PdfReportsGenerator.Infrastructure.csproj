@@ -24,8 +24,8 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\src\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
-      <ProjectReference Include="..\src\PdfReportsGenerator.Domain\PdfReportsGenerator.Domain.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Domain\PdfReportsGenerator.Domain.csproj" />
     </ItemGroup>
 
 </Project>
