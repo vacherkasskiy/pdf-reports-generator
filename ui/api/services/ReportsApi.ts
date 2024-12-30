@@ -14,13 +14,6 @@ export const reportsApi = createApi({
             }),
             providesTags: ['Reports'],
         }),
-        regenerateReport: build.mutation<void, string>({
-            query: (id: string) => ({
-                url: `/regenerate/${id}`,
-                method: 'PATCH',
-            }),
-            invalidatesTags: ['Reports'],
-        }),
         deleteReport: build.mutation<void, string>({
             query: (id: string) => ({
                 url: `/delete/${id}`,
@@ -33,6 +26,5 @@ export const reportsApi = createApi({
 
 export const {
     useFetchReportsQuery,
-    useRegenerateReportMutation,
     useDeleteReportMutation,
 } = reportsApi

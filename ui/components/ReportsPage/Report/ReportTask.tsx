@@ -12,7 +12,6 @@ interface ReportTaskProps {
     labelText: string
     isExpanded: boolean
     onExpand: () => void
-    onRegenerate: () => void
     onDelete: () => void
     onView: () => void
     onCopy: (event: React.MouseEvent) => void
@@ -25,7 +24,6 @@ function ReportTask(
         labelText,
         isExpanded,
         onExpand,
-        onRegenerate,
         onDelete,
         onView,
         onCopy
@@ -67,15 +65,9 @@ function ReportTask(
             <div className={styles.buttons}>
                 <MyButton
                     onClick={onView}
-                    disabled={report.link == null}
+                    disabled={report.reportS3Link == null}
                     text={"View"}
                     theme={'blue'}
-                />
-                <MyButton
-                    text={"Generate again"}
-                    theme={'orange'}
-                    onClick={onRegenerate}
-                    disabled={![ReportStatus.Error, ReportStatus.Ready].includes(report.status)}
                 />
                 <MyButton
                     text={"Delete"}

@@ -1,16 +1,16 @@
 import ReportTask from "@/components/ReportsPage/Report/ReportTask";
 import {ReportModel, ReportStatus} from "@/models";
-import {useDeleteReportMutation, useRegenerateReportMutation} from "@/api/services/ReportsApi";
+import {useDeleteReportMutation} from "@/api/services/ReportsApi";
 import React, {useState} from "react";
 import {theme} from "@/ui/utils";
 import {beautifyReportBody} from "@/utils";
+import config from '../../../config.json';
 
 interface ReportTaskContainerProps {
     report: ReportModel;
 }
 
 function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactElement {
-    const [regenerateReport, {}] = useRegenerateReportMutation();
     const [deleteReport, {}] = useDeleteReportMutation();
 
     const [isExpanded, setExpanded] = useState<boolean>(false);
@@ -41,8 +41,8 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
         }
     }
 
-    const onView = () => {
-        location.href = `http://192.168.49.2:30003/reports/${report.id}`
+    const onDownload = () => {
+        location.href = `${config.apiReportsBaseUrl}/download/${report.id}`
     }
 
     const onCopy = (event: React.MouseEvent) => {
@@ -57,9 +57,8 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
     return (
         <ReportTask
             report={report}
-            onRegenerate={() => regenerateReport(report.id)}
             onDelete={() => deleteReport(report.id)}
-            onView={onView}
+            onView={onDownload}
             onCopy={onCopy}
             isExpanded={isExpanded}
             onExpand={toggleExpanded}

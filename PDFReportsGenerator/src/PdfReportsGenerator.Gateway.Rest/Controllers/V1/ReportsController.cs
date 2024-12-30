@@ -21,14 +21,14 @@ public class ReportsController : ControllerBase
     }
     
     [HttpGet]
-    [Route("/app/v1/reports/")]
+    [Route("/api/v1/reports/")]
     public async Task<ActionResult<ReportTaskDto[]>> GetReports()
     {
         return await _service.GetReportsAsync();
     }
 
     [HttpDelete]
-    [Route("/app/v1/reports/delete/{id}")]
+    [Route("/api/v1/reports/delete/{id}")]
     public async Task<IActionResult> DeleteReport(Guid id)
     {
         await _service.DeleteReportAsync(id);
@@ -64,7 +64,7 @@ public class ReportsController : ControllerBase
         try
         {
             Response.ContentType = "application/pdf";
-            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\"");
+            Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{fileName}\".pdf");
             
             await _service.DownloadReportAsync(fileName, Response.Body);
 
