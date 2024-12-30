@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using PdfReportsGenerator.Application.Exceptions;
 using PdfReportsGenerator.Application.Infrastructure.Kafka;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
@@ -70,6 +71,18 @@ public class ReportTaskService : IReportTaskService
         {
             throw new Exception(e.Message);
         }
+    }
+
+    public async Task<ReportTaskDto[]> GetReportsAsync()
+    {
+        var entities = await _context.ReportTasks.ToArrayAsync();
+        
+        return _mapper.Map<ReportTaskDto[]>(entities);
+    }
+
+    public Task DeleteReportAsync(Guid id)
+    {
+        return _context.ReportTasks.Where(x => x.Id == id).ExecuteDeleteAsync();
     }
 
     public async Task SetStatusToReportAsync(Guid reportId, ReportStatuses status, string? reportLink = null)

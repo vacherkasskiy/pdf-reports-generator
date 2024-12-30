@@ -19,6 +19,22 @@ public class ReportsController : ControllerBase
         _service = service;
         _mapper = mapper;
     }
+    
+    [HttpGet]
+    [Route("/app/v1/reports/")]
+    public async Task<ActionResult<ReportTaskDto[]>> GetReports()
+    {
+        return await _service.GetReportsAsync();
+    }
+
+    [HttpDelete]
+    [Route("/app/v1/reports/delete/{id}")]
+    public async Task<IActionResult> DeleteReport(Guid id)
+    {
+        await _service.DeleteReportAsync(id);
+
+        return Ok();
+    }
 
     [HttpPost]
     [Route("/api/v1/reports")]

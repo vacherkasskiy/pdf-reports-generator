@@ -29,7 +29,7 @@ namespace PdfReportsGenerator.Infrastructure.Configurations;
 
 public static class ServiceCollectionExtension
 {
-    public static void ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient();
         services.ConfigureDatabase(configuration);
@@ -37,9 +37,11 @@ public static class ServiceCollectionExtension
         services.ConfigureSignalR();
         services.ConfigureMinio(configuration);
         services.ConfigurePdfGenerator();
+
+        return services;
     }
 
-    public static void AddInfrastructureEndpoints(this IEndpointRouteBuilder app)
+    public static void AddSignalR(this IEndpointRouteBuilder app)
     {
         app.MapHub<PdfReportHub>("/signalR");
     }

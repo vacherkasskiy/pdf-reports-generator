@@ -33,14 +33,20 @@ function NewReportInput(
             >
                 {() => (
                     <Form>
-                        <label htmlFor="reportName">Report Name</label>
-                        <Field id="reportName" name="reportName" placeholder="Report Name"/>
-
-                        <label htmlFor="authorName">Author Name</label>
-                        <Field id="authorName" name="authorName" placeholder="Author Name"/>
-
-                        <label htmlFor="reportBody">Report Body</label>
-                        <Field id="reportBody" name="reportBody" placeholder="Report Body"/>
+                        <div className={styles.form}>
+                            <div className={styles.form_element}>
+                                <label htmlFor="reportName">Report Name</label>
+                                <Field id="reportName" name="reportName" placeholder="Report Name"/>
+                            </div>
+                            <div className={styles.form_element}>
+                                <label htmlFor="authorName">Author Name</label>
+                                <Field id="authorName" name="authorName" placeholder="Author Name"/>
+                            </div>
+                            <div className={styles.form_element}>
+                                <label htmlFor="reportBody">Report Body</label>
+                                <Field as="textarea" id="reportBody" name="reportBody" placeholder="Report Body"/>
+                            </div>
+                        </div>
 
                         <MyButton
                             typeProperty='submit'
