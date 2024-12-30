@@ -17,6 +17,20 @@ interface ReportTaskProps {
     onCopy: (event: React.MouseEvent) => void
 }
 
+function GetReportBody(val: string | undefined): string {
+    if (val === undefined) {
+        return "";
+    }
+
+    try {
+        JSON.parse(val);
+    } catch (e) {
+        return val;
+    }
+
+    return beautifyReportBody(val);
+}
+
 function ReportTask(
     {
         report,
@@ -60,7 +74,7 @@ function ReportTask(
                     alt="Copy text"
                     onClick={onCopy}
                 />
-                <pre className={styles.text}>{beautifyReportBody(report.reportBody)}</pre>
+                <pre className={styles.text}>{GetReportBody(report.reportBody)}</pre>
             </div>
             <div className={styles.buttons}>
                 <MyButton

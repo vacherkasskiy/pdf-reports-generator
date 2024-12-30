@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PdfReportsGenerator.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using PdfReportsGenerator.Infrastructure.Persistence;
 namespace PdfReportsGenerator.Infrastructure.Migrations
 {
     [DbContext(typeof(PdfGeneratorDbContext))]
-    partial class PdfGeneratorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241230191811_AddAuthorAndReportNamesToEntity")]
+    partial class AddAuthorAndReportNamesToEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,10 +31,6 @@ namespace PdfReportsGenerator.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("AuthorName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -40,10 +39,6 @@ namespace PdfReportsGenerator.Infrastructure.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("ReportBody")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ReportName")
                         .IsRequired()
                         .HasColumnType("text");
 

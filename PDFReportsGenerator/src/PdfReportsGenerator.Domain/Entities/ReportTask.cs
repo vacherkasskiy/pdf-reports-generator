@@ -10,6 +10,10 @@ public class ReportTask
     public Guid Id { get; set; }
 
     public string ReportBody { get; set; }
+    
+    public string AuthorName { get; set; }
+    
+    public string ReportName { get; set; }
 
     public ReportStatus Status { get; set; }
 

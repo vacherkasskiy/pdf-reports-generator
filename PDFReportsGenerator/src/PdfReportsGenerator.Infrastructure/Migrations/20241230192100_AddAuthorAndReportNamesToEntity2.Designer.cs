@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PdfReportsGenerator.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using PdfReportsGenerator.Infrastructure.Persistence;
 namespace PdfReportsGenerator.Infrastructure.Migrations
 {
     [DbContext(typeof(PdfGeneratorDbContext))]
-    partial class PdfGeneratorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241230192100_AddAuthorAndReportNamesToEntity2")]
+    partial class AddAuthorAndReportNamesToEntity2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
