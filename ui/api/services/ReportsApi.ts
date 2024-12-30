@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import {ReportModel} from "@/models";
+import config from '../../config.json';
 
 export const reportsApi = createApi({
     reducerPath: 'reportsApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://localhost:7090/app/v1/reports'}),
+    baseQuery: fetchBaseQuery({baseUrl: config.apiReportsBaseUrl}),
     tagTypes: ['Reports'],
     endpoints: (build) => ({
         fetchReports: build.query<ReportModel[], void>({

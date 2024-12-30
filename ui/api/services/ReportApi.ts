@@ -1,15 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import config from '../../config.json';
+import {CreateReportRequest} from "@/api/requests";
 
 export const reportApi = createApi({
     reducerPath: 'reportApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://localhost:7091/api/v1/reports'}),
+    baseQuery: fetchBaseQuery({baseUrl: config.apiReportsBaseUrl}),
     tagTypes: ['Reports'],
     endpoints: (build) => ({
-        addReport: build.mutation<void, string | undefined>({
-            query: (reportBody: string | undefined) => ({
+        createReport: build.mutation<void, CreateReportRequest | undefined>({
+            query: (requestBody: CreateReportRequest) => ({
                 url: `/`,
                 method: 'POST',
-                body: JSON.stringify(JSON.parse(reportBody ?? "")),
+                body: requestBody,
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -20,5 +22,5 @@ export const reportApi = createApi({
 })
 
 export const {
-    useAddReportMutation,
+    useCreateReportMutation,
 } = reportApi
