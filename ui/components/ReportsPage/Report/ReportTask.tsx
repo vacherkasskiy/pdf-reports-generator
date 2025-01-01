@@ -1,10 +1,11 @@
 import styles from "./ReportTask.module.scss";
 import React, {useRef} from "react";
-import {ReportModel, ReportStatus} from "@/models";
+import {ReportModel} from "@/models";
 import {Label, MyButton} from "@/ui";
 import {theme} from "@/ui/utils";
 import copyIcon from "@/public/icons/copy_icon.png"
 import {beautifyReportBody} from "@/utils";
+import {Status} from "@/models/reportModel";
 
 interface ReportTaskProps {
     report: ReportModel
@@ -79,7 +80,7 @@ function ReportTask(
             <div className={styles.buttons}>
                 <MyButton
                     onClick={onView}
-                    disabled={report.reportS3Link == null}
+                    disabled={report.status != Status.Ready}
                     text={"Download"}
                     theme={'blue'}
                 />

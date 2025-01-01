@@ -1,11 +1,10 @@
 import ReportTask from "@/components/ReportsPage/Report/ReportTask";
 import {ReportModel, ReportStatus} from "@/models";
 import {useDeleteReportMutation} from "@/api/services/ReportsApi";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {theme} from "@/ui/utils";
 import {beautifyReportBody} from "@/utils";
 import config from '../../../config.json';
-import {HubConnectionBuilder} from "@microsoft/signalr";
 
 interface ReportTaskContainerProps {
     report: ReportModel;
@@ -14,30 +13,9 @@ interface ReportTaskContainerProps {
 function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactElement {
     const [deleteReport, {}] = useDeleteReportMutation();
     const [isExpanded, setExpanded] = useState<boolean>(false);
-    const [status, setStatus] = useState<ReportStatus>(report.status);
-
-    useEffect(() => {
-        const connection = new HubConnectionBuilder()
-            .withUrl(config.webSocketUrl)
-            .withAutomaticReconnect()
-            .build();
-
-        connection.start().then(() => {
-            console.log("Connected to the hub");
-
-            connection.on("ReceivePdfReportTaskStatus", (guid: string, newStatus: ReportStatus) => {
-                console.log(guid, newStatus);
-                setStatus(newStatus);
-            });
-        }).catch(err => console.log('Error while connecting to hub: ', err));
-
-        return () => {
-            connection.stop().then();
-        };
-    }, []);
 
     const getLabelText = (): string => {
-        switch (status) {
+        switch (report.status) {
             case ReportStatus.Waiting:
                 return 'WAITING';
             case ReportStatus.InProgress:
@@ -50,7 +28,7 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
     }
 
     const getLabelTheme = (): theme => {
-        switch (status) {
+        switch (report.status) {
             case ReportStatus.Waiting:
                 return 'dark';
             case ReportStatus.InProgress:

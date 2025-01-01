@@ -1,8 +1,8 @@
 import {ReportModel} from "@/models";
 import React from "react";
 import styles from "./ReportsPage.module.scss";
-import ReportsList from "@/components/ReportsPage/ReportsList/ReportsList";
 import NewReportContainer from "@/components/ReportsPage/NewReportInput/NewReportContainer";
+import {ReportsListContainer} from "@/components/ReportsPage/ReportsList/ReportsListContainer";
 
 interface ReportsPageProps {
     reports: ReportModel[]
@@ -15,12 +15,12 @@ function ReportsPage({reports}: ReportsPageProps): React.ReactElement {
                 <NewReportContainer />
             </div>
             <div className={styles.reportsList}>
-                <ReportsList
+                <ReportsListContainer
                     reports={reports}
                 />
             </div>
         </div>
-    )
+    );
 }
 
-export default ReportsPage
+export default ReportsPage;
