@@ -80,7 +80,7 @@ function ReportTask(
                 <MyButton
                     onClick={onView}
                     disabled={report.reportS3Link == null}
-                    text={"View"}
+                    text={"Download"}
                     theme={'blue'}
                 />
                 <MyButton

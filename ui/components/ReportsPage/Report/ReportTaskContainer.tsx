@@ -1,10 +1,11 @@
 import ReportTask from "@/components/ReportsPage/Report/ReportTask";
 import {ReportModel, ReportStatus} from "@/models";
 import {useDeleteReportMutation} from "@/api/services/ReportsApi";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {theme} from "@/ui/utils";
 import {beautifyReportBody} from "@/utils";
 import config from '../../../config.json';
+import {HubConnectionBuilder} from "@microsoft/signalr";
 
 interface ReportTaskContainerProps {
     report: ReportModel;
@@ -12,16 +13,36 @@ interface ReportTaskContainerProps {
 
 function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactElement {
     const [deleteReport, {}] = useDeleteReportMutation();
-
     const [isExpanded, setExpanded] = useState<boolean>(false);
+    const [status, setStatus] = useState<ReportStatus>(report.status);
+
+    useEffect(() => {
+        const connection = new HubConnectionBuilder()
+            .withUrl(config.webSocketUrl)
+            .withAutomaticReconnect()
+            .build();
+
+        connection.start().then(() => {
+            console.log("Connected to the hub");
+
+            connection.on("ReceivePdfReportTaskStatus", (guid: string, newStatus: ReportStatus) => {
+                console.log(guid, newStatus);
+                setStatus(newStatus);
+            });
+        }).catch(err => console.log('Error while connecting to hub: ', err));
+
+        return () => {
+            connection.stop().then();
+        };
+    }, []);
 
     const getLabelText = (): string => {
-        switch (report.status) {
-            case 0:
+        switch (status) {
+            case ReportStatus.Waiting:
                 return 'WAITING';
-            case 1:
+            case ReportStatus.InProgress:
                 return 'IN PROGRESS';
-            case 2:
+            case ReportStatus.Ready:
                 return 'READY';
             default:
                 return 'ERROR';
@@ -29,7 +50,7 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
     }
 
     const getLabelTheme = (): theme => {
-        switch (report.status) {
+        switch (status) {
             case ReportStatus.Waiting:
                 return 'dark';
             case ReportStatus.InProgress:
@@ -46,7 +67,7 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
     }
 
     const onCopy = (event: React.MouseEvent) => {
-        navigator.clipboard.writeText(beautifyReportBody(report.reportBody));
+        navigator.clipboard.writeText(beautifyReportBody(report.reportBody)); // todo add then. notify user.
         event.stopPropagation();
     }
 

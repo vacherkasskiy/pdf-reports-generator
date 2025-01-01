@@ -1,4 +1,5 @@
 using FluentValidation;
+using Microsoft.Extensions.Options;
 using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.Hubs;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
@@ -6,6 +7,7 @@ using PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
 using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Models.Enums;
+using PdfReportsGenerator.Application.Options;
 using PdfReportsGenerator.Application.Services.Interfaces;
 using Serilog;
 
@@ -18,8 +20,11 @@ public class KafkaMessagesHandler(
     IPdfReportMinioClient minioClient,
     IPdfParser parser,
     IValidator<ReportObject> validator,
+    IOptions<AppConfigurationOptions> configuration,
     IPdfGenerator pdfGenerator) : IKafkaMessagesHandler
 {
+    private readonly AppConfigurationOptions _configuration = configuration.Value;
+    
     public async Task HandleAsync(ReportTaskDto reportTask)
     {
         try
@@ -52,8 +57,12 @@ public class KafkaMessagesHandler(
 
     private async Task UpdateStatusAsync(ReportStatuses status, Guid reportTaskId, string? link = null)
     {
+        await Task.Delay(_configuration.TaskProcessingMillisecondsDelay);
+        
         await reportTaskService.SetStatusToReportAsync(reportTaskId, status, link);
         await hubContext.ReceivePdfReportTaskStatus(reportTaskId, status);
         await dbContext.SaveChangesAsync();
+        
+        Log.Information($"Report task status with ID {reportTaskId} has been set to {status}.");
     }
 }

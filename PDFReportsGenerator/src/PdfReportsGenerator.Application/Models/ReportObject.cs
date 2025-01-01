@@ -1,14 +1,16 @@
-using Newtonsoft.Json;
-
 namespace PdfReportsGenerator.Application.Models;
 
 public class ReportObject
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public required string Name { get; set; }
+    public required string Name { get; init; }
+    
+    public required string AuthorName { get; init; }
 
-    public Block?[]? Blocks { get; set; }
+    public required string ReportName { get; init; }
+    
+    public Block?[]? Blocks { get; init; }
 }
 
 public class Block

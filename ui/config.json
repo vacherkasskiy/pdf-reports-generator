@@ -1,3 +1,4 @@
 {
-  "apiReportsBaseUrl": "https://localhost:7091/api/v1/reports"
+  "apiReportsBaseUrl": "https://localhost:7091/api/v1/reports",
+  "webSocketUrl": "https://localhost:7091/signalR"
 }

@@ -33,6 +33,8 @@ public class PdfParser : IPdfParser
             {
                 Id = task.Id,
                 Name = task.ReportName,
+                AuthorName = task.AuthorName,
+                ReportName = task.ReportName,
                 Blocks = blocks
             };
         }

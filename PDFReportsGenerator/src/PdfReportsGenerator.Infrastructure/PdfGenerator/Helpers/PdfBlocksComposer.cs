@@ -15,7 +15,9 @@ internal static class PdfBlocksComposer
         var blocks = reportObject.Blocks;
 
         if (blocks is null)
+        {
             return;
+        }
 
         foreach (var reportBlock in blocks)
         {
@@ -128,7 +130,9 @@ internal static class PdfBlocksComposer
         Margin? margin)
     {
         if (margin == null)
+        {
             return container;
+        }
 
         return container
             .PaddingTop(margin.Top ?? 0)

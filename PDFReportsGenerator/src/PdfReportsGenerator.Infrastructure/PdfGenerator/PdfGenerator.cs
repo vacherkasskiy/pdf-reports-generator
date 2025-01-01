@@ -18,25 +18,47 @@ internal sealed class PdfGenerator(IPdfImageProvider imageProvider) : IPdfGenera
     {
         QuestPDF.Settings.License = LicenseType.Community;
         var imagesDictionary = await GetImagesAsync(reportObject);
-        
+
         var document = Document.Create(container =>
         {
+            container.Page(firstPage =>
+            {
+                firstPage.Size(PageSizes.A4);
+                firstPage.Margin(1, Unit.Centimetre);
+                firstPage.PageColor(Colors.White);
+                
+                firstPage.Content()
+                    .AlignMiddle()
+                    .Grid(grid =>
+                    {
+                        grid.Item(12)
+                            .Text(reportObject.ReportName)
+                            .AlignCenter()
+                            .FontSize(40);
+                        
+                        grid.Item(12)
+                            .Text($"by {reportObject.AuthorName}")
+                            .AlignCenter()
+                            .FontSize(10);
+                    });
+            });
+
             container.Page(page =>
             {
                 page.Size(PageSizes.A4);
                 page.Margin(1, Unit.Centimetre);
                 page.PageColor(Colors.White);
+
                 page.Content()
                     .Grid(grid =>
                     {
                         grid.VerticalSpacing(10);
                         grid.HorizontalSpacing(10);
-
                         grid.ComposeBody(reportObject, imagesDictionary);
                     });
             });
         });
-        
+
         return document.GeneratePdf();
     }
 
@@ -48,9 +70,9 @@ internal sealed class PdfGenerator(IPdfImageProvider imageProvider) : IPdfGenera
             .ToDictionary(
                 x => x!.Content,
                 x => imageProvider.GetImageAsync(x!.Content));
-        
+
         await Task.WhenAll(imagesTasks.Values);
-        
+
         return imagesTasks.ToDictionary(
             x => x.Key,
             x => x.Value.Result);
