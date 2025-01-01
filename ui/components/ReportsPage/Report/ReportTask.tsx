@@ -49,8 +49,7 @@ function ReportTask(
     const applyHeight = () => {
         const curr = reportBodyRef.current;
 
-        if (curr)
-        {
+        if (curr) {
             if (curr.scrollHeight <= defaultReportBodyHeight) return;
             if (isExpanded) curr.style.height = `${curr.scrollHeight + 5}px`;
             else curr.style.height = `${defaultReportBodyHeight}px`;
@@ -62,11 +61,19 @@ function ReportTask(
     return (
         <div className={styles.report}>
             <div className={styles.info}>
-                <p className={styles.id}>
+                <p className={styles.property}>
                     ID:
                     <span className={styles.value}>{report.id}</span>
                 </p>
-                <Label size={'s'} text={labelText} theme={labelTheme} type={'outline'} />
+                <p className={styles.property}>
+                    Report name:
+                    <span className={styles.value}>{report.reportName}</span>
+                </p>
+                <p className={styles.property}>
+                    Author name:
+                    <span className={styles.value}>{report.authorName}</span>
+                </p>
+                <Label size={'s'} text={labelText} theme={labelTheme} type={'outline'}/>
             </div>
             <div ref={reportBodyRef} className={styles.reportBody} onClick={onExpand}>
                 <img
