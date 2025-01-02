@@ -19,11 +19,11 @@ var app = builder.Build();
 
 app.ApplyRestGatewaySettings();
 
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+// }
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();

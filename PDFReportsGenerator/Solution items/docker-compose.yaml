@@ -1,4 +1,21 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: ../src/PdfReportsGenerator.Gateway.Rest/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - APP_UID=1001
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+      - minio
+    networks:
+      - pdfreportsnetwork
+
   postgres:
     image: postgres:latest
     container_name: postgres
@@ -10,6 +27,8 @@ services:
       - POSTGRES_DB=PdfReportsGenerator
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pdfreportsnetwork
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
@@ -19,6 +38,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 2181:2181
+    networks:
+      - pdfreportsnetwork
 
   kafka:
     image: bitnami/kafka:latest
@@ -36,17 +57,21 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+    networks:
+      - pdfreportsnetwork
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     depends_on:
       - kafka
     ports:
-      - "8080:8080"
+      - "8091:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - pdfreportsnetwork
 
   minio:
     image: minio/minio:latest
@@ -60,7 +85,13 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+    networks:
+      - pdfreportsnetwork
 
 volumes:
   postgres_data:
   minio_data:
+
+networks:
+  pdfreportsnetwork:
+    driver: bridge
