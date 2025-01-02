@@ -1,6 +1,7 @@
 using PdfReportsGenerator.Application.Configurations;
 using PdfReportsGenerator.Gateway.Rest.Configurations;
 using PdfReportsGenerator.Infrastructure.Configurations;
+using PdfReportsGenerator.Infrastructure.Persistence;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,11 +20,11 @@ var app = builder.Build();
 
 app.ApplyRestGatewaySettings();
 
-// if (app.Environment.IsDevelopment())
-// {
+if (app.Environment.IsDevelopment() || app.Environment.IsStaging())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
-// }
+}
 
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
@@ -32,4 +33,5 @@ app.MapControllers();
 app.AddSignalR();
 app.AddPrometheus();
 app.UseExceptionHandler();
+app.MigrateDb();
 app.Run();

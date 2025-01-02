@@ -5,7 +5,7 @@ EXPOSE 8080
 EXPOSE 8081
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Staging
 WORKDIR /src
 COPY ["src/PdfReportsGenerator.Gateway.Rest/PdfReportsGenerator.Gateway.Rest.csproj", "src/PdfReportsGenerator.Gateway.Rest/"]
 COPY ["src/PdfReportsGenerator.Application/PdfReportsGenerator.Application.csproj", "src/PdfReportsGenerator.Application/"]
