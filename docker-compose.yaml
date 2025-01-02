@@ -1,8 +1,8 @@
 services:
-  app:
+  backend:
     build:
-      context: .
-      dockerfile: ../src/PdfReportsGenerator.Gateway.Rest/Dockerfile
+      context: ./PDFReportsGenerator
+      dockerfile: ./src/PdfReportsGenerator.Gateway.Rest/Dockerfile
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -14,6 +14,17 @@ services:
       - zookeeper
       - kafka
       - minio
+    networks:
+      - pdfreportsnetwork
+        
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
     networks:
       - pdfreportsnetwork
 
