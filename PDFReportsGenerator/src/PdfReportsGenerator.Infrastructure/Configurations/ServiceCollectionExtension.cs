@@ -1,3 +1,5 @@
+using Confluent.Kafka;
+using Confluent.Kafka.Admin;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
@@ -24,12 +26,15 @@ using PdfReportsGenerator.Infrastructure.PdfGenerator.Interfaces;
 using PdfReportsGenerator.Infrastructure.Persistence;
 using PdfReportsGenerator.Infrastructure.Persistence.Options;
 using Prometheus;
+using Serilog;
 
 namespace PdfReportsGenerator.Infrastructure.Configurations;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddHttpClient();
         services.ConfigureDatabase(configuration);
@@ -45,16 +50,13 @@ public static class ServiceCollectionExtension
     {
         app.MapHub<PdfReportHub>("/signalR");
     }
-    
+
     public static IApplicationBuilder AddPrometheus(this IApplicationBuilder app)
     {
         app.UseRouting();
         app.UseHttpMetrics();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapMetrics();
-        });
+        app.UseEndpoints(endpoints => { endpoints.MapMetrics(); });
 
         return app;
     }
@@ -93,6 +95,14 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<IKafkaProducer, KafkaProducer>();
         services.AddScoped<IKafkaMessagesHandler, KafkaMessagesHandler>();
+        
+        CreateKafkaTopicAsync(
+                brokerOptions.Url,
+                brokerOptions.TopicName,
+                brokerOptions.NumPartitions,
+                brokerOptions.ReplicationFactor)
+            .GetAwaiter()
+            .GetResult();
 
         // Add consumer via MassTransit.
         services.AddMassTransit(x =>
@@ -113,6 +123,42 @@ public static class ServiceCollectionExtension
                 });
             });
         });
+    }
+
+    private static async Task CreateKafkaTopicAsync(
+        string brokerList,
+        string topicName,
+        int numPartitions,
+        short replicationFactor)
+    {
+        var adminClientConfig = new AdminClientConfig { BootstrapServers = brokerList };
+
+        using var adminClient = new AdminClientBuilder(adminClientConfig).Build();
+
+        try
+        {
+            var metadata = adminClient.GetMetadata(TimeSpan.FromSeconds(10));
+            if (metadata.Topics.All(t => t.Topic != topicName))
+            {
+                var topicSpecification = new TopicSpecification
+                {
+                    Name = topicName,
+                    NumPartitions = numPartitions,
+                    ReplicationFactor = replicationFactor
+                };
+
+                await adminClient.CreateTopicsAsync([topicSpecification]);
+                Log.Information($"Topic '{topicName}' created successfully.");
+            }
+            else
+            {
+                Log.Information($"Topic '{topicName}' already exists.");
+            }
+        }
+        catch (CreateTopicsException ex)
+        {
+            Log.Error($"Failed to create topic {topicName}: {ex.Results[0].Error.Reason}");
+        }
     }
 
     private static void ConfigureSignalR(this IServiceCollection services)

@@ -7,7 +7,12 @@ public class KafkaConfigurationOptions
     public required string SaslUsername { get; init; }
 
     public required string SaslPassword { get; init; }
+    
     public required string TopicName { get; init; }
 
     public required string ConsumerGroupId { get; init; }
+    
+    public required int NumPartitions { get; init; }
+    
+    public required short ReplicationFactor { get; init; }
 }

@@ -1,32 +1,32 @@
 services:
-#  backend:
-#    build:
-#      context: ./PDFReportsGenerator
-#      dockerfile: ./src/PdfReportsGenerator.Gateway.Rest/Dockerfile
-#    ports:
-#      - "8080:8080"
-#      - "8081:8081"
-#    environment:
-#      - APP_UID=1001
-#      - ASPNETCORE_ENVIRONMENT=Release
-#    depends_on:
-#      - postgres
-#      - zookeeper
-#      - kafka
-#      - minio
-#    networks:
-#      - pdfreportsnetwork
-#        
-#  frontend:
-#    build:
-#      context: ./ui
-#      dockerfile: ./Dockerfile
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      - backend
-#    networks:
-#      - pdfreportsnetwork
+  backend:
+    build:
+      context: ./PDFReportsGenerator
+      dockerfile: ./src/PdfReportsGenerator.Gateway.Rest/Dockerfile
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - APP_UID=1001
+      - ASPNETCORE_ENVIRONMENT=Staging
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+      - minio
+    networks:
+      - pdfreportsnetwork
+
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - pdfreportsnetwork
 
   postgres:
     image: postgres:latest
