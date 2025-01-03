@@ -22,6 +22,8 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
                 return 'IN PROGRESS';
             case ReportStatus.Ready:
                 return 'READY';
+            case ReportStatus.InvalidTemplate:
+                return 'INVALID TEMPLATE';
             default:
                 return 'ERROR';
         }
@@ -35,6 +37,8 @@ function ReportTaskContainer({report}: ReportTaskContainerProps): React.ReactEle
                 return 'blue';
             case ReportStatus.Ready:
                 return 'green';
+            case ReportStatus.InvalidTemplate:
+                return 'orange';
             default:
                 return 'red';
         }

@@ -13,6 +13,7 @@ export enum Status {
     Waiting,
     InProgress,
     Ready,
+    InvalidTemplate,
     Error
 }
 
