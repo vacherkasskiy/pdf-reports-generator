@@ -95,7 +95,7 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<IKafkaProducer, KafkaProducer>();
         services.AddScoped<IKafkaMessagesHandler, KafkaMessagesHandler>();
-        
+
         CreateKafkaTopicAsync(
                 brokerOptions.Url,
                 brokerOptions.TopicName,
@@ -111,14 +111,18 @@ public static class ServiceCollectionExtension
 
             x.AddRider(rider =>
             {
-                rider.AddConsumer<KafkaReportsConsumer>();
+                rider.AddConsumer<KafkaReportsConsumer>(cfg
+                    => cfg.UseMessageRetry(retry => retry.Interval(5, 10)));
+                
                 rider.AddProducer<ReportTaskDto>(brokerOptions.TopicName);
 
                 rider.UsingKafka((context, k) =>
                 {
                     k.Host(brokerOptions.Url);
 
-                    k.TopicEndpoint<ReportTaskDto>(brokerOptions.TopicName, brokerOptions.ConsumerGroupId,
+                    k.TopicEndpoint<ReportTaskDto>(
+                        brokerOptions.TopicName,
+                        brokerOptions.ConsumerGroupId,
                         e => { e.ConfigureConsumer<KafkaReportsConsumer>(context); });
                 });
             });
@@ -132,7 +136,6 @@ public static class ServiceCollectionExtension
         short replicationFactor)
     {
         var adminClientConfig = new AdminClientConfig { BootstrapServers = brokerList };
-
         using var adminClient = new AdminClientBuilder(adminClientConfig).Build();
 
         try

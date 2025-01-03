@@ -10,28 +10,32 @@ services:
       - APP_UID=1001
       - ASPNETCORE_ENVIRONMENT=Staging
     depends_on:
-      - postgres
-      - zookeeper
-      - kafka
-      - minio
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - pdfreportsnetwork
-        
+  
   grpc:
     build:
       context: ./PDFReportsGenerator
       dockerfile: ./src/PdfReportsGenerator.Gateway.Grpc/Dockerfile
     ports:
-      - "8090:8080"
-      - "8091:8081"
+      - "9080:8080"
+      - "9081:8081"
     environment:
       - APP_UID=1002
       - ASPNETCORE_ENVIRONMENT=Staging
     depends_on:
-      - postgres
-      - zookeeper
-      - kafka
-      - minio
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      postgres:
+        condition: service_started
     networks:
       - pdfreportsnetwork
 
@@ -87,6 +91,11 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+    healthcheck:
+      test: [ "CMD", "bash", "-c", "echo > /dev/tcp/kafka/9092" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - pdfreportsnetwork
 

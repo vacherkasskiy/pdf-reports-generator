@@ -4,7 +4,6 @@ using PdfReportsGenerator.Application.Helpers.Interfaces;
 using PdfReportsGenerator.Application.Infrastructure.Hubs;
 using PdfReportsGenerator.Application.Infrastructure.Minio;
 using PdfReportsGenerator.Application.Infrastructure.PdfGenerator;
-using PdfReportsGenerator.Application.Infrastructure.Persistence;
 using PdfReportsGenerator.Application.Models;
 using PdfReportsGenerator.Application.Models.Enums;
 using PdfReportsGenerator.Application.Options;
@@ -15,7 +14,6 @@ namespace PdfReportsGenerator.Application.Services;
 
 public class KafkaMessagesHandler(
     IReportTaskService reportTaskService,
-    IPdfGeneratorDbContext dbContext,
     IPdfReportHubContext hubContext,
     IPdfReportMinioClient minioClient,
     IPdfParser parser,
@@ -27,6 +25,8 @@ public class KafkaMessagesHandler(
     
     public async Task HandleAsync(ReportTaskDto reportTask)
     {
+        Log.Information($"Handling Kafka message with id {reportTask.Id}");
+        
         try
         {
             var reportObject = parser.ParseToObject(reportTask);
@@ -44,7 +44,7 @@ public class KafkaMessagesHandler(
             await UpdateStatusAsync(ReportStatuses.Processing, reportTask.Id);
             
             var pdfDocumentBytes = await pdfGenerator.GenerateAsync(reportObject);
-            var link = await minioClient.GenerateLinkAsync(reportTask.Id.ToString(), pdfDocumentBytes); // todo потом, при попытке скачать - идти в бд и брать оттуда имя отчета.
+            var link = await minioClient.GenerateLinkAsync(reportTask.Id.ToString(), pdfDocumentBytes);
             
             await UpdateStatusAsync(ReportStatuses.Ready, reportTask.Id, link);
         }
@@ -61,7 +61,6 @@ public class KafkaMessagesHandler(
         
         await reportTaskService.SetStatusToReportAsync(reportTaskId, status, link);
         await hubContext.ReceivePdfReportTaskStatus(reportTaskId, status);
-        await dbContext.SaveChangesAsync();
         
         Log.Information($"Report task status with ID {reportTaskId} has been set to {status}.");
     }
