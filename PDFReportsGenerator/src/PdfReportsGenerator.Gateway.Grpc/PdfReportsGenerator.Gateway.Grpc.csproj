@@ -11,12 +11,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Google.Protobuf" Version="3.25.1" />
-        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0" />
+        <PackageReference Include="Google.Protobuf" Version="3.29.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Infrastructure\PdfReportsGenerator.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

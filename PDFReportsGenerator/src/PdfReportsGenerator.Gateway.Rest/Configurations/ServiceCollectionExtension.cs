@@ -1,4 +1,5 @@
 using AutoMapper;
+using PdfReportsGenerator.Application.Builders;
 using PdfReportsGenerator.Gateway.Rest.Builders;
 
 namespace PdfReportsGenerator.Gateway.Rest.Configurations;
@@ -35,8 +36,8 @@ public static class ServiceCollectionExtension
     {
         var mapperConfig = new MapperConfiguration(mc =>
         {
-            mc.AddProfile(new PdfReportsGenerator.Application.Builders.ReportBuilder());
             mc.AddProfile(new ReportBuilder());
+            mc.AddProfile(new ReportRequestsBuilder());
         });
 
         var mapper = mapperConfig.CreateMapper();

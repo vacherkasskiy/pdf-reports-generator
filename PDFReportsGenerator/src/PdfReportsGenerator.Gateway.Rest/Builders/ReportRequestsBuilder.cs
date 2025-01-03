@@ -4,9 +4,9 @@ using PdfReportsGenerator.Gateway.Rest.Requests;
 
 namespace PdfReportsGenerator.Gateway.Rest.Builders;
 
-public class ReportBuilder : Profile
+public class ReportRequestsBuilder : Profile
 {
-    public ReportBuilder()
+    public ReportRequestsBuilder()
     {
         CreateMap<CreateReportRequest, ReportTaskDto>();
     }
