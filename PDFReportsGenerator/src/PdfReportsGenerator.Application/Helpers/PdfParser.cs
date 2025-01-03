@@ -32,7 +32,6 @@ public class PdfParser : IPdfParser
             return new ReportObject
             {
                 Id = task.Id,
-                Name = task.ReportName,
                 AuthorName = task.AuthorName,
                 ReportName = task.ReportName,
                 Blocks = blocks

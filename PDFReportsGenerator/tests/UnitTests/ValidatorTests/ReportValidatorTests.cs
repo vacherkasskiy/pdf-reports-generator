@@ -1,31 +1,30 @@
-#region
-
 using FluentAssertions;
 using FluentValidation;
-using PdfReportsGenerator.Application.Validators;
-using PdfReportsGenerator.Core.Models;
+using PdfReportsGenerator.Application.Helpers;
+using PdfReportsGenerator.Application.Models;
 using UnitTests.Fakers;
 using Xunit;
-
-#endregion
 
 namespace UnitTests.ValidatorTests;
 
 public class ReportValidatorTests
 {
-    private readonly IValidator<ReportBody> _validator = new ReportValidator();
+    private readonly IValidator<ReportObject> _validator = new ReportObjectValidator();
 
     [Fact]
     public void Valid_ShouldSuccess()
     {
         // Arrange
         var report = ReportFaker.Generate().Single();
-        report.Blocks =
-        [
-            BlockFaker.GenerateTextBlocks().Single(),
-            BlockFaker.GenerateImageBlocks().Single(),
-            BlockFaker.GenerateTableBlocks().Single()
-        ];
+        report = report with
+        {
+            Blocks =
+            [
+                BlockFaker.GenerateTextBlocks().Single(),
+                BlockFaker.GenerateImageBlocks().Single(),
+                BlockFaker.GenerateTableBlocks().Single()
+            ]
+        };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeTrue();
@@ -36,7 +35,7 @@ public class ReportValidatorTests
     {
         // Arrange
         var report = ReportFaker.Generate().Single();
-        report.Blocks = [];
+        report = report with { Blocks = [] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeTrue();
@@ -47,7 +46,7 @@ public class ReportValidatorTests
     {
         // Arrange
         var report = ReportFaker.Generate().Single();
-        report.Blocks = null;
+        report = report with { Blocks = null };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -58,7 +57,7 @@ public class ReportValidatorTests
     {
         // Arrange
         var report = ReportFaker.Generate().Single();
-        report.Name = null;
+        report = report with { ReportName = null };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -69,7 +68,7 @@ public class ReportValidatorTests
     {
         // Arrange
         var report = ReportFaker.Generate().Single();
-        report.Blocks = [null];
+        report = report with { Blocks = [null] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -82,7 +81,7 @@ public class ReportValidatorTests
         var textBlockReport = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateBlocks().Single();
         textBlock.Type = null;
-        textBlockReport.Blocks = [textBlock];
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
 
         // Act
         var result = _validator.Validate(textBlockReport).IsValid;
@@ -98,7 +97,7 @@ public class ReportValidatorTests
         var textBlockReport = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateBlocks().Single();
         textBlock.Type = "invalid";
-        textBlockReport.Blocks = [textBlock];
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
 
         // Act
         var result = _validator.Validate(textBlockReport).IsValid;
@@ -114,7 +113,7 @@ public class ReportValidatorTests
         var textBlockReport = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateBlocks().Single();
         textBlock.Margin = null;
-        textBlockReport.Blocks = [textBlock];
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
 
         // Act
         var result = _validator.Validate(textBlockReport).IsValid;
@@ -139,9 +138,9 @@ public class ReportValidatorTests
         imageBlock.Content = null;
         tableBlock.Content = null;
 
-        textBlockReport.Blocks = new Block[] { textBlock };
-        imageBlockReport.Blocks = new Block[] { imageBlock };
-        tableBlockReport.Blocks = new Block[] { tableBlock };
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
+        imageBlockReport = imageBlockReport with { Blocks = [imageBlock] };
+        tableBlockReport = tableBlockReport with { Blocks = [tableBlock] };
 
         // Act
         var result =
@@ -169,9 +168,9 @@ public class ReportValidatorTests
         imageBlock.Width = null;
         tableBlock.Width = null;
 
-        textBlockReport.Blocks = new Block[] { textBlock };
-        imageBlockReport.Blocks = new Block[] { imageBlock };
-        tableBlockReport.Blocks = new Block[] { tableBlock };
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
+        imageBlockReport = imageBlockReport with { Blocks = [imageBlock] };
+        tableBlockReport = tableBlockReport with { Blocks = [tableBlock] };
 
         // Act
         var result =
@@ -199,9 +198,9 @@ public class ReportValidatorTests
         imageBlock.Width = 13;
         tableBlock.Width = 0;
 
-        textBlockReport.Blocks = new Block[] { textBlock };
-        imageBlockReport.Blocks = new Block[] { imageBlock };
-        tableBlockReport.Blocks = new Block[] { tableBlock };
+        textBlockReport = textBlockReport with { Blocks = [textBlock] };
+        imageBlockReport = imageBlockReport with { Blocks = [imageBlock] };
+        tableBlockReport = tableBlockReport with { Blocks = [tableBlock] };
 
         // Act
         var result =
@@ -220,7 +219,7 @@ public class ReportValidatorTests
         var report = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateTextBlocks().Single();
         textBlock.Style = null;
-        report.Blocks = new Block?[] { textBlock };
+        report = report with { Blocks = [textBlock] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -233,7 +232,7 @@ public class ReportValidatorTests
         var report = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateTextBlocks().Single();
         textBlock.Style!.Position = null;
-        report.Blocks = new Block?[] { textBlock };
+        report = report with { Blocks = [textBlock] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -246,7 +245,7 @@ public class ReportValidatorTests
         var report = ReportFaker.Generate().Single();
         var textBlock = BlockFaker.GenerateTextBlocks().Single();
         textBlock.Style!.Position = "invalid";
-        report.Blocks = new Block?[] { textBlock };
+        report = report with { Blocks = [textBlock] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -265,8 +264,8 @@ public class ReportValidatorTests
         lessThanOneTextBlock.Style!.Size = 0;
         greaterThanSixTextBlock.Style!.Size = 7;
 
-        lessThanOneReport.Blocks = new Block?[] { lessThanOneTextBlock };
-        greaterThanSixReport.Blocks = new Block?[] { greaterThanSixTextBlock };
+        lessThanOneReport = lessThanOneReport with { Blocks = [lessThanOneTextBlock] };
+        greaterThanSixReport = greaterThanSixReport with { Blocks = [greaterThanSixTextBlock] };
 
         // Act
         var result =
@@ -284,7 +283,7 @@ public class ReportValidatorTests
         var report = ReportFaker.Generate().Single();
         var tableBlock = BlockFaker.GenerateTableBlocks().Single();
         tableBlock.Content![0] = null;
-        report.Blocks = new Block?[] { tableBlock };
+        report = report with { Blocks = [tableBlock] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeFalse();
@@ -297,7 +296,7 @@ public class ReportValidatorTests
         var report = ReportFaker.Generate().Single();
         var tableBlock = BlockFaker.GenerateTableBlocks().Single();
         tableBlock.Content![0][0] = null;
-        report.Blocks = new Block?[] { tableBlock };
+        report = report with { Blocks = [tableBlock] };
 
         // Act & Assert
         _validator.Validate(report).IsValid.Should().BeTrue();

@@ -1,10 +1,8 @@
 namespace PdfReportsGenerator.Application.Models;
 
-public class ReportObject
+public record ReportObject
 {
     public Guid Id { get; init; }
-
-    public required string Name { get; init; }
     
     public required string AuthorName { get; init; }
 

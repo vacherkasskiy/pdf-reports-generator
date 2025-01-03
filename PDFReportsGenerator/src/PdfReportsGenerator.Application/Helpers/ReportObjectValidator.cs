@@ -109,7 +109,7 @@ public class ReportObjectValidator : AbstractValidator<ReportObject>
     public ReportObjectValidator()
     {
         RuleFor(x => x).NotNull();
-        RuleFor(x => x.Name)
+        RuleFor(x => x.ReportName)
             .NotNull()
             .NotEmpty()
             .MaximumLength(256);
