@@ -1,6 +1,6 @@
 using AutoBogus;
 using Bogus;
-using PdfReportsGenerator.Dal.Models;
+using PdfReportsGenerator.Application.Models;
 
 namespace UnitTests.Fakers;
 
@@ -18,11 +18,11 @@ public class BlockFaker
         .RuleFor(x => x.Type, f => f.PickRandom("text", "image", "table"))
         .RuleFor(x => x.Width, f => f.Random.Number(1, 12))
         .RuleFor(x => x.Margin, _ => MarginFaker.Generate());
-    
+
     private static readonly Faker<Style> StyleFaker = new AutoFaker<Style>()
         .RuleFor(x => x.Position, f => f.PickRandom("left", "center", "right"))
         .RuleFor(x => x.Size, f => f.Random.Number(1, 6));
-    
+
     private static readonly Faker<TextBlock> TextBlockFaker = new AutoFaker<TextBlock>()
         .RuleFor(x => x.Content, f => f.Lorem.Sentence())
         .RuleFor(x => x.Style, _ => StyleFaker.Generate())
@@ -56,7 +56,7 @@ public class BlockFaker
             {
                 blocks.Add(generateBlock());
             }
-    
+
             return blocks;
         }
     }
@@ -65,19 +65,19 @@ public class BlockFaker
     {
         return Generate(AbstractFaker.Generate, count);
     }
-    
+
     public static IEnumerable<TextBlock> GenerateTextBlocks(int count = 1)
     {
         return Generate(TextBlockFaker.Generate, count)
             .Select(x => x as TextBlock)!;
     }
-    
+
     public static IEnumerable<ImageBlock> GenerateImageBlocks(int count = 1)
     {
         return Generate(ImageBlockFaker.Generate, count)
             .Select(x => x as ImageBlock)!;
     }
-    
+
     public static IEnumerable<TableBlock> GenerateTableBlocks(int count = 1)
     {
         return Generate(TableBlockFaker.Generate, count)

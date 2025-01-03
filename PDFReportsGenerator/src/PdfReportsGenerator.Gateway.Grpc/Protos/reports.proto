@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package reports.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+service ReportsService {
+  // Метод для создания задачи на формирование отчёта.
+  rpc CreateReport (CreateReportRequest) returns (CreateReportResponse);
+
+  // Метод для получения статуса задачи на формирование отчёта.
+  rpc GetReport (GetReportRequest) returns (GetReportResponse);
+  
+  // Метод для получения всех запросов на формирование отчетов.
+  rpc GetReports (google.protobuf.Empty) returns (GetReportsResponse);
+  
+  // Метод для удаления запроса на формирование отчета.
+  rpc DeleteReport (DeleteReportRequest) returns (google.protobuf.Empty);
+}
+
+// Контракты.
+
+message CreateReportRequest {
+  string reportName = 1;
+  string authorName = 2;
+  string reportBody = 3;
+}
+
+message CreateReportResponse {
+  string reportTaskId = 1;
+}
+
+message GetReportRequest {
+  string reportTaskId = 1;
+}
+
+message GetReportResponse {
+  string status = 1;
+  string link = 2;
+}
+
+message GetReportsResponse {
+  repeated ReportTaskInfo reportTasks = 1;
+}
+
+message DeleteReportRequest {
+  string reportTaskId = 1;
+}
+
+// Вспомогательные модели.
+
+message ReportTaskInfo {
+  string id = 1;
+  string author_name = 2;
+  string report_name = 3;
+  string report_body = 4;
+  string report_s3_link = 5;
+  ReportStatuses status = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+enum ReportStatuses {
+  NOT_STARTED = 0;
+  PROCESSING = 1;
+  READY = 2;
+  INVALID_TEMPLATE = 3;
+  ERROR = 4;
+}

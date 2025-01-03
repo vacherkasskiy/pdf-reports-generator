@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Protobuf Include="Protos\reports.proto" GrpcServices="Server" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" Version="3.29.2" />
+        <PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\PdfReportsGenerator.Application\PdfReportsGenerator.Application.csproj" />
+      <ProjectReference Include="..\PdfReportsGenerator.Infrastructure\PdfReportsGenerator.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+</Project>

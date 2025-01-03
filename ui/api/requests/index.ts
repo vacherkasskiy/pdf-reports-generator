@@ -1,1 +1,1 @@
-export type {default as AddReportRequest} from './addReportRequest'
+export type {default as CreateReportRequest} from './createReportRequest'
