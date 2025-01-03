@@ -16,6 +16,24 @@ services:
       - minio
     networks:
       - pdfreportsnetwork
+        
+  grpc:
+    build:
+      context: ./PDFReportsGenerator
+      dockerfile: ./src/PdfReportsGenerator.Gateway.Grpc/Dockerfile
+    ports:
+      - "8090:8080"
+      - "8091:8081"
+    environment:
+      - APP_UID=1002
+      - ASPNETCORE_ENVIRONMENT=Staging
+    depends_on:
+      - postgres
+      - zookeeper
+      - kafka
+      - minio
+    networks:
+      - pdfreportsnetwork
 
   frontend:
     build:
